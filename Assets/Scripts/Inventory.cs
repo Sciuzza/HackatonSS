@@ -7,33 +7,27 @@ public class Inventory : MonoBehaviour {
 
     GameObject prefab;
     public int n = 5;
-    public GameObject[] container;
+    public List<GameObject> container;
     //public GameObject[] itemContainer;
     public List<GameObject> itemContainer;
     public ClickableHandler[] clickableContainer;
 	// Use this for initialization
 	void Start () {
         prefab = Resources.Load("SlotInvetario") as GameObject;
-        container = new GameObject[n];
+        container = new List<GameObject>();
         itemContainer = new List<GameObject>();
         clickableContainer = FindObjectsOfType<ClickableHandler>();
         
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < clickableContainer.Length; i++)
         {
             GameObject prefabGO = Instantiate(prefab);
-            container[i] = prefabGO;
-            prefabGO.transform.position = new Vector3(-2+i, -4.5f, 0);
+            container.Add(prefabGO);
+            prefabGO.transform.position = new Vector3(-4+i, -4.5f, 0);
             
             
         }
         n = 0;
 	}
-
-
-    void OnMouseUp()
-    {
-        Debug.Log("Click");
-    }
 
     public void SetInventory(GameObject item)
     {
