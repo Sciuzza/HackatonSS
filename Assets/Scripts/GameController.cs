@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour {
 		Scene currentScene = SceneManager.GetActiveScene ();
 		currentSceneIndex = currentScene.buildIndex;
 
-		ExitBeha cmTempLink = GameObject.FindGameObjectWithTag("Exit");
+		ExitBeha cmTempLink = GameObject.FindGameObjectWithTag("Exit").GetComponent<ExitBeha>();
 		cmTempLink.levelFinished.AddListener(LevelCompleteManager);
 	}
 
