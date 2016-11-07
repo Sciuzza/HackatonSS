@@ -1,15 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CursorScript : MonoBehaviour {
+public class CursorScript : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public Texture2D defaultTexture;
+    public Texture2D pickupTexture;
+    public Texture2D exitTexture;
+    public Texture2D examineTexture;
+    public CursorMode curMode = CursorMode.Auto;
+    public Vector2 hotSpot = Vector2.zero;
+
+   
+    void Start()
+    {
+        Cursor.SetCursor(defaultTexture, hotSpot, curMode);
+    }
+
+    
+    void Update()
+    {
+
+    }
+
+    void OnMouseEnter()
+    {
+        if (gameObject.tag == "exit")
+        {
+            Cursor.SetCursor(exitTexture, hotSpot, curMode);
+
+        }
+    }
+
+    void OnMouseExit()
+    {
+        Cursor.SetCursor(defaultTexture, hotSpot, curMode);
+    }
 }
