@@ -6,8 +6,8 @@ using UnityEngine.Events;
 public class GameController : MonoBehaviour {
 
 
-	public const int[] VictimClues = new int[4];
-	public const int[] DetectClues = new int[4];
+	public int[] VictimClues = new int[4];
+	public int[] DetectClues = new int[4];
 
 	private int currentSceneIndex;
 
