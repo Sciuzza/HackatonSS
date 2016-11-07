@@ -15,6 +15,14 @@ public class GameController : MonoBehaviour {
 	private bool isOnGame = false;
 	private bool isMaxScore = false;
 
+
+	[System.Serializable]
+	public class loadingEvent : UnityEvent<int, bool>
+	{
+	}
+
+	public loadingEvent loadingloaded;
+
 	void Start () {
 
 		Scene currentScene = SceneManager.GetActiveScene ();
@@ -22,7 +30,7 @@ public class GameController : MonoBehaviour {
 
 		SettingVariables (currentSceneIndex);
 
-		if (currentScene.buildIndex >= 6) {
+		if (currentScene.buildIndex >= 7) {
 			
 			ExitBeha cmTempLink = GameObject.FindGameObjectWithTag ("LevelCom").GetComponent<ExitBeha> ();
 
@@ -31,7 +39,7 @@ public class GameController : MonoBehaviour {
 
 			cmTempLink.levelFinished.AddListener (LevelCompleteManager);
 		} 
-		else if (currentScene.buildIndex == 3) {
+		else if (currentScene.buildIndex == 4) {
 
 
 			if (isMaxScore)
@@ -41,7 +49,23 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-	private void LevelCompleteManager(int sceneToGo){
+
+	void Update(){
+
+		if (Input.GetKeyDown(KeyCode.Escape)){
+
+			if (currentSceneIndex <=6 && currentSceneIndex > 1)
+				SceneManager.LoadScene(1);
+			else if (currentSceneIndex == 1)
+				Application.Quit();
+			else
+				SceneManager.LoadScene(3);
+
+		}
+
+	}
+
+	private void LevelCompleteManager(){
 
 
 
@@ -52,10 +76,10 @@ public class GameController : MonoBehaviour {
 		int maxScore;
 
 		if (isVictimStory) {
-			maxScore = VictimClues [sceneToGo - 6];
+			maxScore = VictimClues [currentSceneIndex - 7];
 		} 
 		else {
-			maxScore = DetectClues [sceneToGo - 10];
+			maxScore = DetectClues [currentSceneIndex - 11];
 		}
 
 		if (currentScore == maxScore)
@@ -63,15 +87,22 @@ public class GameController : MonoBehaviour {
 		else
 			isMaxScore = false;
 
-		SceneManager.LoadScene (sceneToGo);
+		int nextscene = currentSceneIndex;
+
+		SceneManager.LoadScene (4);
+
+		if ((isVictimStory && nextscene <= 9) ||(!isVictimStory && nextscene >= 11 && nextscene <= 13))
+		    loadingloaded.Invoke (nextscene + 1, isMaxScore);
+		else
+			loadingloaded.Invoke (5, isMaxScore);
 
 	}
 
 	private void SettingVariables(int buildIndex){
 
-		if (buildIndex >= 6) {
+		if (buildIndex >= 7) {
 
-			if (buildIndex <= 9)
+			if (buildIndex <= 10)
 				isVictimStory = true;
 			else
 				isVictimStory = false;
