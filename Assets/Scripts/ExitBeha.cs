@@ -1,15 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class ExitBeha : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public int SceneToGo;
+
+	void OnMouseDown() {
+		SceneManager.LoadScene (SceneToGo);
 	}
 }
