@@ -11,13 +11,13 @@ public class CursorScript : MonoBehaviour
     public CursorMode curMode = CursorMode.Auto;
     public Vector2 hotSpot = Vector2.zero;
 
-   
+
     void Start()
     {
         Cursor.SetCursor(defaultTexture, hotSpot, curMode);
     }
 
-    
+
     void Update()
     {
 
@@ -25,9 +25,20 @@ public class CursorScript : MonoBehaviour
 
     void OnMouseEnter()
     {
-        if (gameObject.tag == "exit")
+        /* if (gameObject.tag == "exit")
+         {
+             Cursor.SetCursor(exitTexture, hotSpot, curMode);
+
+         }*/
+
+        if (gameObject.tag == "examine")
         {
-            Cursor.SetCursor(exitTexture, hotSpot, curMode);
+            Cursor.SetCursor(examineTexture, hotSpot, curMode);
+
+        }
+        if (gameObject.tag == "pickup")
+        {
+            Cursor.SetCursor(pickupTexture, hotSpot, curMode);
 
         }
     }
