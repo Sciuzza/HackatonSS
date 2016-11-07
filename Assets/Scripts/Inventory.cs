@@ -10,11 +10,14 @@ public class Inventory : MonoBehaviour {
     public GameObject[] container;
     //public GameObject[] itemContainer;
     public List<GameObject> itemContainer;
+    public ClickableHandler[] clickableContainer;
 	// Use this for initialization
 	void Start () {
         prefab = Resources.Load("SlotInvetario") as GameObject;
         container = new GameObject[n];
         itemContainer = new List<GameObject>();
+        clickableContainer = FindObjectsOfType<ClickableHandler>();
+        
         for (int i = 0; i < n; i++)
         {
             GameObject prefabGO = Instantiate(prefab);
@@ -35,8 +38,13 @@ public class Inventory : MonoBehaviour {
     public void SetInventory(GameObject item)
     {
         itemContainer.Add(item);
+        
         item.transform.parent = container[n].transform;
         item.transform.position = container[n].transform.position;
         n++;
+        item.AddComponent<InventoryTooltip>();
+        item.GetComponent<InventoryTooltip>().textTooltip = item.GetComponent<ClickableHandler>().textTooltip;
+        Destroy(item.GetComponent<ClickableHandler>());
+        
     }
 }
