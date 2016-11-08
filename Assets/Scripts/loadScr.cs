@@ -8,14 +8,14 @@ public class loadScr : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 	
-		GameController gcTempLink = GameObject.FindGameObjectWithTag ("Brain").GetComponent<GameController> ();
+		GameController gcTempLink = GameObject.FindGameObjectWithTag ("GameController").GetComponent<GameController> ();
 		gcTempLink.loadingloaded.AddListener (SettingLoadingScreen);
 
 		maxScoreB = GameObject.FindGameObjectWithTag ("MaxScore");
 		avgScoreB = GameObject.FindGameObjectWithTag ("AvgScore");
 
-		maxScoreB.SetActive = false;
-		avgScoreB.SetActive = false;
+		maxScoreB.SetActive(false);
+		avgScoreB.SetActive(false);
 
 	}
 
@@ -26,9 +26,9 @@ public class loadScr : MonoBehaviour {
 		GameObject.FindGameObjectWithTag ("PreviousScene").GetComponent<Previous> ().previousIndex = nextScene - 1;
 
 		if (maxScore)
-			maxScoreB.SetActive = true;
+			maxScoreB.SetActive(true);
 		else
-			avgScoreB.SetActive = true;
+			avgScoreB.SetActive(true);
 	}
 
 }
