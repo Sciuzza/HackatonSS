@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public class loadScr : MonoBehaviour {
 
-	private GameObject maxScoreB, avgScoreB;
+
 
 	private int nextSceneSaved;
 
@@ -16,30 +16,15 @@ public class loadScr : MonoBehaviour {
 		GameController gcTempLink = GameObject.FindGameObjectWithTag ("GameController").GetComponent<GameController> ();
 		gcTempLink.loadingloaded.AddListener (SettingLoadingScreen);
 
-		/*
-		maxScoreB = GameObject.FindGameObjectWithTag ("MaxScore");
-		avgScoreB = GameObject.FindGameObjectWithTag ("AvgScore");
-
-		maxScoreB.SetActive(false);
-		avgScoreB.SetActive(false);
-		*/
+	
 
 	}
 
 
 	private void SettingLoadingScreen(int nextScene, bool maxScore, int currentScore){
 
-		/*
-		GameObject.FindGameObjectWithTag ("NextScene").GetComponent<Next> ().nextIndex = nextScene;
-		GameObject.FindGameObjectWithTag ("PreviousScene").GetComponent<Previous> ().previousIndex = nextScene - 1;
+	
 
-		nextSceneSaved = nextScene;
-
-		if (maxScore)
-			maxScoreB.SetActive(true);
-		else
-			avgScoreB.SetActive(true);
-*/
 
 		if (maxScore){
 			GameObject.FindGameObjectWithTag ("Score").GetComponent<Text> ().text = "Congratulations, you have found all the clues";

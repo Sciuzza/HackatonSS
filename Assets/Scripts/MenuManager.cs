@@ -7,7 +7,7 @@ public class MenuManager : MonoBehaviour
 {
 
     private int sceneIndex;
-    public Button prova;
+    
 
     void Start()
     {
