@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class NewsSelector : MonoBehaviour
 {
@@ -8,12 +9,17 @@ public class NewsSelector : MonoBehaviour
     public bool isClicked = false;
     public UIHandler refUIHandler;
     public SpriteRenderer[] outline;
-
+    public string textTooltip;
+  
 
     void Start()
     {
         outline = GetComponentsInChildren<SpriteRenderer>();
+        refUIHandler = FindObjectOfType<UIHandler>();
+
     }
+
+
     void OnMouseOver()
     {
         outline[1].color = Color.white;
@@ -29,12 +35,13 @@ public class NewsSelector : MonoBehaviour
     {
         if (!isClicked)
         {
-
+            refUIHandler.CluePanelActivator(textTooltip);
             isClicked = true;
         }
         else if (isClicked)
         {
-           
+
+            SceneManager.LoadScene("PerspectiveSelection");
 
             isClicked = false;
         }
