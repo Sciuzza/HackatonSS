@@ -7,7 +7,7 @@ public class MenuManager : MonoBehaviour
 {
 
     private int sceneIndex;
-    
+
 
     void Start()
     {
