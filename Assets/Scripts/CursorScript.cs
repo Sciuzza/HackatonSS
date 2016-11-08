@@ -6,7 +6,7 @@ public class CursorScript : MonoBehaviour
 
     public Texture2D defaultTexture;
     public Texture2D pickupTexture;
-    public Texture2D exitTexture;
+   // public Texture2D exitTexture;
     public Texture2D examineTexture;
     public CursorMode curMode = CursorMode.Auto;
     public Vector2 hotSpot = Vector2.zero;
@@ -31,16 +31,19 @@ public class CursorScript : MonoBehaviour
 
          }*/
 
-        if (gameObject.tag == "examine")
+
+        if (gameObject.GetComponent<ClickableHandler>()!=null)
         {
             Cursor.SetCursor(examineTexture, hotSpot, curMode);
 
         }
-        if (gameObject.tag == "pickup")
-        {
-            Cursor.SetCursor(pickupTexture, hotSpot, curMode);
+      
+    }
 
-        }
+    void OnMouseDown()
+    {
+            Cursor.SetCursor(pickupTexture, hotSpot, curMode);
+     
     }
 
     void OnMouseExit()
