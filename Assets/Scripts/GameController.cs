@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
 
     private int currentSceneIndex;
     private int nextScene;
+	private int currentScore;
 
     private bool isVictimStory = false;
     private bool isOnGame = false;
@@ -19,7 +20,7 @@ public class GameController : MonoBehaviour
 
 
     [System.Serializable]
-    public class loadingEvent : UnityEvent<int, bool>
+    public class loadingEvent : UnityEvent<int, bool, int>
     {
     }
 
@@ -88,7 +89,7 @@ public class GameController : MonoBehaviour
 
 
         Inventory invTempLink = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
-        int currentScore = invTempLink.itemContainer.Count;
+        currentScore = invTempLink.itemContainer.Count;
 
 
         int maxScore;
@@ -166,9 +167,9 @@ public class GameController : MonoBehaviour
                 Debug.Log("Normal Score");
 
             if ((isVictimStory && nextScene <= 10) || (!isVictimStory && nextScene >= 11 && nextScene <= 13))
-                loadingloaded.Invoke(nextScene + 1, isMaxScore);
+				loadingloaded.Invoke(nextScene + 1, isMaxScore, currentScore);
             else
-                loadingloaded.Invoke(5, isMaxScore);
+				loadingloaded.Invoke(5, isMaxScore, currentScore);
         }
         else if (currentSceneIndex == 0)
             SceneManager.LoadScene(1);
