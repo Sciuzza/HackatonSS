@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.Events;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour {
 
@@ -40,8 +41,9 @@ public class Inventory : MonoBehaviour {
         item.GetComponent<InventoryTooltip>().textTooltip = item.GetComponent<ClickableHandler>().textTooltip;
         Destroy(item.GetComponent<ClickableHandler>());
 
-		if (itemContainer.Count == 1)
-		GameObject.FindGameObjectWithTag ("LevelCom").GetComponent<ExitBeha> ().EnablingExit ();
-        
+        if (itemContainer.Count == 1) {
+            GameObject.FindGameObjectWithTag("LevelCom").GetComponent<ExitBeha>().EnablingExit();
+            GameObject.FindGameObjectWithTag("Finish").GetComponent<Text>().enabled = true;
+            }
     }
 }
