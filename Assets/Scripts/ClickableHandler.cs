@@ -29,6 +29,10 @@ public class ClickableHandler : MonoBehaviour
     {
         outline[1].color = Color.clear;
         refUIHandler.CluePanelDeactivator();
+        foreach (var item in refInv.clickableContainer)
+        {
+            item.isClicked = false;
+        }
     }
 
     void OnMouseUp()
