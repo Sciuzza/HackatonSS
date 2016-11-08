@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoaded : MonoBehaviour {
 
-	void Awake()
+	void Start()
     {
         GameObject gcTempLink = GameObject.FindGameObjectWithTag("GameController");
 

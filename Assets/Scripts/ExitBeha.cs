@@ -12,10 +12,15 @@ public class ExitBeha : MonoBehaviour {
 
     void Awake()
     {
-        //this.GetComponent<BoxCollider2D>().enabled = false;
+        this.GetComponent<BoxCollider2D>().enabled = false;
     }
 
 	void OnMouseDown() {
 		levelFinished.Invoke ();
+	}
+
+	public void EnablingExit(){
+
+		this.GetComponent<BoxCollider2D>().enabled = true;
 	}
 }

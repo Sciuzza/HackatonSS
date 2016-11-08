@@ -14,6 +14,9 @@ public class loadScr : MonoBehaviour {
 	void Awake () {
 	
 		GameController gcTempLink = GameObject.FindGameObjectWithTag ("GameController").GetComponent<GameController> ();
+
+		if (gcTempLink == null)
+			Debug.LogWarning ("gc not found");
 		gcTempLink.loadingloaded.AddListener (SettingLoadingScreen);
 
 	
@@ -23,8 +26,8 @@ public class loadScr : MonoBehaviour {
 
 	private void SettingLoadingScreen(int nextScene, bool maxScore, int currentScore){
 
-	
-
+		Debug.Log ("method loaded");
+		nextSceneSaved = nextScene;
 
 		if (maxScore){
 			GameObject.FindGameObjectWithTag ("Score").GetComponent<Text> ().text = "Congratulations, you have found all the clues";

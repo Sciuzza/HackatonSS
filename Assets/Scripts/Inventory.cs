@@ -39,6 +39,9 @@ public class Inventory : MonoBehaviour {
         item.AddComponent<InventoryTooltip>();
         item.GetComponent<InventoryTooltip>().textTooltip = item.GetComponent<ClickableHandler>().textTooltip;
         Destroy(item.GetComponent<ClickableHandler>());
+
+		if (itemContainer.Count == 1)
+		GameObject.FindGameObjectWithTag ("LevelCom").GetComponent<ExitBeha> ().EnablingExit ();
         
     }
 }
