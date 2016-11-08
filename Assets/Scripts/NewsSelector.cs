@@ -36,6 +36,7 @@ public class NewsSelector : MonoBehaviour
         if (!isClicked)
         {
             refUIHandler.CluePanelActivator(textTooltip);
+            GetComponent<AudioSource>().Play();
             isClicked = true;
         }
         else if (isClicked)

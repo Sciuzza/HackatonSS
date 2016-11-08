@@ -10,6 +10,9 @@ public class ClickableHandler : MonoBehaviour
     public SpriteRenderer[] outline;
     public UIHandler refUIHandler;
     public string textTooltip;
+    public AudioSource audioManager;
+    public AudioClip pickUpClue;
+    public AudioClip turnPage;
     
 
 
@@ -18,6 +21,7 @@ public class ClickableHandler : MonoBehaviour
         refUIHandler = FindObjectOfType<UIHandler>();
         outline = GetComponentsInChildren<SpriteRenderer>();
         refInv = FindObjectOfType<Inventory>();
+        audioManager = GetComponent<AudioSource>();
 
 
     }
@@ -44,6 +48,9 @@ public class ClickableHandler : MonoBehaviour
                 item.isClicked = false;
             }
             refUIHandler.CluePanelActivator(textTooltip);
+
+            audioManager.clip = turnPage;
+            audioManager.Play();
             isClicked = true;
 
         }
@@ -52,6 +59,8 @@ public class ClickableHandler : MonoBehaviour
             refUIHandler.CluePanelDeactivator();
             refInv.SetInventory(this.gameObject);
             isClicked = false;
+            audioManager.clip = pickUpClue;
+            audioManager.Play();
         }
 
     }
