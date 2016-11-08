@@ -18,7 +18,7 @@ public class InventoryTooltip : MonoBehaviour {
     {
         if (refUIHandler)
         {
-            refUIHandler.CluePanelActivator(textTooltip);
+            //refUIHandler.CluePanelActivator(textTooltip);
         }
         
     }

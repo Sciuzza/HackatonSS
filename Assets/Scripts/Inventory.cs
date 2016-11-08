@@ -33,8 +33,8 @@ public class Inventory : MonoBehaviour {
     {
         itemContainer.Add(item);
         
-        item.transform.parent = container[n].transform;
-        item.transform.position = container[n].transform.position;
+        //item.transform.parent = container[n].transform;
+        //item.transform.position = container[n].transform.position;
         n++;
         item.AddComponent<InventoryTooltip>();
         item.GetComponent<InventoryTooltip>().textTooltip = item.GetComponent<ClickableHandler>().textTooltip;
