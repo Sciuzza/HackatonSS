@@ -5,8 +5,6 @@ using UnityEngine.Events;
 
 public class GameController : MonoBehaviour
 {
-
-
     public int[] VictimClues = new int[4];
     public int[] DetectClues = new int[4];
 
@@ -33,9 +31,6 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-
-        
-
         Scene currentScene = SceneManager.GetActiveScene();
         currentSceneIndex = currentScene.buildIndex;
 
@@ -65,29 +60,23 @@ public class GameController : MonoBehaviour
             SceneManager.LoadScene(1);
     }
 
-
     void Update()
     {
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-
             if (currentSceneIndex <= 6 && currentSceneIndex > 1)
                 SceneManager.LoadScene(1);
             else if (currentSceneIndex == 1)
                 Application.Quit();
             else
                 SceneManager.LoadScene(3);
-
         }
 
     }
 
     private void LevelCompleteManager()
     {
-
-
-
         Inventory invTempLink = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
         currentScore = invTempLink.itemContainer.Count;
 
@@ -111,17 +100,12 @@ public class GameController : MonoBehaviour
         nextScene = currentSceneIndex;
 
         SceneManager.LoadScene(4);
-
-       
-
     }
 
     private void SettingVariables(int buildIndex)
     {
-
         if (buildIndex >= 7)
         {
-
             if (buildIndex <= 10)
                 isVictimStory = true;
             else
@@ -129,17 +113,13 @@ public class GameController : MonoBehaviour
 
             isOnGame = true;
             isMaxScore = false;
-
-
         }
         else
             isOnGame = false;
-
     }
 
     public void SettingLevel()
     {
-
         Scene currentScene = SceneManager.GetActiveScene();
         currentSceneIndex = currentScene.buildIndex;
 

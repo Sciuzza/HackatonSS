@@ -6,47 +6,41 @@ using UnityEngine.Events;
 
 public class loadScr : MonoBehaviour {
 
-
-
 	private int nextSceneSaved;
 
-	// Use this for initialization
-	void Awake () {
-	
+	void Awake ()
+    {	
 		GameController gcTempLink = GameObject.FindGameObjectWithTag ("GameController").GetComponent<GameController> ();
 
 		if (gcTempLink == null)
 			Debug.LogWarning ("gc not found");
-		gcTempLink.loadingloaded.AddListener (SettingLoadingScreen);
-
-	
-
+		gcTempLink.loadingloaded.AddListener(SettingLoadingScreen);
 	}
 
 
-	private void SettingLoadingScreen(int nextScene, bool maxScore, int currentScore){
-
-		Debug.Log ("method loaded");
+	private void SettingLoadingScreen(int nextScene, bool maxScore, int currentScore)
+    {
 		nextSceneSaved = nextScene;
 
-		if (maxScore){
+		if (maxScore)
+        {
 			GameObject.FindGameObjectWithTag ("Score").GetComponent<Text> ().text = "Congratulations, you have found all the clues";
 		}
-		else{
+		else
+        {
 			GameObject.FindGameObjectWithTag ("Score").GetComponent<Text> ().text = "You have found " + currentScore +   " clues";
 		}	
-
 		GameObject.FindGameObjectWithTag ("NextScene").GetComponent<Button> ().onClick.AddListener(SettingSceneIndex);
 		GameObject.FindGameObjectWithTag ("PreviousScene").GetComponent<Button> ().onClick.AddListener(SettingPreviousSceneIndex);
-
 	}
 
-	private void SettingSceneIndex(){
-
+	private void SettingSceneIndex()
+    {
 		SceneManager.LoadScene (nextSceneSaved);
 	}
 
-	private void SettingPreviousSceneIndex(){
+	private void SettingPreviousSceneIndex()
+    {
 		SceneManager.LoadScene (nextSceneSaved - 1);
 	}
 }

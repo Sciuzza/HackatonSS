@@ -3,7 +3,6 @@ using System.Collections;
 
 public class CursorScript : MonoBehaviour
 {
-
     public Texture2D defaultTexture;
     public Texture2D pickupTexture;
    // public Texture2D exitTexture;
@@ -11,16 +10,9 @@ public class CursorScript : MonoBehaviour
     public CursorMode curMode = CursorMode.Auto;
     public Vector2 hotSpot = Vector2.zero;
 
-
     void Start()
     {
         Cursor.SetCursor(defaultTexture, hotSpot, curMode);
-    }
-
-
-    void Update()
-    {
-
     }
 
     void OnMouseEnter()
@@ -31,19 +23,15 @@ public class CursorScript : MonoBehaviour
 
          }*/
 
-
         if (gameObject.GetComponent<ClickableHandler>()!=null)
         {
             Cursor.SetCursor(examineTexture, hotSpot, curMode);
-
-        }
-      
+        }  
     }
 
     void OnMouseDown()
     {
-            Cursor.SetCursor(pickupTexture, hotSpot, curMode);
-     
+            Cursor.SetCursor(pickupTexture, hotSpot, curMode);   
     }
 
     void OnMouseExit()
