@@ -3,6 +3,13 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 
+#region Event Classes
+[System.Serializable]
+public class event_int_bool_int : UnityEvent<int, bool, int>
+{
+} 
+#endregion
+
 public class GameController : MonoBehaviour
 {
     public int[] VictimClues = new int[4];
@@ -11,18 +18,11 @@ public class GameController : MonoBehaviour
     private int currentSceneIndex;
     private int nextScene;
 	private int currentScore;
-
     private bool isVictimStory = false;
     private bool isOnGame = false;
     private bool isMaxScore = false;
 
-
-    [System.Serializable]
-    public class loadingEvent : UnityEvent<int, bool, int>
-    {
-    }
-
-    public loadingEvent loadingloaded;
+    public event_int_bool_int loadingloaded;
 
     void Awake()
     {
