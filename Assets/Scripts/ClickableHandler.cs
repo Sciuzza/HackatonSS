@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 public class ClickableHandler : MonoBehaviour
 {
-
     Inventory refInv;
     public bool isClicked = false;
     public SpriteRenderer[] outline;
@@ -13,56 +11,46 @@ public class ClickableHandler : MonoBehaviour
     public AudioSource audioManager;
     public AudioClip pickUpClue;
     public AudioClip turnPage;
-    
-
-
+   
     void Start()
     {
         refUIHandler = FindObjectOfType<UIHandler>();
         outline = GetComponentsInChildren<SpriteRenderer>();
         refInv = FindObjectOfType<Inventory>();
         audioManager = GetComponent<AudioSource>();
-
-
     }
     void OnMouseOver()
     {
-        outline[1].color = Color.white;
+        if (!refUIHandler.isShowingClue)
+        {
+            outline[1].color = Color.white;
+        }
     }
     void OnMouseExit()
     {
-        outline[1].color = Color.clear;
-        refUIHandler.CluePanelDeactivator();
-        foreach (var item in refInv.clickableContainer)
+        if (!refUIHandler.isShowingClue)
         {
-            item.isClicked = false;
+            outline[1].color = Color.clear;
         }
     }
 
     void OnMouseUp()
     {
-        if (!isClicked)
+        if (!refUIHandler.isShowingClue)
         {
-            foreach (var item in refInv.clickableContainer)
-            {
-                item.isClicked = false;
-            }
+            outline[1].color = Color.clear;
             refUIHandler.CluePanelActivator(textTooltip);
-
             audioManager.clip = turnPage;
             audioManager.Play();
-            isClicked = true;
-
+            if (!isClicked)
+            {
+                foreach (var item in refInv.clickableContainer)
+                {
+                    item.isClicked = false;
+                }
+                isClicked = true;
+                refInv.SetInventory(this.gameObject);
+            }
         }
-        else if (isClicked)
-        {
-            refUIHandler.CluePanelDeactivator();
-            refInv.SetInventory(this.gameObject);
-            isClicked = false;
-            audioManager.clip = pickUpClue;
-            audioManager.Play();
-        }
-
     }
-
 }
