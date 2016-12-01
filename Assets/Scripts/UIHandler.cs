@@ -17,7 +17,7 @@ public class UIHandler : MonoBehaviour {
             isShowingClue = true;
             charArray[i] = text[i];
             panelClue.GetComponentInChildren<Text>().text += charArray[i];
-            yield return new WaitForSeconds(Random.Range(0.05f,0.15f));
+            yield return new WaitForSeconds(Random.Range(0.02f,0.10f));
         }
         while (!isToClosePanel)
         {
@@ -28,7 +28,7 @@ public class UIHandler : MonoBehaviour {
         panelClue.GetComponentInChildren<Text>().text = "";
         CluePanelDeactivator();
     }
-
+  
     void Update()
     {
         if (Input.GetMouseButtonDown(0) && panelClue.activeInHierarchy)

@@ -36,7 +36,7 @@ public class ClickableHandler : MonoBehaviour
 
     void OnMouseUp()
     {
-        if (!refUIHandler.isShowingClue)
+        if (!refUIHandler.isShowingClue && !isClicked)
         {
             outline[1].color = Color.clear;
             refUIHandler.CluePanelActivator(textTooltip);
@@ -49,7 +49,7 @@ public class ClickableHandler : MonoBehaviour
                     item.isClicked = false;
                 }
                 isClicked = true;
-                refInv.SetInventory(this.gameObject);
+                //refInv.SetInventory(this.gameObject);
             }
         }
     }
