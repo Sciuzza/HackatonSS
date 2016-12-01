@@ -7,6 +7,7 @@ public class UIHandler : MonoBehaviour {
     public GameObject panelClue;
     public bool isShowingClue = false;
     bool isToClosePanel = false;
+    public RectTransform inventoryRef;
 
     public IEnumerator TimedClue(string text)
     {
@@ -44,5 +45,18 @@ public class UIHandler : MonoBehaviour {
     public void CluePanelDeactivator()
     {
         panelClue.SetActive(false);
+    }
+
+    public bool inventoryInside;
+
+    public IEnumerator InventoryPanelActivator()
+    {
+        inventoryInside = true;
+        while (inventoryRef.anchoredPosition.y > 0)
+        {
+            Debug.Log("Dio");
+            inventoryRef.anchoredPosition += new Vector2(0, 20)*Time.deltaTime;
+            yield return null;
+        }
     }
 }
