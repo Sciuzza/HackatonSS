@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class NewsSelector : MonoBehaviour
 {
-
+    public int newsId;
     
     public bool isClicked = false;
     public UIHandler refUIHandler;

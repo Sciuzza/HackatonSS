@@ -11,6 +11,7 @@ public class LevelLoaded : MonoBehaviour
         if (gcTempLink == null)
             Debug.Log("Not Found");
       
-        gcTempLink.GetComponent<GameController>().SettingLevel();
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        gcTempLink.GetComponent<GameController>().Initialization();
     }   
 }
