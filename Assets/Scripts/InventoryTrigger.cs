@@ -3,6 +3,7 @@ using System.Collections;
 
 public class InventoryTrigger : MonoBehaviour
 {
+    /*
     public UIHandler uiRef;
 
 	void OnMouseOver()
@@ -13,4 +14,5 @@ public class InventoryTrigger : MonoBehaviour
             StartCoroutine(uiRef.InventoryPanelActivator());
         }
 	}
+    */
 }

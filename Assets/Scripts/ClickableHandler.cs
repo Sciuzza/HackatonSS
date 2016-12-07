@@ -49,7 +49,7 @@ public class ClickableHandler : MonoBehaviour
                     item.isClicked = false;
                 }
                 isClicked = true;
-                //refInv.SetInventory(this.gameObject);
+                refInv.SetInventory(this.gameObject);
             }
         }
     }

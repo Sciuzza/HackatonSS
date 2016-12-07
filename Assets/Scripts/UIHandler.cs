@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
-public class UIHandler : MonoBehaviour {
+public class UIHandler : MonoBehaviour
+{
 
     public GameObject panelClue;
     public bool isShowingClue = false;
@@ -35,6 +37,14 @@ public class UIHandler : MonoBehaviour {
         {
             isToClosePanel = true;
         }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StartCoroutine(InventoryPanelActivator());
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            StartCoroutine(InventoryPanelDeactivator());
+        }
     }
 
     public void CluePanelActivator(string text)
@@ -49,14 +59,63 @@ public class UIHandler : MonoBehaviour {
 
     public bool inventoryInside;
 
+    public void InventoryWrapper()
+    {
+        if (!movingInventory)
+        {
+            if (inventoryInside)
+            {
+                StartCoroutine(InventoryPanelDeactivator());
+            }
+            else
+            {
+                StartCoroutine(InventoryPanelActivator());
+            }
+        }
+    }
+
+    bool movingInventory;
+    public int inventoryMovingSpeed = 300;
+
     public IEnumerator InventoryPanelActivator()
     {
-        inventoryInside = true;
-        while (inventoryRef.anchoredPosition.y > 0)
+        movingInventory = true;
+        while (inventoryRef.anchoredPosition.x > 0)
         {
-            Debug.Log("Dio");
-            inventoryRef.anchoredPosition += new Vector2(0, 20)*Time.deltaTime;
+            inventoryRef.anchoredPosition += new Vector2(-inventoryMovingSpeed, 0)*Time.deltaTime;
             yield return null;
+        }
+        inventoryInside = true;
+        movingInventory = false;
+        inventoryRef.anchoredPosition = new Vector2(0, 0);
+    }
+
+    public IEnumerator InventoryPanelDeactivator()
+    {
+        movingInventory = true;
+        while (inventoryRef.anchoredPosition.x < 220)
+        {
+            inventoryRef.anchoredPosition += new Vector2(inventoryMovingSpeed, 0) * Time.deltaTime;
+            yield return null;
+        }
+        inventoryInside = false;
+        movingInventory = false;
+        inventoryRef.anchoredPosition = new Vector2(220, 0);
+    }
+
+    public UnityEvent levelFinished;
+    public bool canQuitScene;
+
+    public void EnablingExit()
+    {
+        canQuitScene = true;
+    }
+
+    public void ChangeScene()
+    {
+        if (canQuitScene)
+        {
+            levelFinished.Invoke();
         }
     }
 }

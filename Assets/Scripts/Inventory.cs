@@ -9,12 +9,14 @@ public class Inventory : MonoBehaviour {
     GameObject prefab;
     public int n = 5;
     public List<GameObject> container;
+    UIHandler uiRef;
     //public GameObject[] itemContainer;
     public List<GameObject> itemContainer;
     public ClickableHandler[] clickableContainer;
 	// Use this for initialization
 	void Start ()
     {
+        uiRef = FindObjectOfType<UIHandler>();
         prefab = Resources.Load("SlotInvetario") as GameObject;
         container = new List<GameObject>();
         itemContainer = new List<GameObject>();
@@ -41,8 +43,7 @@ public class Inventory : MonoBehaviour {
 
         if (itemContainer.Count == 1)
         {
-            GameObject.FindGameObjectWithTag("LevelCom").GetComponent<ExitBeha>().EnablingExit();
-            GameObject.FindGameObjectWithTag("Finish").GetComponent<Text>().enabled = true;
+            uiRef.EnablingExit();
         }
     }
 }
