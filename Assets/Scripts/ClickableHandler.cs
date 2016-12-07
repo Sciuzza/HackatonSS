@@ -17,7 +17,7 @@ public class ClickableHandler : MonoBehaviour
         refUIHandler = FindObjectOfType<UIHandler>();
         outline = GetComponentsInChildren<SpriteRenderer>();
         refInv = FindObjectOfType<Inventory>();
-        audioManager = GetComponent<AudioSource>();
+        audioManager = FindObjectOfType<AudioSource>();
     }
     void OnMouseOver()
     {
@@ -38,6 +38,7 @@ public class ClickableHandler : MonoBehaviour
     {
         if (!refUIHandler.isShowingClue && !isClicked)
         {
+            refUIHandler.lastClueTextTooltip = textTooltip;
             outline[1].color = Color.clear;
             refUIHandler.CluePanelActivator(textTooltip);
             audioManager.clip = turnPage;

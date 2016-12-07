@@ -10,9 +10,18 @@ public class UIHandler : MonoBehaviour
     public bool isShowingClue = false;
     bool isToClosePanel = false;
     public RectTransform inventoryRef;
+    public AudioSource audioManager;
+    public AudioClip pickUpClue;
+    public AudioClip turnPage;
+
+    private void Awake()
+    {
+        audioManager = FindObjectOfType<AudioSource>();
+    }
 
     public IEnumerator TimedClue(string text)
     {
+        panelClue.GetComponentInChildren<Text>().text = "";
         char[] charArray = new char[text.Length];
         for (int i = 0; i < text.Length; i++)
         {
@@ -30,20 +39,12 @@ public class UIHandler : MonoBehaviour
         panelClue.GetComponentInChildren<Text>().text = "";
         CluePanelDeactivator();
     }
-  
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0) && panelClue.activeInHierarchy)
         {
             isToClosePanel = true;
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCoroutine(InventoryPanelActivator());
-        }
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            StartCoroutine(InventoryPanelDeactivator());
         }
     }
 
@@ -105,6 +106,17 @@ public class UIHandler : MonoBehaviour
 
     public UnityEvent levelFinished;
     public bool canQuitScene;
+    public string lastClueTextTooltip;
+
+    public void ShowLastClue()
+    {
+        if (!isShowingClue && lastClueTextTooltip != "")
+        {
+            CluePanelActivator(lastClueTextTooltip);
+            audioManager.clip = turnPage;
+            audioManager.Play();
+        }
+    }
 
     public void EnablingExit()
     {
