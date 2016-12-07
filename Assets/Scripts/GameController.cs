@@ -42,10 +42,10 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
-    } 
+    }
     #endregion
-    
-    
+
+    #region Initialization Methods
     public void Initialization()
     {
         Scene currentScene = SceneManager.GetActiveScene();
@@ -53,31 +53,52 @@ public class GameController : MonoBehaviour
 
         Debugging("Scene", currentSceneIndex);
 
-        SettingVariables(currentSceneIndex);
 
         if (currentScene.buildIndex >= 7)
-        {
-
-            ExitBeha cmTempLink = GameObject.FindGameObjectWithTag("LevelCom").GetComponent<ExitBeha>();
-
-            if (cmTempLink == null)
-                Debug.LogWarning("Missing Exit");
-
-            cmTempLink.levelFinished.AddListener(LevelCompleteManager);
-        }
+            GameplayInitialization();
         else if (currentScene.buildIndex == 4)
-        {
-
-            if (isMaxScore)
-                Debug.Log("Max Score");
-            else
-                Debug.Log("Normal Score");
-        }
+            LoadingScreenInitialization();
         else if (currentSceneIndex == 0)
             SceneManager.LoadScene(1);
     }
 
-    private void LevelCompleteManager()
+    private void GameplayInitialization()
+    {
+        ExitBeha cmTempLink = GameObject.FindGameObjectWithTag("LevelCom").GetComponent<ExitBeha>();
+
+        if (cmTempLink == null)
+            Debug.LogWarning("Missing Exit");
+
+        cmTempLink.levelFinished.AddListener(GameplayLevelCompleteHandler);
+
+
+        if (SceneManager.GetActiveScene().buildIndex <= 10)
+            isVictimStory = true;
+        else
+            isVictimStory = false;
+
+        isOnGame = true;
+        isMaxScore = false;
+    }
+
+    private void NoGameplayInitialization()
+    {
+        isOnGame = false;
+    }
+
+    private void LoadingScreenInitialization()
+    {
+        if (isMaxScore)
+            Debug.Log("Max Score");
+        else
+            Debug.Log("Normal Score");
+
+        isOnGame = false;
+    }
+    #endregion
+
+    #region End Level Methods
+    private void GameplayLevelCompleteHandler()
     {
         Inventory invTempLink = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
         currentScore = invTempLink.itemContainer.Count;
@@ -102,30 +123,15 @@ public class GameController : MonoBehaviour
         nextScene = currentSceneIndex;
 
         SceneManager.LoadScene(4);
-    }
+    } 
+    #endregion
 
-    private void SettingVariables(int buildIndex)
-    {
-        if (buildIndex >= 7)
-        {
-            if (buildIndex <= 10)
-                isVictimStory = true;
-            else
-                isVictimStory = false;
-
-            isOnGame = true;
-            isMaxScore = false;
-        }
-        else
-            isOnGame = false;
-    }
-
-
+    #region Debugging Static Methods
     private static void Debugging(string debugString)
     {
-//#if GG
+        //#if GG
         Debug.Log(debugString);
-//#endif
+        //#endif
     }
 
     private static void Debugging(string debugString, int debugInt)
@@ -133,5 +139,6 @@ public class GameController : MonoBehaviour
         //#if GG
         Debug.Log(debugString + " " + debugInt);
         //#endif
-    }
+    } 
+    #endregion
 }
