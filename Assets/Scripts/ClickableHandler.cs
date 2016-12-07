@@ -36,7 +36,7 @@ public class ClickableHandler : MonoBehaviour
 
     void OnMouseUp()
     {
-        if (!refUIHandler.isShowingClue)
+        if (!refUIHandler.isShowingClue && !isClicked)
         {
             outline[1].color = Color.clear;
             refUIHandler.CluePanelActivator(textTooltip);
