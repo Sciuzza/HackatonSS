@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class EditorLogicTool : MonoBehaviour
 {
     public List<string> textsToImport;
