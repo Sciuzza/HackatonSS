@@ -14,13 +14,22 @@ public class event_int_bool_int : UnityEvent<int, bool, int>
 public class event_int : UnityEvent<int>
 {
 }
+
+[System.Serializable]
+public class event_cities : UnityEvent<cities>
+{
+}
 #endregion
 
 #region Sensible Data Structures
+
+public enum cities { Milan, Rome};
+
 [System.Serializable]
 public struct sensibleData
 {
     public int sceneIndex;
+    public cities currentCity;
 }
 #endregion
 
@@ -38,6 +47,7 @@ public class GameContN : MonoBehaviour {
     #region Events
     public event_int loadingMenuRequest;
     public UnityEvent mmInitRequest;
+    public event_cities mapInitRequest;
     #endregion
 
     #region Do not Destroy Logic
@@ -66,6 +76,7 @@ public class GameContN : MonoBehaviour {
                 mmInitRequest.Invoke();
                 break;
             case 2:
+                mapInitRequest.Invoke(cities.Rome);
                 break;
             case 3:
             case 4:
@@ -82,6 +93,7 @@ public class GameContN : MonoBehaviour {
 
     private void QuittinGame()
     {
+        Debugging("Ciccio");
         Application.Quit();
     }
 

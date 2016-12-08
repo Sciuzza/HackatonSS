@@ -12,7 +12,8 @@ public class SceneContN : MonoBehaviour {
 
         UiContN uiTempLink = this.gameObject.GetComponent<UiContN>();
 
-        uiTempLink.loadingMap.AddListener(LoadSceneByIndex);
+        uiTempLink.loadingMapRequest.AddListener(LoadSceneByIndex);
+        uiTempLink.gameplayRequest.AddListener(LoadSceneByIndex);
 
     }
 
