@@ -1,14 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using System;
 
-public class NewsInfoShow : MonoBehaviour
+public class NewsInfoShow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    #region Public Variables
+    public string newsInfoText;
+    #endregion
 
-    public UnityEvent newsInfoShowRequest;
+    #region Events
+    public event_string newsInfoShowRequest;
+    public UnityEvent newsInfoDisableRequest;
+    #endregion
 
-    void OnMouseEnter()
+    #region Mouse Users
+    public void OnPointerExit(PointerEventData eventData)
     {
-        newsInfoShowRequest.Invoke();
+        newsInfoDisableRequest.Invoke();
     }
+
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
+    {
+        newsInfoShowRequest.Invoke(newsInfoText);
+    } 
+    #endregion
 }

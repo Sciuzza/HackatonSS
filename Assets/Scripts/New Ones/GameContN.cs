@@ -19,6 +19,11 @@ public class event_int : UnityEvent<int>
 public class event_cities : UnityEvent<cities>
 {
 }
+
+[System.Serializable]
+public class event_string : UnityEvent<string>
+{
+}
 #endregion
 
 #region Sensible Data Structures
@@ -26,10 +31,43 @@ public class event_cities : UnityEvent<cities>
 public enum cities { Milan, Rome};
 
 [System.Serializable]
-public struct sensibleData
+public struct sensibleGeneralData
+{
+    public int lastSceneVisited;
+    public int lastNewsVisited;
+    public cities lastCityVisited;
+    public sensibleMapData[] mapData;
+}
+
+[System.Serializable]
+public struct sensibleMapData
+{
+    public cities mapName;
+    public List<sensibleNewsData> newsData;
+}
+
+[System.Serializable]
+public struct sensibleNewsData
+{
+    public int newsIndex;
+    public string newsInfoText;
+    public int playerCurrentScore;
+    public sensibleSceneData[] scenesData;
+}
+
+[System.Serializable]
+public struct sensibleSceneData
 {
     public int sceneIndex;
-    public cities currentCity;
+    public sensibleClueData[] cluesData;
+}
+
+[System.Serializable]
+public struct sensibleClueData
+{
+    public int clueIndex;
+    public string clueInfoText;
+    public bool hasBeenFound;
 }
 #endregion
 
@@ -37,11 +75,13 @@ public struct sensibleData
 public class GameContN : MonoBehaviour {
 
     #region Public Variables
-
+    [SerializeField]
+    public sensibleGeneralData playerDatas;
+    public static sensibleGeneralData playerDatasStatic;
     #endregion
 
     #region Private Variables
-    private sensibleData Datas;
+
     #endregion
 
     #region Events
@@ -50,10 +90,12 @@ public class GameContN : MonoBehaviour {
     public event_cities mapInitRequest;
     #endregion
 
-    #region Do not Destroy Logic
+    #region Do not Destroy Logic, Player Data Static Trick, Taking References and Linking Events
     void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
+
+        playerDatasStatic = playerDatas;
 
         UiContN uiTempLink = this.gameObject.GetComponent<UiContN>();
 
@@ -65,9 +107,9 @@ public class GameContN : MonoBehaviour {
     #region Initilization
     public void Initialization(int buildIndex)
     {
-        Datas.sceneIndex = buildIndex;
+        playerDatas.lastSceneVisited = buildIndex;
 
-        switch (Datas.sceneIndex)
+        switch (playerDatas.lastSceneVisited)
         {
             case 0:
                 loadingMenuRequest.Invoke(buildIndex + 1);

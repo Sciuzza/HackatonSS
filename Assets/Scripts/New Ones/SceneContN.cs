@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneContN : MonoBehaviour {
 
+    #region Taking References and Linking Events
     void Awake()
     {
         GameContN gcTempLink = this.gameObject.GetComponent<GameContN>();
@@ -16,7 +17,9 @@ public class SceneContN : MonoBehaviour {
         uiTempLink.gameplayRequest.AddListener(LoadSceneByIndex);
 
     }
+    #endregion
 
+    #region Switch Scene Methods
     private void LoadSceneByIndex(int buildIndex)
     {
         SceneManager.LoadScene(buildIndex);
@@ -25,5 +28,6 @@ public class SceneContN : MonoBehaviour {
     private void LoadSceneByName(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
-    }
+    } 
+    #endregion
 }
