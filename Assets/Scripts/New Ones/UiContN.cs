@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 public class UiContN : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class UiContN : MonoBehaviour
     #region Map Variables
     private GameObject map, newsInfo, cityTextI, newsMilTemp, newsRomTemp;
     private Button srButton, smButton, playNews;
+    private Button[] mapButtons;
     private Button delittoCatB;
     private readonly float[] newsPanelPos = { 0.125f, -0.125f, 1.0165f, -0.1155005f };
     #endregion
@@ -26,6 +28,8 @@ public class UiContN : MonoBehaviour
     #region Map Variables
     public GameObject newsMil, newsRom;
     public Sprite mapMil, mapRom;
+    public GameObject[] mapPrefabs;
+    public Sprite[] mapImages;
     #endregion
 
     #region Gameplay Variables
@@ -82,13 +86,27 @@ public class UiContN : MonoBehaviour
         map = GameObject.FindGameObjectWithTag("Map");
         newsInfo = GameObject.FindGameObjectWithTag("NewsInfo");
         cityTextI = GameObject.FindGameObjectWithTag("CityTextI");
-        srButton = GameObject.FindGameObjectWithTag("SR Button").GetComponent<Button>();
-        smButton = GameObject.FindGameObjectWithTag("SM Button").GetComponent<Button>();
+
+       // srButton = GameObject.FindGameObjectWithTag("SR Button").GetComponent<Button>();
+      //  smButton = GameObject.FindGameObjectWithTag("SM Button").GetComponent<Button>();
+
+        mapButtons = GameObject.FindGameObjectWithTag("MapButtons").GetComponentsInChildren<Button>();
+
         playNews = GameObject.FindGameObjectWithTag("PlayNews").GetComponent<Button>();
 
         newsInfo.SetActive(false);
-        srButton.onClick.AddListener(SwitchToRome);
-        smButton.onClick.AddListener(SwitchToMilan);
+        // srButton.onClick.AddListener(SwitchToRome);
+        // smButton.onClick.AddListener(SwitchToMilan);
+
+        for (int i = 0; i < mapButtons.Length; i++)
+        {
+            mapButtons[i].gameObject.GetComponent<CustomClickEvent>().buttonIndex = i;
+            mapButtons[i].gameObject.GetComponent<CustomClickEvent>().customClick.AddListener(SwitchingCity);
+        }
+
+       
+      
+
         playNews.interactable = false;
 
 
@@ -114,8 +132,10 @@ public class UiContN : MonoBehaviour
                 newsMilTemp.GetComponent<RectTransform>().offsetMax = new Vector2(-newsPanelPos[1], -newsPanelPos[2]);
                 newsMilTemp.name = "NewsMil";
 
-                smButton.interactable = false;
-                srButton.interactable = true;
+                //smButton.interactable = false;
+                //srButton.interactable = true;
+                mapButtons[0].interactable = false;
+                mapButtons[1].interactable = true;
                 playNews.interactable = false;
 
                 map.GetComponent<Image>().sprite = mapMil;
@@ -144,14 +164,22 @@ public class UiContN : MonoBehaviour
                 newsRomTemp.GetComponent<RectTransform>().offsetMax = new Vector2(-newsPanelPos[1], -newsPanelPos[2]);
                 newsRomTemp.name = "NewsRom";
 
-                srButton.interactable = false;
-                smButton.interactable = true;
+                // srButton.interactable = false;
+                // smButton.interactable = true;
+                mapButtons[0].interactable = true;
+                mapButtons[1].interactable = false;
                 playNews.interactable = false;
 
                 map.GetComponent<Image>().sprite = mapRom;
 
                 break;
         }
+    }
+
+    private void SwitchingCity(int cityIndex)
+    {
+        GameContN.playerDatasStatic.lastCityVisited = GameContN.playerDatasStatic.mapData[cityIndex].mapName;
+        SettingCurrentCity();
     }
 
     private void SwitchToRome()
