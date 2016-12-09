@@ -134,8 +134,8 @@ public class UiContN : MonoBehaviour
 
                 //smButton.interactable = false;
                 //srButton.interactable = true;
-                mapButtons[0].interactable = false;
-                mapButtons[1].interactable = true;
+                mapButtons[0].gameObject.SetActive(false);
+                mapButtons[1].gameObject.SetActive(true);
                 playNews.interactable = false;
 
                 map.GetComponent<Image>().sprite = mapMil;
@@ -166,8 +166,8 @@ public class UiContN : MonoBehaviour
 
                 // srButton.interactable = false;
                 // smButton.interactable = true;
-                mapButtons[0].interactable = true;
-                mapButtons[1].interactable = false;
+                mapButtons[0].gameObject.SetActive(true);
+                mapButtons[1].gameObject.SetActive(false);
                 playNews.interactable = false;
 
                 map.GetComponent<Image>().sprite = mapRom;
@@ -199,13 +199,14 @@ public class UiContN : MonoBehaviour
         newsInfo.SetActive(true);
         newsInfo.GetComponentInChildren<Text>().text = GameContN.playerDatasStatic.mapData[0].newsData[0].newsInfoText;
         playNews.interactable = true;
+        GameContN.playerDatasStatic.newsSelected = GameContN.playerDatasStatic.mapData[0].newsData[0].newsName;
         playNews.onClick.RemoveAllListeners();
         playNews.onClick.AddListener(gameplayStartRequest);
     }
 
     private void gameplayStartRequest()
     {
-        // metti qui fede
+        // metti qui fede, la news da far partire è nella struttura in newsSelected (la struttura più in alto), la mappa in lastCityVisited (struttura più in alto)
         GameContN.Debugging("Ci Siamo");
     }
 

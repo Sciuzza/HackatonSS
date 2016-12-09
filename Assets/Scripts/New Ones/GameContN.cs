@@ -35,6 +35,7 @@ public struct sensibleGeneralData
 {
     public int lastSceneVisited;
     public int lastNewsVisited;
+    public string newsSelected;
     public cities lastCityVisited;
     public sensibleMapData[] mapData;
 }
@@ -49,6 +50,7 @@ public struct sensibleMapData
 [System.Serializable]
 public struct sensibleNewsData
 {
+    public string newsName;
     public int newsIndex;
     public string newsInfoText;
     public int playerCurrentScore;
