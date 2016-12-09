@@ -86,8 +86,7 @@ public class GameContN : MonoBehaviour {
 
     #region Events
     public event_int loadingMenuRequest;
-    public UnityEvent mmInitRequest;
-    public event_cities mapInitRequest;
+    public UnityEvent mmInitRequest, mapInitRequest;
     #endregion
 
     #region Do not Destroy Logic, Player Data Static Trick, Taking References and Linking Events
@@ -118,7 +117,7 @@ public class GameContN : MonoBehaviour {
                 mmInitRequest.Invoke();
                 break;
             case 2:
-                mapInitRequest.Invoke(cities.Rome);
+                mapInitRequest.Invoke();
                 break;
             case 3:
             case 4:
