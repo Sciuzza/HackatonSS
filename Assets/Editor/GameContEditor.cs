@@ -135,34 +135,49 @@ public class GameContEditor : Editor
                                                 SerializedProperty arraycluesData = cluesData_Prop.GetArrayElementAtIndex(h);
 
                                                 // Prendiamo le propietà di sensibleClueData
-                                                SerializedProperty clueIndex_Prop = arraycluesData.FindPropertyRelative("clueIndex");
+                                                SerializedProperty clueName_Prop = arraycluesData.FindPropertyRelative("clueName");
                                                 SerializedProperty clueInfoText_Prop = arraycluesData.FindPropertyRelative("clueInfoText");
                                                 SerializedProperty hasBeenFound_Prop = arraycluesData.FindPropertyRelative("hasBeenFound");
 
-                                                EditorGUILayout.PropertyField(arraycluesData, new GUIContent("Clues "+h));
+                                                string nameClue = clueName_Prop.stringValue;
+                                                if (nameClue == "")
+                                                {
+                                                    EditorGUILayout.PropertyField(arraycluesData, new GUIContent("Clue "+h));
+                                                }
+                                                else
+                                                {
+                                                    EditorGUILayout.PropertyField(arraycluesData, new GUIContent(nameClue));
+                                                }
                                                 
+
+                                                EditorGUI.indentLevel += 1;
                                                 if (arraycluesData.isExpanded)
                                                 {
                                                     // E le visualizziamo
-                                                    EditorGUILayout.PropertyField(clueIndex_Prop);
+                                                    
+                                                    EditorGUILayout.PropertyField(clueName_Prop);
                                                     EditorGUILayout.PropertyField(clueInfoText_Prop);
                                                     EditorGUILayout.PropertyField(hasBeenFound_Prop);
                                                 }
-                                                
+                                                    
+                                                EditorGUI.indentLevel -= 1;
                                             }
+                                            EditorGUI.indentLevel -= 1;
                                         }
-                                        #endregion
+                                        EditorGUILayout.Separator();
                                         EditorGUI.indentLevel -= 1;
+                                        #endregion                                        
                                     }
+                                    EditorGUI.indentLevel -= 1;
                                 }
-                                #endregion
-                                EditorGUI.indentLevel -= 1;
+                                #endregion                                
                             }
                         }
-                        #endregion
                         EditorGUI.indentLevel -= 1;
+                        #endregion                        
                     }
                     
+
                 }
             }
             #endregion
