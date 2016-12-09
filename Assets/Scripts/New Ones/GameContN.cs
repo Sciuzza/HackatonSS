@@ -65,7 +65,7 @@ public struct sensibleSceneData
 [System.Serializable]
 public struct sensibleClueData
 {
-    public int clueIndex;
+    public string clueName;
     public string clueInfoText;
     public bool hasBeenFound;
 }
