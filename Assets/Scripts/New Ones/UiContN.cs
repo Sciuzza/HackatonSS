@@ -7,7 +7,14 @@ public class UiContN : MonoBehaviour
 {
 
     #region Private Variables
-    private GameObject milanMap, romeMap, newsInfoMil, newsInfoRom;
+    private GameObject map, newsInfo, cityTextI, newsMilTemp, newsRomTemp;
+    private Button srButton, smButton, playNews;
+    private readonly float[] newsPanelPos = { 0.125f, -0.125f, 1.0165f, -0.1155005f };
+    #endregion
+
+    #region Public Variables
+    public GameObject newsMil, newsRom;
+    public Sprite mapMil, mapRom;
     #endregion
 
     #region Events
@@ -50,13 +57,20 @@ public class UiContN : MonoBehaviour
     #endregion
 
     #region Map Methods
-    private void MapInitializer(cities currentCity)
+    private void MapInitializer()
     {
-        milanMap = GameObject.FindGameObjectWithTag("MapMil");
-        romeMap = GameObject.FindGameObjectWithTag("MapRom");
+        map = GameObject.FindGameObjectWithTag("Map");
+        newsInfo = GameObject.FindGameObjectWithTag("NewsInfo");
+        cityTextI = GameObject.FindGameObjectWithTag("CityTextI");
+        srButton = GameObject.FindGameObjectWithTag("SR Button").GetComponent<Button>();
+        smButton = GameObject.FindGameObjectWithTag("SM Button").GetComponent<Button>();
+        playNews = GameObject.FindGameObjectWithTag("PlayNews").GetComponent<Button>();
 
-        // ad Hoc Code for demo purpose
-
+        newsInfo.SetActive(false);
+        srButton.onClick.AddListener(SwitchToRome);
+        smButton.onClick.AddListener(SwitchToMilan);
+        playNews.interactable = false;
+        /*
         GameObject delittoCatGO = GameObject.FindGameObjectWithTag("DelittoCat");
 
         Button delittoCatB = delittoCatGO.GetComponent<Button>();
@@ -73,34 +87,53 @@ public class UiContN : MonoBehaviour
         Button switchToRome = GameObject.FindGameObjectWithTag("SR Button").GetComponent<Button>();
         switchToRome.onClick.AddListener(SwitchToRome);
 
-        newsInfoMil = GameObject.FindGameObjectWithTag("NewsInfoMil");
-        newsInfoMil.SetActive(false);
+        newsInfo = GameObject.FindGameObjectWithTag("NewsInfoMil");
+        newsInfo.SetActive(false);
 
         Button switchToMilan = GameObject.FindGameObjectWithTag("SM Button").GetComponent<Button>();
         switchToMilan.onClick.AddListener(SwitchToMilan);
+        */
 
-        newsInfoRom = GameObject.FindGameObjectWithTag("NewsInfoRom");
-        newsInfoRom.SetActive(false);
 
-        SettingCurrentCity(currentCity);
+        SettingCurrentCity();
     }
 
-    private void SettingCurrentCity(cities currentCity)
+    private void SettingCurrentCity()
     {
-        switch (currentCity)
+        switch (GameContN.playerDatasStatic.lastCityVisited)
         {
             case cities.Milan:
 
-                romeMap.SetActive(false);
-                milanMap.SetActive(true);
-            
+                if (newsRomTemp != null)
+                    Destroy(newsRomTemp);
+
+                newsMilTemp = Instantiate(newsMil);
+                newsMilTemp.transform.SetParent(map.transform);
+                newsMilTemp.GetComponent<RectTransform>().offsetMin = new Vector2(newsPanelPos[0], newsPanelPos[3]);
+                newsMilTemp.GetComponent<RectTransform>().offsetMax = new Vector2(-newsPanelPos[1], -newsPanelPos[2]);
+                newsMilTemp.name = "NewsMil";
+
+                smButton.interactable = false;
+                srButton.interactable = true;
+
+                map.GetComponent<Image>().sprite = mapMil;
                 break;
 
             case cities.Rome:
 
-                milanMap.SetActive(false);
-                romeMap.SetActive(true);
-              
+                if (newsMilTemp != null)
+                    Destroy(newsMilTemp);
+                    
+                newsRomTemp = Instantiate(newsRom);
+                newsRomTemp.transform.SetParent(map.transform);
+                newsRomTemp.GetComponent<RectTransform>().offsetMin = new Vector2(newsPanelPos[0], newsPanelPos[3]);
+                newsRomTemp.GetComponent<RectTransform>().offsetMax = new Vector2(-newsPanelPos[1], -newsPanelPos[2]);
+                newsRomTemp.name = "NewsRom";
+
+                srButton.interactable = false;
+                smButton.interactable = true;
+                map.GetComponent<Image>().sprite = mapRom;
+
                 break;
         }
     }
@@ -112,23 +145,25 @@ public class UiContN : MonoBehaviour
 
     private void SwitchToRome()
     {
-        SettingCurrentCity(cities.Rome);
+        GameContN.playerDatasStatic.lastCityVisited = cities.Rome;
+        SettingCurrentCity();
     }
 
     private void SwitchToMilan()
     {
-        SettingCurrentCity(cities.Milan);
+        GameContN.playerDatasStatic.lastCityVisited = cities.Milan;
+        SettingCurrentCity();
     }
 
     private void DisablingNewsInfoMilan()
     {
-        newsInfoMil.SetActive(false);
+        newsInfo.SetActive(false);
     }
 
     private void EnablingNewsInfoMilan(string whatToSay)
     {
-        newsInfoMil.SetActive(true);
-        newsInfoMil.GetComponentInChildren<Text>().text = whatToSay;
+        newsInfo.SetActive(true);
+        newsInfo.GetComponentInChildren<Text>().text = whatToSay;
     }
 
     #endregion
