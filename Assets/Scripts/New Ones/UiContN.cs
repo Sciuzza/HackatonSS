@@ -9,6 +9,7 @@ public class UiContN : MonoBehaviour
     #region Private Variables
     private GameObject map, newsInfo, cityTextI, newsMilTemp, newsRomTemp;
     private Button srButton, smButton, playNews;
+    private Button delittoCatB;
     private readonly float[] newsPanelPos = { 0.125f, -0.125f, 1.0165f, -0.1155005f };
     #endregion
 
@@ -20,6 +21,7 @@ public class UiContN : MonoBehaviour
     #region Events
     public event_int loadingMapRequest, gameplayRequest;
     public UnityEvent quitGame;
+    public event_string loadNewsRequest;
     #endregion
 
     #region Taking References and Linking Events
@@ -70,30 +72,8 @@ public class UiContN : MonoBehaviour
         srButton.onClick.AddListener(SwitchToRome);
         smButton.onClick.AddListener(SwitchToMilan);
         playNews.interactable = false;
-        /*
-        GameObject delittoCatGO = GameObject.FindGameObjectWithTag("DelittoCat");
 
-        Button delittoCatB = delittoCatGO.GetComponent<Button>();
-        delittoCatB.onClick.AddListener(gameplayStartRequest);
-
-        NewsInfoShow delittoCatN = delittoCatGO.GetComponent<NewsInfoShow>();
-
-        delittoCatN.newsInfoText = GameContN.playerDatasStatic.mapData[0].newsData[0].newsInfoText;
-
-        // Only for Mouse Users
-        delittoCatN.newsInfoDisableRequest.AddListener(DisablingNewsInfoMilan);
-        delittoCatN.newsInfoShowRequest.AddListener(EnablingNewsInfoMilan);
-
-        Button switchToRome = GameObject.FindGameObjectWithTag("SR Button").GetComponent<Button>();
-        switchToRome.onClick.AddListener(SwitchToRome);
-
-        newsInfo = GameObject.FindGameObjectWithTag("NewsInfoMil");
-        newsInfo.SetActive(false);
-
-        Button switchToMilan = GameObject.FindGameObjectWithTag("SM Button").GetComponent<Button>();
-        switchToMilan.onClick.AddListener(SwitchToMilan);
-        */
-
+    
 
         SettingCurrentCity();
     }
@@ -107,6 +87,9 @@ public class UiContN : MonoBehaviour
                 if (newsRomTemp != null)
                     Destroy(newsRomTemp);
 
+                if (newsInfo.activeInHierarchy)
+                    newsInfo.SetActive(false);
+
                 newsMilTemp = Instantiate(newsMil);
                 newsMilTemp.transform.SetParent(map.transform);
                 newsMilTemp.GetComponent<RectTransform>().offsetMin = new Vector2(newsPanelPos[0], newsPanelPos[3]);
@@ -115,15 +98,28 @@ public class UiContN : MonoBehaviour
 
                 smButton.interactable = false;
                 srButton.interactable = true;
+                playNews.interactable = false;
 
                 map.GetComponent<Image>().sprite = mapMil;
+
+
+
+                delittoCatB = newsMilTemp.GetComponentInChildren<Button>();
+              
+                delittoCatB.onClick.AddListener(EnablingNewsInfo);
+
+              
+
                 break;
 
             case cities.Rome:
 
                 if (newsMilTemp != null)
                     Destroy(newsMilTemp);
-                    
+
+                if (newsInfo.activeInHierarchy)
+                    newsInfo.SetActive(false);
+
                 newsRomTemp = Instantiate(newsRom);
                 newsRomTemp.transform.SetParent(map.transform);
                 newsRomTemp.GetComponent<RectTransform>().offsetMin = new Vector2(newsPanelPos[0], newsPanelPos[3]);
@@ -132,15 +128,12 @@ public class UiContN : MonoBehaviour
 
                 srButton.interactable = false;
                 smButton.interactable = true;
+                playNews.interactable = false;
+
                 map.GetComponent<Image>().sprite = mapRom;
 
                 break;
         }
-    }
-
-    private void gameplayStartRequest()
-    {
-        gameplayRequest.Invoke(3);
     }
 
     private void SwitchToRome()
@@ -155,15 +148,19 @@ public class UiContN : MonoBehaviour
         SettingCurrentCity();
     }
 
-    private void DisablingNewsInfoMilan()
-    {
-        newsInfo.SetActive(false);
-    }
-
-    private void EnablingNewsInfoMilan(string whatToSay)
+    private void EnablingNewsInfo()
     {
         newsInfo.SetActive(true);
-        newsInfo.GetComponentInChildren<Text>().text = whatToSay;
+        newsInfo.GetComponentInChildren<Text>().text = GameContN.playerDatasStatic.mapData[0].newsData[0].newsInfoText;
+        playNews.interactable = true;
+        playNews.onClick.RemoveAllListeners();
+        playNews.onClick.AddListener(gameplayStartRequest);
+    }
+
+    private void gameplayStartRequest()
+    {
+        // metti qui fede
+        GameContN.Debugging("Ci Siamo");
     }
 
     #endregion
