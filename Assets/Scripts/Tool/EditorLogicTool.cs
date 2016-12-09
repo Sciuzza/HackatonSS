@@ -4,15 +4,14 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-//[ExecuteInEditMode]
 public class EditorLogicTool : MonoBehaviour
 {
     public List<string> textsToImport;
 
-    void Start()
+    public void InitializeScene()
     {
-        SceneCreator scRef = FindObjectOfType<SceneCreator>();
-        string path = Application.persistentDataPath + "/scene" + scRef.currentScene+ ".txt";
+        GameContN gcRef = FindObjectOfType<GameContN>();
+        string path = Application.persistentDataPath + "/scene" + gcRef.playerDatas.lastSceneVisited + ".txt";
         StreamReader sr = File.OpenText(path);
         textsToImport = new List<string>();
         string s;
@@ -22,10 +21,6 @@ public class EditorLogicTool : MonoBehaviour
         }
         sr.Close();
 
-        if (GameObject.Find("bg"))
-        {
-           
-        }
         if (GameObject.Find("clue1"))
         {
             if (!GameObject.Find("clue1").GetComponent<BoxCollider2D>())

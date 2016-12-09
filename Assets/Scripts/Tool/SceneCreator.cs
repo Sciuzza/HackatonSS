@@ -6,13 +6,17 @@ using System.IO;
 
 public class SceneCreator : MonoBehaviour
 {
-    public int currentScene = 0;
+    GameContN gcRef;
+    EditorLogicTool edRef;
     List<int> projectValues;
     GameObject logicPrefab, uiPrefab;
 
-	void Awake ()
+    void Start()
     {
-        string path = Application.persistentDataPath + "/scene.txt";
+        edRef = FindObjectOfType<EditorLogicTool>();
+        gcRef = FindObjectOfType<GameContN>();
+        edRef.InitializeScene();
+        string path = Application.persistentDataPath + "/scene" + gcRef.playerDatas.lastSceneVisited + ".txt";
         StreamReader sr = File.OpenText(path);
         projectValues = new List<int>();
         int s;
@@ -23,23 +27,17 @@ public class SceneCreator : MonoBehaviour
         }
         sr.Close();
 
-        if (currentScene<projectValues[0])
+        if (gcRef.playerDatas.lastSceneVisited < projectValues[0])
         {
-            SceneManager.CreateScene("Scene" + currentScene + 1);
-            Instantiate(logicPrefab);
-            Instantiate(Resources.Load(currentScene + ".psd"));
+            SceneManager.CreateScene("Scene" + gcRef.playerDatas.lastSceneVisited);
+            Instantiate(Resources.Load("PsdScene" + gcRef.playerDatas.lastSceneVisited + ".psd"));
             Instantiate(uiPrefab);
-
+            Instantiate(logicPrefab);
         }
         else
         {
             //goto finale;
         }
-        
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    }
 }
