@@ -12,7 +12,7 @@ public class InitializerN : MonoBehaviour {
         if (gcTempLink == null)
             GameContN.Debugging("Brain Not Found");
 
-        gcTempLink.GetComponent<GameContN>().Initialization(SceneManager.GetActiveScene().buildIndex);
+        gcTempLink.GetComponent<GameContN>().Initialization();
 
     }
 	

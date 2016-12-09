@@ -86,7 +86,7 @@ public class GameContN : MonoBehaviour {
 
     #region Events
     public event_int loadingMenuRequest;
-    public UnityEvent mmInitRequest, mapInitRequest, gameplayInitRequest, readingNewsRequest, scoreRequest;
+    public UnityEvent mmInitRequest, mapInitRequest, gameplayInitRequest, readingNewsRequest, scoreRequest, loadDataRequest, saveDataRequest;
     #endregion
 
     #region Do not Destroy Logic, Player Data Static Trick, Taking References and Linking Events
@@ -104,14 +104,14 @@ public class GameContN : MonoBehaviour {
     #endregion
 
     #region Initilization
-    public void Initialization(int buildIndex)
+    public void Initialization()
     {
-        playerDatas.lastSceneVisited = buildIndex;
 
-        switch (playerDatas.lastSceneVisited)
+        switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 0:
-                loadingMenuRequest.Invoke(buildIndex + 1);
+                loadDataRequest.Invoke();
+                loadingMenuRequest.Invoke(1);
                 break;
             case 1:
                 mmInitRequest.Invoke();
@@ -137,10 +137,16 @@ public class GameContN : MonoBehaviour {
 
     private void QuittinGame()
     {
-        Debugging("Ciccio");
+        Debugging("Quitting Game");
         Application.Quit();
     }
+    #endregion
 
+    #region General Methods
+    void OnApplicationQuit()
+    {
+        saveDataRequest.Invoke();
+    }
     #endregion
 
     #region Debugging Static Methods

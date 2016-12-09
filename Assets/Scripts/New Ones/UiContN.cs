@@ -7,15 +7,31 @@ public class UiContN : MonoBehaviour
 {
 
     #region Private Variables
+
+    #region Map Variables
     private GameObject map, newsInfo, cityTextI, newsMilTemp, newsRomTemp;
     private Button srButton, smButton, playNews;
     private Button delittoCatB;
     private readonly float[] newsPanelPos = { 0.125f, -0.125f, 1.0165f, -0.1155005f };
     #endregion
 
+    #region GamePlay Variables
+
+    #endregion
+
+    #endregion
+
     #region Public Variables
+
+    #region Map Variables
     public GameObject newsMil, newsRom;
     public Sprite mapMil, mapRom;
+    #endregion
+
+    #region Gameplay Variables
+
+    #endregion
+
     #endregion
 
     #region Events
@@ -75,7 +91,7 @@ public class UiContN : MonoBehaviour
         smButton.onClick.AddListener(SwitchToMilan);
         playNews.interactable = false;
 
-    
+
 
         SettingCurrentCity();
     }
@@ -107,10 +123,10 @@ public class UiContN : MonoBehaviour
 
 
                 delittoCatB = newsMilTemp.GetComponentInChildren<Button>();
-              
+
                 delittoCatB.onClick.AddListener(EnablingNewsInfo);
 
-              
+
 
                 break;
 
