@@ -21,7 +21,6 @@ public class UiContN : MonoBehaviour
     #region Events
     public event_int loadingMapRequest, gameplayRequest;
     public UnityEvent quitGame;
-    public event_string loadNewsRequest;
     #endregion
 
     #region Taking References and Linking Events
@@ -32,6 +31,9 @@ public class UiContN : MonoBehaviour
 
         gcTempLink.mmInitRequest.AddListener(MainMenuInitializer);
         gcTempLink.mapInitRequest.AddListener(MapInitializer);
+        gcTempLink.gameplayInitRequest.AddListener(GamePlayInitializer);
+        gcTempLink.readingNewsRequest.AddListener(ReadingNewsInitializer);
+        gcTempLink.scoreRequest.AddListener(ScoreInitializer);
     }
     #endregion
 
@@ -165,4 +167,24 @@ public class UiContN : MonoBehaviour
 
     #endregion
 
+    #region Gameplay Methods
+    private void GamePlayInitializer()
+    {
+        // qui ci sei tu fabri
+    }
+    #endregion
+
+    #region Reading News Methods
+    private void ReadingNewsInitializer()
+    {
+
+    }
+    #endregion
+
+    #region Score Methods
+    private void ScoreInitializer()
+    {
+
+    }
+    #endregion
 }
