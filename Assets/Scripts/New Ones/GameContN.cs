@@ -76,6 +76,18 @@ public struct sensibleClueData
 
 public class GameContN : MonoBehaviour {
 
+    // Singleton Implementation
+    protected static GameContN _self;
+    public static GameContN Self
+    {
+        get
+        {
+            if (_self == null)
+                _self = FindObjectOfType(typeof(GameContN)) as GameContN;
+            return _self;
+        }
+    }
+
     #region Public Variables
     [SerializeField]
     public sensibleGeneralData playerDatas;

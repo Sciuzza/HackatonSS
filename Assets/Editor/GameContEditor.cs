@@ -44,7 +44,7 @@ public class GameContEditor : Editor
             EditorGUILayout.PropertyField(lastSceneVisited_Prop);
             EditorGUILayout.PropertyField(lastNewsVisited_Prop);
             EditorGUILayout.PropertyField(lastCityVisited_Prop);
-
+            
             // Array size di fianco a Map Data
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(mapData_Prop);
