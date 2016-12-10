@@ -19,11 +19,12 @@ public class GameContEditor : Editor
     // Prendiamo la propietà principale nella classe GameContN ovvero playerDatas
     void OnEnable()
     {
-        playerData_Prop = serializedObject.FindProperty("playerDatas");
+        
     }
 
     public override void OnInspectorGUI()
     {
+        playerData_Prop = serializedObject.FindProperty("playerDatas");
         serializedObject.Update();
 
         #region PlayerDataVisulizator
