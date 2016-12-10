@@ -18,7 +18,7 @@ public class UiContN : MonoBehaviour
     #endregion
 
     #region GamePlay Variables
-
+    public Button[] clueInScene;
     #endregion
 
     #endregion
@@ -215,7 +215,23 @@ public class UiContN : MonoBehaviour
     #region Gameplay Methods
     private void GamePlayInitializer()
     {
+        
         // qui ci sei tu fabri
+        GameObject[] tempClue = GameObject.FindGameObjectsWithTag("Clue");
+        clueInScene = new Button[tempClue.Length];
+        for (int i = 0; i < tempClue.Length; i++)
+        {
+            clueInScene[i] = tempClue[i].GetComponentInChildren<Button>();
+            tempClue[i].AddComponent<ClickableHandler>();
+            clueInScene[i].onClick.AddListener(Test);
+            //mapButtons[i].gameObject.GetComponent<CustomClickEvent>().customClick.AddListener(SwitchingCity);
+        }
+        
+    }
+
+    void Test()
+    {
+        Debug.Log("Test");
     }
     #endregion
 

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 public class ClickableHandler : MonoBehaviour
 {
@@ -11,13 +13,15 @@ public class ClickableHandler : MonoBehaviour
     public AudioSource audioManager;
     public AudioClip pickUpClue;
     public AudioClip turnPage;
+
+    public UnityEvent test;
    
     void Start()
     {
-        refUIHandler = FindObjectOfType<UIHandler>();
+       /* refUIHandler = FindObjectOfType<UIHandler>();
         outline = GetComponentsInChildren<SpriteRenderer>();
         refInv = FindObjectOfType<Inventory>();
-        audioManager = FindObjectOfType<AudioSource>();
+        audioManager = FindObjectOfType<AudioSource>();*/
     }
     void OnMouseOver()
     {
@@ -53,5 +57,11 @@ public class ClickableHandler : MonoBehaviour
                 refInv.SetInventory(this.gameObject);
             }
         }
+    }
+
+    public void Test()
+    {
+        test.Invoke();
+        
     }
 }
