@@ -34,10 +34,10 @@ public enum cities { Milan, Rome};
 public struct sensibleGeneralData
 {
     public int lastSceneVisited;
-    public int lastNewsVisited;
+    public string lastNewsVisited;
     public string newsSelected;
     public cities lastCityVisited;
-    public sensibleMapData[] mapData;
+    public List<sensibleMapData> mapData;
 }
 
 [System.Serializable]
@@ -51,17 +51,16 @@ public struct sensibleMapData
 public struct sensibleNewsData
 {
     public string newsName;
-    public int newsIndex;
     public string newsInfoText;
     public int playerCurrentScore;
-    public sensibleSceneData[] scenesData;
+    public List<sensibleSceneData> scenesData;
 }
 
 [System.Serializable]
 public struct sensibleSceneData
 {
     public int sceneIndex;
-    public sensibleClueData[] cluesData;
+    public List<sensibleClueData> cluesData;
 }
 
 [System.Serializable]
