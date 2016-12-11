@@ -22,6 +22,8 @@ public class UiContN : MonoBehaviour
     public Button[] clueInScene;
     private CustomClickEvent[] switchSceneButtons;
     private GameObject clueInfoPanel;
+    private ClueCustomClickEvent lastClueButton;
+    private Button invOpenButton;
     #endregion
 
     #endregion
@@ -249,8 +251,10 @@ public class UiContN : MonoBehaviour
         switchSceneButtons[2].buttonIndex = SceneManager.GetActiveScene().buildIndex - 1;
         switchSceneButtons[2].customClick.AddListener(loadingSceneRequestMethod);
 
+        clueInfoPanel = GameObject.Find("ClueInfo");
+        clueInfoPanel.SetActive(false);
 
-
+       // lastClueButton.customClick.AddListener()
 
     }
 
@@ -264,9 +268,9 @@ public class UiContN : MonoBehaviour
 
     }
 
-    void Test()
+    private void ClueInfoVisualizer(string infoToVisualize)
     {
-        Debug.Log("Test");
+
     }
     #endregion
 
