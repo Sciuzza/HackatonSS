@@ -21,9 +21,14 @@ public class UiContN : MonoBehaviour
     #region GamePlay Variables
     public Button[] clueInScene;
     private CustomClickEvent[] switchSceneButtons;
-    private GameObject clueInfoPanel;
+    private GameObject clueInfoPanel, blockButton;
     private ClueCustomClickEvent lastClueButton;
     private Button invOpenButton;
+    private GameObject inventory;
+    private bool isShowingClue = false, isToClosePanel = false;
+    private bool movingInventory = true;
+    private bool inventoryInside;
+    private float inventoryMovingSpeed = 300;
     #endregion
 
     #endregion
@@ -242,7 +247,9 @@ public class UiContN : MonoBehaviour
         switchSceneButtons[0] = GameObject.Find("Menu").GetComponent<CustomClickEvent>();
         switchSceneButtons[1] = GameObject.Find("NextScene").GetComponent<CustomClickEvent>();
         switchSceneButtons[2] = GameObject.Find("PrevScene").GetComponent<CustomClickEvent>();
-       
+        blockButton = GameObject.FindGameObjectWithTag("BlockButton");
+        blockButton.GetComponent<Button>().onClick.AddListener(ButtonBlockerMethods);
+        blockButton.SetActive(false);
 
         switchSceneButtons[0].buttonIndex = 1;
         switchSceneButtons[0].customClick.AddListener(loadingSceneRequestMethod);
@@ -254,8 +261,14 @@ public class UiContN : MonoBehaviour
         clueInfoPanel = GameObject.Find("ClueInfo");
         clueInfoPanel.SetActive(false);
 
-       // lastClueButton.customClick.AddListener()
+        lastClueButton.customClick.AddListener(ClueInfoVisualizer);
 
+    }
+
+    private void ButtonBlockerMethods()
+    {
+        StartCoroutine(InventoryPanelActivator());
+        blockButton.SetActive(false);
     }
 
     private void InventoryInitializer()
@@ -270,7 +283,74 @@ public class UiContN : MonoBehaviour
 
     private void ClueInfoVisualizer(string infoToVisualize)
     {
+        clueInfoPanel.SetActive(true);
+        clueInfoPanel.GetComponentInChildren<Text>().color = Color.clear;
+        clueInfoPanel.GetComponentInChildren<Text>().text = infoToVisualize;
+        int fontSizeTemp = clueInfoPanel.GetComponentInChildren<Text>().fontSize;
+        clueInfoPanel.GetComponentInChildren<Text>().resizeTextForBestFit = false;
+        clueInfoPanel.GetComponentInChildren<Text>().fontSize = fontSizeTemp;
 
+  
+
+        StartCoroutine(TimedClue(infoToVisualize));
+        //StartCoroutine(InventoryPanelActivator());
+    }
+
+    public IEnumerator TimedClue(string text)
+    {
+        isShowingClue = false;
+        isToClosePanel = false;
+        blockButton.SetActive(true);
+        clueInfoPanel.GetComponentInChildren<Text>().text = "";
+        clueInfoPanel.GetComponentInChildren<Text>().color = Color.white;
+        char[] charArray = new char[text.Length];
+        for (int i = 0; i < text.Length; i++)
+        {
+            isShowingClue = true;
+            charArray[i] = text[i];
+            clueInfoPanel.GetComponentInChildren<Text>().text += charArray[i];
+            yield return new WaitForSeconds(Random.Range(0.02f, 0.10f));
+        }
+        while (!isToClosePanel)
+        {
+            yield return null;
+        }
+        isShowingClue = false;
+        isToClosePanel = false;
+        clueInfoPanel.GetComponentInChildren<Text>().text = "";
+        CluePanelDeactivator();
+        
+    }
+
+    public IEnumerator InventoryPanelActivator()
+    {
+        movingInventory = true;
+        while (inventory.GetComponent<RectTransform>().anchoredPosition.x > 0)
+        {
+            inventory.GetComponent<RectTransform>().anchoredPosition += new Vector2(-inventoryMovingSpeed, 0) * Time.deltaTime;
+            yield return null;
+        }
+        inventoryInside = true;
+        movingInventory = false;
+        inventory.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+    }
+
+    public IEnumerator InventoryPanelDeactivator()
+    {
+        movingInventory = true;
+        while (inventory.GetComponent<RectTransform>().anchoredPosition.x < 220)
+        {
+            inventory.GetComponent<RectTransform>().anchoredPosition += new Vector2(inventoryMovingSpeed, 0) * Time.deltaTime;
+            yield return null;
+        }
+        inventoryInside = false;
+        movingInventory = false;
+        inventory.GetComponent<RectTransform>().anchoredPosition = new Vector2(220, 0);
+    }
+
+    private void CluePanelDeactivator()
+    {
+        clueInfoPanel.SetActive(false);
     }
     #endregion
 
