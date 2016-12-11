@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class UiContN : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class UiContN : MonoBehaviour
 
     #region GamePlay Variables
     public Button[] clueInScene;
+    private CustomClickEvent[] switchSceneButtons;
+    private GameObject clueInfoPanel;
     #endregion
 
     #endregion
@@ -39,7 +42,7 @@ public class UiContN : MonoBehaviour
     #endregion
 
     #region Events
-    public event_int loadingMapRequest, gameplayRequest;
+    public event_int loadingMapRequest, gameplayRequest, loadingSceneRequest;
     public UnityEvent quitGame;
     #endregion
 
@@ -201,13 +204,8 @@ public class UiContN : MonoBehaviour
         playNews.interactable = true;
         GameContN.playerDatasStatic.newsSelected = GameContN.playerDatasStatic.mapData[0].newsData[0].newsName;
         playNews.onClick.RemoveAllListeners();
-        playNews.onClick.AddListener(gameplayStartRequest);
-    }
-
-    private void gameplayStartRequest()
-    {
-        // metti qui fede, la news da far partire è nella struttura in newsSelected (la struttura più in alto), la mappa in lastCityVisited (struttura più in alto)
-        GameContN.Debugging("Ci Siamo");
+        playNews.GetComponent<CustomClickEvent>().buttonIndex = 3;
+        playNews.GetComponent<CustomClickEvent>().customClick.AddListener(loadingSceneRequestMethod);
     }
 
     #endregion
@@ -215,7 +213,8 @@ public class UiContN : MonoBehaviour
     #region Gameplay Methods
     private void GamePlayInitializer()
     {
-        
+        /*
+        Debug.Log("Gameplay Initializer");
         // qui ci sei tu fabri
         GameObject[] tempClue = GameObject.FindGameObjectsWithTag("Clue");
         clueInScene = new Button[tempClue.Length];
@@ -226,7 +225,43 @@ public class UiContN : MonoBehaviour
             clueInScene[i].onClick.AddListener(Test);
             //mapButtons[i].gameObject.GetComponent<CustomClickEvent>().customClick.AddListener(SwitchingCity);
         }
+        */
+
+        StatiButtonInitializer();
+        InventoryInitializer();
+        CluesInitializer();
         
+    }
+
+    private void StatiButtonInitializer()
+    {
+        switchSceneButtons = new CustomClickEvent[3];
+
+        switchSceneButtons[0] = GameObject.Find("Menu").GetComponent<CustomClickEvent>();
+        switchSceneButtons[1] = GameObject.Find("NextScene").GetComponent<CustomClickEvent>();
+        switchSceneButtons[2] = GameObject.Find("PrevScene").GetComponent<CustomClickEvent>();
+       
+
+        switchSceneButtons[0].buttonIndex = 1;
+        switchSceneButtons[0].customClick.AddListener(loadingSceneRequestMethod);
+        switchSceneButtons[1].buttonIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        switchSceneButtons[1].customClick.AddListener(loadingSceneRequestMethod);
+        switchSceneButtons[2].buttonIndex = SceneManager.GetActiveScene().buildIndex - 1;
+        switchSceneButtons[2].customClick.AddListener(loadingSceneRequestMethod);
+
+
+
+
+    }
+
+    private void InventoryInitializer()
+    {
+
+    }
+
+    private void CluesInitializer()
+    {
+
     }
 
     void Test()
@@ -246,6 +281,13 @@ public class UiContN : MonoBehaviour
     private void ScoreInitializer()
     {
 
+    }
+    #endregion
+
+    #region General Methods
+    private void loadingSceneRequestMethod(int buildIndex)
+    {
+        loadingSceneRequest.Invoke(buildIndex);
     }
     #endregion
 }

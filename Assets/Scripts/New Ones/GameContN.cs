@@ -121,7 +121,7 @@ public class GameContN : MonoBehaviour {
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 0:
-                loadDataRequest.Invoke();
+                //loadDataRequest.Invoke();
                 loadingMenuRequest.Invoke(1);
                 break;
             case 1:
@@ -134,6 +134,7 @@ public class GameContN : MonoBehaviour {
             case 4:
             case 5:
             case 6:
+                Debugging("GG");
                 gameplayInitRequest.Invoke();
                 break;
             case 7:
@@ -156,7 +157,7 @@ public class GameContN : MonoBehaviour {
     #region General Methods
     void OnApplicationQuit()
     {
-        saveDataRequest.Invoke();
+        //saveDataRequest.Invoke();
     }
     #endregion
 

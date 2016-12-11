@@ -15,6 +15,7 @@ public class SceneContN : MonoBehaviour {
 
         uiTempLink.loadingMapRequest.AddListener(LoadSceneByIndex);
         uiTempLink.gameplayRequest.AddListener(LoadSceneByIndex);
+        uiTempLink.loadingSceneRequest.AddListener(LoadSceneByIndex);
 
     }
     #endregion
