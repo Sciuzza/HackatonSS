@@ -29,7 +29,7 @@ public class event_string : UnityEvent<string>
 #region Sensible Data Structures
 
 [System.Serializable]
-public struct sensibleGeneralData
+public class sensibleGeneralData
 {
     public int lastSceneVisited;
     public string lastNewsVisited;
@@ -38,14 +38,14 @@ public struct sensibleGeneralData
 }
 
 [System.Serializable]
-public struct sensibleMapData
+public class sensibleMapData
 {
     public string mapName;
     public List<sensibleNewsData> newsData;
 }
 
 [System.Serializable]
-public struct sensibleNewsData
+public class sensibleNewsData
 {
     public string newsName;
     public string newsInfoText;
@@ -54,14 +54,14 @@ public struct sensibleNewsData
 }
 
 [System.Serializable]
-public struct sensibleSceneData
+public class sensibleSceneData
 {
     public int sceneIndex;
     public List<sensibleClueData> cluesData;
 }
 
 [System.Serializable]
-public struct sensibleClueData
+public class sensibleClueData
 {
     public string clueName;
     public string clueInfoText;
@@ -120,7 +120,7 @@ public class GameContN : MonoBehaviour {
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 0:
-                //loadDataRequest.Invoke();
+                loadDataRequest.Invoke();
                 loadingMenuRequest.Invoke(1);
                 break;
             case 1:
