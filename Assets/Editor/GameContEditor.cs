@@ -68,8 +68,8 @@ public class GameContEditor : Editor
 
                     // Creo una variabile cities per estrapolare il valore contenente a mapName
                     // in modo tale da dare all'elemento dell'array il valore contenente la variabile (fa figo)
-                    cities citiesEnum = (cities)mapName_Prop.enumValueIndex;                    
-                    EditorGUILayout.PropertyField(arrayMapNameRef,new GUIContent (citiesEnum.ToString()));
+                    //cities citiesEnum = (cities)mapName_Prop.enumValueIndex;                    
+                    //EditorGUILayout.PropertyField(arrayMapNameRef,new GUIContent (citiesEnum.ToString()));
                    
 
                     if (arrayMapNameRef.isExpanded)

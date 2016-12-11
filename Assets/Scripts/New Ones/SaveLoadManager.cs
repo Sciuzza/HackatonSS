@@ -22,18 +22,16 @@ public class SaveLoadManager : MonoBehaviour
 
     private void LoadingDataFromCsv()
     {
-
-        Debug.Log(path);
         List<string[]> nextStepPath = new List<string[]>();
 
         ReadCsv(path + "saveFile.csv", out nextStepPath);
         //load saveFile
         sensibleGeneralData generalData = new sensibleGeneralData();
         generalData.mapData = new List<sensibleMapData>();
-        //generalData.lastCityVisited = cities.nextStepPath[0][0];
-        //generalData.lastNewsVisited = nextStepPath[0][1];
-        //generalData.lastSceneVisited = nextStepPath[0][2];
-        //generalData.newsSelected = nextStepPath[0][3];
+        generalData.lastCityVisited = nextStepPath[0][0];
+        generalData.lastNewsVisited = nextStepPath[0][1];
+        generalData.lastSceneVisited = int.Parse(nextStepPath[0][2]);
+        generalData.newsSelected = nextStepPath[0][3];
 
         //load and create cities
         ReadCsv(path + "maps.csv", out nextStepPath);
@@ -43,79 +41,40 @@ public class SaveLoadManager : MonoBehaviour
             sensibleMapData newCity = new sensibleMapData();
             newCity.newsData = new List<sensibleNewsData>();
 
-            if (i == 0)
+            newCity.mapName = nextStepPath[i][0];
+            generalData.mapData.Add(newCity);
+
+            //load and create news
+            ReadCsv(path + nextStepPath[i][0] + ".csv", out nextStepPath);
+            for (int j = 0; j < nextStepPath.Count; j++)
             {
-                newCity.mapName = cities.Milan;
-                //newCity.mapName = nextStepPath[0][0];  
-                generalData.mapData.Add(newCity);
+                sensibleNewsData newNews = new sensibleNewsData();
+                newNews.scenesData = new List<sensibleSceneData>();
 
-                //load and create news
-                ReadCsv(path + nextStepPath[i][0] + ".csv", out nextStepPath);
-                for (int j = 0; j < nextStepPath.Count; j++)
+                newNews.newsName = nextStepPath[j][0];
+                newNews.newsInfoText = nextStepPath[j][1];
+                newNews.playerCurrentScore = int.Parse(nextStepPath[j][2]);
+                newCity.newsData.Add(newNews);
+
+                //load and create scenes
+                ReadCsv(path + nextStepPath[j][0] + ".csv", out nextStepPath);
+                for (int k = 0; k < nextStepPath.Count; k++)
                 {
-                    sensibleNewsData newNews = new sensibleNewsData();
-                    newNews.scenesData = new List<sensibleSceneData>();
-                    newNews.newsName = nextStepPath[j][0];
-                    newNews.newsInfoText = nextStepPath[j][1];
-                    newNews.playerCurrentScore = int.Parse(nextStepPath[j][2]);
-                    newCity.newsData.Add(newNews);
+                    sensibleSceneData newScene = new sensibleSceneData();
+                    newScene.cluesData = new List<sensibleClueData>();
 
-                    //load and create scenes
-                    ReadCsv(path + nextStepPath[j][0] + ".csv", out nextStepPath);
-                    for (int k = 0; k < nextStepPath.Count; k++)
+                    newScene.sceneIndex = int.Parse(nextStepPath[k][0]);
+                    newNews.scenesData.Add(newScene);
+                    //load and create clues
+                    ReadCsv(path + nextStepPath[k][0] + ".csv", out nextStepPath);
+                    for (int l = 0; l < nextStepPath.Count; l++)
                     {
-                        sensibleSceneData newScene = new sensibleSceneData();
-                        newScene.cluesData = new List<sensibleClueData>();
-                        newScene.sceneIndex = int.Parse(nextStepPath[k][0]);
-                        newNews.scenesData.Add(newScene);
-                        //load and create clues
-                        ReadCsv(path + nextStepPath[k][0] + ".csv", out nextStepPath);
-                        for (int l = 0; l < nextStepPath.Count; l++)
-                        {
-                            sensibleClueData newClue = new sensibleClueData();
-                            newClue.clueName = nextStepPath[l][0];
-                            newClue.clueInfoText = nextStepPath[l][1];
-                            newClue.hasBeenFound = bool.Parse(nextStepPath[l][2]);
-                            newScene.cluesData.Add(newClue);
-                        }
-                    }
-                }
-            }
-            else if (i == 1)
-            {
-                newCity.mapName = cities.Rome;
-                //newCity.mapName = nextStepPath[0][0];  
-                generalData.mapData.Add(newCity);
+                        sensibleClueData newClue = new sensibleClueData();
 
-                //load and create news
-                ReadCsv(path + nextStepPath[i][0] + ".csv", out nextStepPath);
-                for (int j = 0; j < nextStepPath.Count; j++)
-                {
-                    sensibleNewsData newNews = new sensibleNewsData();
-                    newNews.scenesData = new List<sensibleSceneData>();
-                    newNews.newsName = nextStepPath[j][0];
-                    newNews.newsInfoText = nextStepPath[j][1];
-                    newNews.playerCurrentScore = int.Parse(nextStepPath[j][2]);
-                    newCity.newsData.Add(newNews);
-
-                    //load and create scenes
-                    ReadCsv(path + nextStepPath[j][0] + ".csv", out nextStepPath);
-                    for (int k = 0; k < nextStepPath.Count; k++)
-                    {
-                        sensibleSceneData newScene = new sensibleSceneData();
-                        newScene.cluesData = new List<sensibleClueData>();
-                        newScene.sceneIndex = int.Parse(nextStepPath[k][0]);
-                        newNews.scenesData.Add(newScene);
-                        //load and create clues
-                        ReadCsv(path + nextStepPath[k][0] + ".csv", out nextStepPath);
-                        for (int l = 0; l < nextStepPath.Count; l++)
-                        {
-                            sensibleClueData newClue = new sensibleClueData();
-                            newClue.clueName = nextStepPath[l][0];
-                            newClue.clueInfoText = nextStepPath[l][1];
-                            newClue.hasBeenFound = bool.Parse(nextStepPath[l][2]);
-                            newScene.cluesData.Add(newClue);
-                        }
+                        newClue.clueName = nextStepPath[l][0];
+                        newClue.clueInfoText = nextStepPath[l][1];
+                        newClue.hasBeenFound = bool.Parse(nextStepPath[l][2]);
+                        newScene.cluesData.Add(newClue);
                     }
                 }
             }
@@ -160,7 +119,7 @@ public class SaveLoadManager : MonoBehaviour
             {
                 for (int j = 0; j < writeInPut[i].Length; j++)
                 {
-                    if (j < writeInPut[i].Length -1)
+                    if (j < writeInPut[i].Length - 1)
                     {
                         s += writeInPut[i][j] + ',';
                     }
@@ -197,7 +156,7 @@ public class SaveLoadManager : MonoBehaviour
             foreach (var newsToSave in cityToSave.newsData)
             {
                 stuffToSave.Clear();
-                string[] newsString = { newsToSave.newsName, newsToSave.newsInfoText, newsToSave.playerCurrentScore.ToString()};
+                string[] newsString = { newsToSave.newsName, newsToSave.newsInfoText, newsToSave.playerCurrentScore.ToString() };
                 stuffToSave.Add(newsString);
                 WriteCsv(path + cityToSave.mapName, stuffToSave);
                 foreach (var sceneToSave in newsToSave.scenesData)
@@ -215,7 +174,7 @@ public class SaveLoadManager : MonoBehaviour
                     }
                 }
             }
-        }         
+        }
         GameContN.Debugging("Data Loaded");
     }
 }

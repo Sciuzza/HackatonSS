@@ -118,7 +118,7 @@ public class UiContN : MonoBehaviour
     {
         switch (GameContN.playerDatasStatic.lastCityVisited)
         {
-            case cities.Milan:
+            case "milan":
 
                 if (newsRomTemp != null)
                     Destroy(newsRomTemp);
@@ -150,7 +150,7 @@ public class UiContN : MonoBehaviour
 
                 break;
 
-            case cities.Rome:
+            case "rome":
 
                 if (newsMilTemp != null)
                     Destroy(newsMilTemp);
@@ -184,13 +184,13 @@ public class UiContN : MonoBehaviour
 
     private void SwitchToRome()
     {
-        GameContN.playerDatasStatic.lastCityVisited = cities.Rome;
+        GameContN.playerDatasStatic.lastCityVisited = "rome";
         SettingCurrentCity();
     }
 
     private void SwitchToMilan()
     {
-        GameContN.playerDatasStatic.lastCityVisited = cities.Milan;
+        GameContN.playerDatasStatic.lastCityVisited = "milan";
         SettingCurrentCity();
     }
 

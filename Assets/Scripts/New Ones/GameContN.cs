@@ -16,7 +16,7 @@ public class event_int : UnityEvent<int>
 }
 
 [System.Serializable]
-public class event_cities : UnityEvent<cities>
+public class event_cities : UnityEvent<string>
 {
 }
 
@@ -28,22 +28,20 @@ public class event_string : UnityEvent<string>
 
 #region Sensible Data Structures
 
-public enum cities { Milan, Rome};
-
 [System.Serializable]
 public struct sensibleGeneralData
 {
     public int lastSceneVisited;
     public string lastNewsVisited;
     public string newsSelected;
-    public cities lastCityVisited;
+    public string lastCityVisited;
     public List<sensibleMapData> mapData;
 }
 
 [System.Serializable]
 public struct sensibleMapData
 {
-    public cities mapName;
+    public string mapName;
     public List<sensibleNewsData> newsData;
 }
 
