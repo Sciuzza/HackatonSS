@@ -217,7 +217,7 @@ public class UiContN : MonoBehaviour
         newsInfo.SetActive(true);
         newsInfo.GetComponentInChildren<Text>().text = GameContN.playerDatasStatic.mapData[0].newsData[0].newsInfoText;
         playNews.interactable = true;
-        GameContN.playerDatasStatic.newsSelected = GameContN.playerDatasStatic.mapData[0].newsData[0].newsName;
+        GameContN.playerDatasStatic.lastNewsVisited = GameContN.playerDatasStatic.mapData[0].newsData[0].newsName;
         playNews.onClick.RemoveAllListeners();
         playNews.GetComponent<CustomClickEvent>().buttonIndex = 3;
         playNews.GetComponent<CustomClickEvent>().customClick.AddListener(loadingSceneRequestMethod);
