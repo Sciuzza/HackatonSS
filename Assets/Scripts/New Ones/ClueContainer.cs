@@ -7,31 +7,35 @@ using UnityEngine.Events;
 
 public class ClueContainer : MonoBehaviour
 {
-	sensibleClueData clueData;
-	string clueText;
+    [SerializeField]
+	public sensibleClueData clueData;
+	public string clueText;
 	private GameObject clueInfoPanel;
 
 
-	void Inizialization()
+	public void Inizialization()
 	{
 		ClueCustomClickEvent refEvent = GetComponent<ClueCustomClickEvent>();
 
-		string tempClueName = refEvent.clueName;
+        string tempClueName = this.name;
+		int templastScene = GameContN.Self.playerDatas.lastSceneVisited;        
+		string tempLastNews = GameContN.Self.playerDatas.lastNewsVisited;        
+        string tempLastCity = GameContN.Self.playerDatas.lastCityVisited;
+        
 
-		int templastScene = GameContN.Self.playerDatas.lastSceneVisited;
-		string tempLastNews = GameContN.Self.playerDatas.lastNewsVisited;
-		string tempLastCity = GameContN.Self.playerDatas.lastCityVisited;
+        sensibleMapData tempMapData = GameContN.Self.playerDatas.mapData.Find(x => x.mapName == tempLastCity);
 
-		sensibleMapData tempMapData = GameContN.Self.playerDatas.mapData.Find(x => x.mapName == tempLastCity);
+        
 
 		sensibleNewsData tempNewsData = tempMapData.newsData.Find(x => x.newsName == tempLastNews);
-
-		sensibleSceneData tempSceneData = tempNewsData.scenesData.Find(x => x.sceneIndex == templastScene);
-
-		clueData = tempSceneData.cluesData.Find(x => x.clueName == tempClueName);
-
-		clueText = clueData.clueInfoText;
-		GetComponent<ClueCustomClickEvent>().customClick.AddListener(ClueInfoVisualizer);
+        
+        sensibleSceneData tempSceneData = tempNewsData.scenesData.Find(x => x.sceneIndex == templastScene);
+        
+        clueData = tempSceneData.cluesData.Find(x => x.clueName == tempClueName);
+        
+        clueText = clueData.clueInfoText;
+        refEvent.clueInfoText = clueText;
+		//GetComponent<ClueCustomClickEvent>().customClick.AddListener(ClueInfoVisualizer);
 	}
 
 	void ClueInitializer()

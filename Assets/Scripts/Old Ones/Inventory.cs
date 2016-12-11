@@ -6,6 +6,16 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour {
 
+
+    private GameObject[] inventorySlot;
+
+    void Initialization()
+    {
+
+    }
+
+     
+
     GameObject prefab;
     public int n = 5;
     public List<GameObject> container;
@@ -46,4 +56,5 @@ public class Inventory : MonoBehaviour {
             uiRef.EnablingExit();
         }
     }
+
 }

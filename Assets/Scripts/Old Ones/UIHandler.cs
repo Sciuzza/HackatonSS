@@ -94,7 +94,7 @@ public class UIHandler : MonoBehaviour
     public IEnumerator InventoryPanelDeactivator()
     {
         movingInventory = true;
-        while (inventoryRef.anchoredPosition.x < 220)
+        while (inventoryRef.anchoredPosition.x < 60)
         {
             inventoryRef.anchoredPosition += new Vector2(inventoryMovingSpeed, 0) * Time.deltaTime;
             yield return null;

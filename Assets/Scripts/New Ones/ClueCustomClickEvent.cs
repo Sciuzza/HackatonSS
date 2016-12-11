@@ -7,12 +7,15 @@ using UnityEngine.Events;
 
 public class ClueCustomClickEvent : MonoBehaviour, IPointerClickHandler
 {
-	public string clueInfoText;
+    public string clueInfoText = null;
 
     public event_string customClick;
 
+    public bool customInteractable = true;
+
     public void OnPointerClick(PointerEventData eventData)
     {
-        customClick.Invoke(clueInfoText);
+        if (customInteractable)
+            customClick.Invoke(clueInfoText);
     }
 }
