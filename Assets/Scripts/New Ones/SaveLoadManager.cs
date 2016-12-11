@@ -11,6 +11,7 @@ public class SaveLoadManager : MonoBehaviour
     #region Taking References and Linking Events
     void Awake()
     {
+        path = Application.persistentDataPath + "/";
         GameContN gcTempLink = this.gameObject.GetComponent<GameContN>();
 
         gcTempLink.loadDataRequest.AddListener(LoadingDataFromCsv);
@@ -21,13 +22,15 @@ public class SaveLoadManager : MonoBehaviour
 
     private void LoadingDataFromCsv()
     {
-        path = Application.persistentDataPath;
+
+        Debug.Log(path);
         List<string[]> nextStepPath = new List<string[]>();
 
         ReadCsv(path + "saveFile.csv", out nextStepPath);
         //load saveFile
         sensibleGeneralData generalData = new sensibleGeneralData();
-        //generalData.lastCityVisited = nextStepPath[0][0];
+        generalData.mapData = new List<sensibleMapData>();
+        //generalData.lastCityVisited = cities.nextStepPath[0][0];
         //generalData.lastNewsVisited = nextStepPath[0][1];
         //generalData.lastSceneVisited = nextStepPath[0][2];
         //generalData.newsSelected = nextStepPath[0][3];
@@ -125,7 +128,7 @@ public class SaveLoadManager : MonoBehaviour
         char[] separator = { ',' };
         readOutPut = new List<string[]>();
         int counter = 0;
-        StreamReader sr = File.OpenText(path + _fileName);
+        StreamReader sr = File.OpenText(_fileName);
         string s;
         while ((s = sr.ReadLine()) != null)
         {
@@ -144,7 +147,7 @@ public class SaveLoadManager : MonoBehaviour
         char[] separator = { ',' };
         writeInPut = new List<string[]>();
         int counter = 0;
-        StreamWriter sw = File.AppendText(path + _fileName);
+        StreamWriter sw = File.AppendText(_fileName);
         string s = "";
         while (writeInPut.Count > 0)
         {
@@ -170,12 +173,12 @@ public class SaveLoadManager : MonoBehaviour
                 sw.WriteLine(s);
             }
         }
+        sw.Close();
     }
 
     private void SavingDataOnCsv()
     {
         GameContN gcRef = FindObjectOfType<GameContN>();
-        path = Application.persistentDataPath;
         List<string[]> stuffToSave = new List<string[]>();
         //save general datas
         string[] saveFileStringArray = { gcRef.playerDatas.lastCityVisited.ToString(), gcRef.playerDatas.lastNewsVisited, gcRef.playerDatas.lastSceneVisited.ToString(), gcRef.playerDatas.newsSelected };
