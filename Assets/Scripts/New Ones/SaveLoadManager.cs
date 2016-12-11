@@ -26,54 +26,52 @@ public class SaveLoadManager : MonoBehaviour
 
         ReadCsv(path + "saveFile.csv", out nextStepPath);
         //load saveFile
-        sensibleGeneralData generalData = new sensibleGeneralData();
-        generalData.mapData = new List<sensibleMapData>();
-        generalData.lastCityVisited = nextStepPath[0][0];
-        generalData.lastNewsVisited = nextStepPath[0][1];
-        generalData.lastSceneVisited = int.Parse(nextStepPath[0][2]);
-        generalData.newsSelected = nextStepPath[0][3];
-
+        GameContN.Self.playerDatas.mapData = new List<sensibleMapData>();
+        GameContN.Self.playerDatas.lastCityVisited = nextStepPath[0][0];
+        GameContN.Self.playerDatas.lastNewsVisited = nextStepPath[0][1];
+        GameContN.Self.playerDatas.lastSceneVisited = int.Parse(nextStepPath[0][2]);
+        
         //load and create cities
         ReadCsv(path + "maps.csv", out nextStepPath);
 
         for (int i = 0; i < nextStepPath.Count; i++)
         {
             sensibleMapData newCity = new sensibleMapData();
-            newCity.newsData = new List<sensibleNewsData>();
 
-            newCity.mapName = nextStepPath[i][0];
-            generalData.mapData.Add(newCity);
+            newCity.mapName = nextStepPath[0][i];
+            newCity.newsData = new List<sensibleNewsData>();
+            GameContN.Self.playerDatas.mapData.Add(newCity);
 
             //load and create news
-            ReadCsv(path + nextStepPath[i][0] + ".csv", out nextStepPath);
+            ReadCsv(path + nextStepPath[0][i] + ".csv", out nextStepPath);
             for (int j = 0; j < nextStepPath.Count; j++)
             {
                 sensibleNewsData newNews = new sensibleNewsData();
                 newNews.scenesData = new List<sensibleSceneData>();
 
-                newNews.newsName = nextStepPath[j][0];
-                newNews.newsInfoText = nextStepPath[j][1];
-                newNews.playerCurrentScore = int.Parse(nextStepPath[j][2]);
+                newNews.newsName = nextStepPath[0][j];
+                newNews.newsInfoText = nextStepPath[1][j];
+                newNews.playerCurrentScore = int.Parse(nextStepPath[2][j]);
                 newCity.newsData.Add(newNews);
 
                 //load and create scenes
-                ReadCsv(path + nextStepPath[j][0] + ".csv", out nextStepPath);
+                ReadCsv(path + nextStepPath[0][j] + ".csv", out nextStepPath);
                 for (int k = 0; k < nextStepPath.Count; k++)
                 {
                     sensibleSceneData newScene = new sensibleSceneData();
                     newScene.cluesData = new List<sensibleClueData>();
 
-                    newScene.sceneIndex = int.Parse(nextStepPath[k][0]);
+                    newScene.sceneIndex = int.Parse(nextStepPath[0][k]);
                     newNews.scenesData.Add(newScene);
                     //load and create clues
-                    ReadCsv(path + nextStepPath[k][0] + ".csv", out nextStepPath);
+                    ReadCsv(path + nextStepPath[0][k] + ".csv", out nextStepPath);
                     for (int l = 0; l < nextStepPath.Count; l++)
                     {
                         sensibleClueData newClue = new sensibleClueData();
 
-                        newClue.clueName = nextStepPath[l][0];
-                        newClue.clueInfoText = nextStepPath[l][1];
-                        newClue.hasBeenFound = bool.Parse(nextStepPath[l][2]);
+                        newClue.clueName = nextStepPath[0][l];
+                        newClue.clueInfoText = nextStepPath[1][l];
+                        newClue.hasBeenFound = bool.Parse(nextStepPath[2][j]);
                         newScene.cluesData.Add(newClue);
                     }
                 }
@@ -84,8 +82,9 @@ public class SaveLoadManager : MonoBehaviour
 
     private void ReadCsv(string _fileName, out List<string[]> readOutPut)
     {
-        char[] separator = { ',' };
         readOutPut = new List<string[]>();
+        char[] separator = { ',' };
+
         int counter = 0;
         StreamReader sr = File.OpenText(_fileName);
         string s;
@@ -96,11 +95,12 @@ public class SaveLoadManager : MonoBehaviour
                 counter++;
                 continue;
             }
-            readOutPut.Add(sr.ReadLine().Split(separator));
+            readOutPut.Add(s.Split(separator));
+            Debug.Log(s);
         }
         sr.Close();
     }
-
+    
     private void WriteCsv(string _fileName, List<string[]> writeInPut)
     {
         char[] separator = { ',' };
@@ -140,7 +140,7 @@ public class SaveLoadManager : MonoBehaviour
         GameContN gcRef = FindObjectOfType<GameContN>();
         List<string[]> stuffToSave = new List<string[]>();
         //save general datas
-        string[] saveFileStringArray = { gcRef.playerDatas.lastCityVisited.ToString(), gcRef.playerDatas.lastNewsVisited, gcRef.playerDatas.lastSceneVisited.ToString(), gcRef.playerDatas.newsSelected };
+        string[] saveFileStringArray = { gcRef.playerDatas.lastCityVisited.ToString(), gcRef.playerDatas.lastNewsVisited, gcRef.playerDatas.lastSceneVisited.ToString() };
         stuffToSave.Add(saveFileStringArray);
         WriteCsv(path + "saveFile.csv", stuffToSave);
 

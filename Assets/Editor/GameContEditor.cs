@@ -21,7 +21,7 @@ public class GameContEditor : Editor
     {
         
     }
-
+    /*
     public override void OnInspectorGUI()
     {
         playerData_Prop = serializedObject.FindProperty("playerDatas");
@@ -186,9 +186,10 @@ public class GameContEditor : Editor
         }
         #endregion
         serializedObject.ApplyModifiedProperties();
+        */
     }
 
 
 
-}
+
 

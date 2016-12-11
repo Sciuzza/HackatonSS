@@ -33,7 +33,6 @@ public struct sensibleGeneralData
 {
     public int lastSceneVisited;
     public string lastNewsVisited;
-    public string newsSelected;
     public string lastCityVisited;
     public List<sensibleMapData> mapData;
 }
