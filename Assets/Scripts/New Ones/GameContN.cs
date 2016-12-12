@@ -158,7 +158,7 @@ public class GameContN : MonoBehaviour {
     #region General Methods
     void OnApplicationQuit()
     {
-        //saveDataRequest.Invoke();
+        saveDataRequest.Invoke();
     }
     #endregion
 

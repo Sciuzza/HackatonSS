@@ -25,10 +25,12 @@ public class SaveLoadManager : MonoBehaviour
     {
         foreach (var file in Directory.GetFiles(Application.dataPath + "/CsvDatabase/"))
         {
-            if (!File.Exists(Application.persistentDataPath + "/" + file.Split('/')[file.Split('/').GetLength(0) - 1]))
+            if (!file.Contains(".meta"))
             {
-                Debug.Log(Application.persistentDataPath + "/" + file.Split('/')[file.Split('/').GetLength(0) - 1]);
-                File.Copy(file, Application.persistentDataPath + "/" + file.Split('/')[file.Split('/').GetLength(0) - 1]);
+                if (!File.Exists(Application.persistentDataPath + "/" + file.Split('/')[file.Split('/').GetLength(0) - 1]))
+                {
+                    File.Copy(file, Application.persistentDataPath + "/" + file.Split('/')[file.Split('/').GetLength(0) - 1]);
+                }
             }
         }
 
@@ -42,7 +44,6 @@ public class SaveLoadManager : MonoBehaviour
         List<List<string[]>> mapToNewsList2 = new List<List<string[]>>();
         List<List<string[]>> newsToSceneList = new List<List<string[]>>();
         List<List<List<string[]>>> mapToNewsToSceneList = new List<List<List<string[]>>>();
-        List<List<List<string[]>>> mapToNewsToSceneList2 = new List<List<List<string[]>>>();
         List<List<List<List<string[]>>>> mapToNewsToSceneToClueList = new List<List<List<List<string[]>>>>();
 
         ReadCsv(path + "saveFile.csv", out csvSaveFile);
@@ -87,7 +88,6 @@ public class SaveLoadManager : MonoBehaviour
                 GameContN.playerDatasStatic.mapData[i].newsData.Add(newNews);
                 //load and create scenes
                 newsToSceneList.Add(tempCsvNewsFile);
-                //mapToNewsToSceneList.Add(newsToSceneList);
             }
         }
 
@@ -108,8 +108,8 @@ public class SaveLoadManager : MonoBehaviour
                     Debug.Log(newsToSceneList[j][k][0]);
                     ReadCsv(path + GameContN.playerDatasStatic.mapData[i].newsData[j].newsName + (k + 1) + ".csv", out tempCsvSceneFile);
                     mapToNewsList2.Add(tempCsvSceneFile);
-                    mapToNewsToSceneList2.Add(mapToNewsList2);
-                    mapToNewsToSceneToClueList.Add(mapToNewsToSceneList2);        
+                    mapToNewsToSceneList.Add(mapToNewsList2);
+                    mapToNewsToSceneToClueList.Add(mapToNewsToSceneList);        
                 }   
             }
         } 
@@ -151,7 +151,7 @@ public class SaveLoadManager : MonoBehaviour
 
     private void ReadCsv(string _fileName, out List<string[]> readOutPut)
     {
-        Debug.Log(_fileName);
+ 
         readOutPut = new List<string[]>();
         char[] separator = { '*' };
 
@@ -172,33 +172,38 @@ public class SaveLoadManager : MonoBehaviour
 
     private void WriteCsv(string _fileName, List<string[]> writeInPut)
     {
+        Debug.LogError(writeInPut.Count);
         char[] separator = { '*' };
-        writeInPut = new List<string[]>();
+
         int counter = 0;
-        StreamWriter sw = File.AppendText(_fileName);
+        StreamWriter sw = File.CreateText(_fileName);
         string s = "";
         while (writeInPut.Count > 0)
         {
+
             if (counter == 0)
             {
                 counter++;
-                continue;
             }
-            for (int i = 0; i < writeInPut.Count; i++)
+            else
             {
-                for (int j = 0; j < writeInPut[i].Length; j++)
+                for (int i = 0; i < writeInPut.Count; i++)
                 {
-                    if (j < writeInPut[i].Length - 1)
+                    for (int j = 0; j < writeInPut[i].Length; j++)
                     {
-                        s += writeInPut[i][j] + '*';
+                        if (j < writeInPut[i].Length - 1)
+                        {
+                            s += writeInPut[i][j] + '*';
+                        }
+                        else
+                        {
+                            s += writeInPut[i][j];
+                        }
                     }
-                    else
-                    {
-                        s += writeInPut[i][j];
-                    }
-
+                    sw.WriteLine(s);
+                    Debug.Log(s);
+                    writeInPut.RemoveAt(writeInPut.Count);
                 }
-                sw.WriteLine(s);
             }
         }
         sw.Close();
@@ -211,12 +216,17 @@ public class SaveLoadManager : MonoBehaviour
         //save general datas
         string[] saveFileStringArray = { gcRef.playerDatas.lastCityVisited.ToString(), gcRef.playerDatas.lastNewsVisited, gcRef.playerDatas.lastSceneVisited.ToString() };
         stuffToSave.Add(saveFileStringArray);
-        WriteCsv(path + "saveFile.csv", stuffToSave);
+        for (int i = 0; i < stuffToSave.Count; i++)
+        {
+            for (int j = 0; j < stuffToSave[i].Length; j++)
+            {
+              //  Debug.LogError(stuffToSave[i][j]);
+            }
+        }
 
+        WriteCsv(path + "saveFile1.csv", stuffToSave);
 
         //load and create cities
-        //WriteCsv(path + "maps.csv", nextStepPath);
-
         foreach (var cityToSave in gcRef.playerDatas.mapData)
         {
             string[] cityString = { cityToSave.mapName.ToString() };
@@ -227,23 +237,23 @@ public class SaveLoadManager : MonoBehaviour
                 stuffToSave.Clear();
                 string[] newsString = { newsToSave.newsName, newsToSave.newsInfoText, newsToSave.playerCurrentScore.ToString() };
                 stuffToSave.Add(newsString);
-                WriteCsv(path + cityToSave.mapName, stuffToSave);
+                WriteCsv(path + cityToSave.mapName + ".csv", stuffToSave);
                 foreach (var sceneToSave in newsToSave.scenesData)
                 {
                     stuffToSave.Clear();
                     string[] sceneString = { sceneToSave.sceneIndex.ToString() };
                     stuffToSave.Add(sceneString);
-                    WriteCsv(path + newsToSave.newsName, stuffToSave);
+                    WriteCsv(path + newsToSave.newsName + ".csv", stuffToSave);
                     foreach (var clueToSave in sceneToSave.cluesData)
                     {
                         stuffToSave.Clear();
                         string[] clueString = { clueToSave.clueName, clueToSave.clueInfoText, clueToSave.hasBeenFound.ToString() };
                         stuffToSave.Add(clueString);
-                        WriteCsv(path + newsToSave.newsName + sceneToSave.sceneIndex, stuffToSave);
+                        WriteCsv(path + newsToSave.newsName + sceneToSave.sceneIndex + ".csv", stuffToSave);
                     }
                 }
             }
         }
-        GameContN.Debugging("Data Loaded");
+        GameContN.Debugging("Data Saved");
     }
 }
