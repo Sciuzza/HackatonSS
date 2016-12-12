@@ -1,7 +1,8 @@
 clueName,clueInfoText
-borsa,"Nella borsa furono trovati oggetti che indicavano le commissioni che Simonetta Ferrero svolse durante la mattinata: mancava solo il tappezziere. La Cattolica costituiva una leggera deviazione dal percorso ricostruito, potrebbe essere stata una tappa in bagno? L'ipotesi sembrerebbe avvallata anche dal fatto che la vescica della vittima fosse vuota."
-sangue,L'andamento della macchie di sangue testimonierebbero un disperato tentativo di fuga della vittima.
-addome,"Sul corpo vennero rinvenute 44 ferite da arma da taglio, 7 delle quali mortali."
-mani,"Numerose ferite erano presenti nelle zone di braccia e mani, a testimoniare un inutile tentativo di difendersi."
-scontrino1,Scontrino di una libreria ore 10.37.
-scontrino2,Scontrino di una profumeria.
+borsa*"Nella borsa furono trovati oggetti che indicavano le commissioni che Simonetta Ferrero svolse durante la mattinata: mancava solo il tappezziere. La Cattolica costituiva una leggera deviazione dal percorso ricostruito, potrebbe essere stata una tappa in bagno? L'ipotesi sembrerebbe avvallata anche dal fatto che la vescica della vittima fosse vuota."*false
+sangue*L'andamento della macchie di sangue testimonierebbero un disperato tentativo di fuga della vittima.*false
+addome*"Sul corpo vennero rinvenute 44 ferite da arma da taglio, 7 delle quali mortali."*false
+mani*"Numerose ferite erano presenti nelle zone di braccia e mani, a testimoniare un inutile tentativo di difendersi."*false
+scontrino1*Scontrino di una libreria ore 10.37.*false
+scontrino2*Scontrino di una profumeria.*false
+

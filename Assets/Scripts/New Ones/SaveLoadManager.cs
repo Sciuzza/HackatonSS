@@ -29,7 +29,6 @@ public class SaveLoadManager : MonoBehaviour
             {
                 Debug.Log(Application.persistentDataPath + "/" + file.Split('/')[file.Split('/').GetLength(0) - 1]);
                 File.Copy(file, Application.persistentDataPath + "/" + file.Split('/')[file.Split('/').GetLength(0) - 1]);
-
             }
         }
 
@@ -68,7 +67,8 @@ public class SaveLoadManager : MonoBehaviour
             //load and create news
             ReadCsv(path + csvMapFile[i][0] + ".csv", out tempCsvMapFile);
             mapToNewsList.Add(tempCsvMapFile);
-        }
+        } 
+
         sensibleNewsData newNews;
         for (int i = 0; i < mapToNewsList.Count; i++)
         {
@@ -81,56 +81,66 @@ public class SaveLoadManager : MonoBehaviour
                 newNews.newsInfoText = mapToNewsList[i][j][1];
                 newNews.playerCurrentScore = int.Parse(mapToNewsList[i][j][2]);
 
+                ReadCsv(path + mapToNewsList[i][j][0] + ".csv", out tempCsvNewsFile);
+                newNews.sceneCounter = int.Parse(tempCsvNewsFile[tempCsvNewsFile.Count - 1][0]);
+
                 GameContN.playerDatasStatic.mapData[i].newsData.Add(newNews);
                 //load and create scenes
-
-                ReadCsv(path + mapToNewsList[i][j][0] + ".csv", out tempCsvNewsFile);
                 newsToSceneList.Add(tempCsvNewsFile);
-                mapToNewsToSceneList.Add(newsToSceneList);
+                //mapToNewsToSceneList.Add(newsToSceneList);
             }
         }
+
         sensibleSceneData newScene;
-        for (int i = 0; i < mapToNewsToSceneList.Count; i++)
+        for (int i = 0; i < mapToNewsList.Count; i++)
         {
-            for (int j = 0; j < mapToNewsToSceneList[i].Count; j++)
+            for (int j = 0; j < mapToNewsList[i].Count; j++)
             {
-                for (int k = 0; k < mapToNewsToSceneList[i][j].Count; k++)
-                {
+                for (int k = 0; k < GameContN.playerDatasStatic.mapData[i].newsData[j].sceneCounter; k++)
+                {               
                     newScene = new sensibleSceneData();
                     newScene.cluesData = new List<sensibleClueData>();
 
-                    newScene.sceneIndex = int.Parse(mapToNewsToSceneList[i][j][k][0]);
+                    newScene.sceneIndex = int.Parse(newsToSceneList[j][k][0]);
 
                     GameContN.playerDatasStatic.mapData[i].newsData[j].scenesData.Add(newScene);
                     //load and create clues
-   
-                    int tempN = GameContN.playerDatasStatic.mapData[i].newsData[j].scenesData.Count;
-                    if (k<tempN-1)
-                    {
-                        ReadCsv(path + GameContN.playerDatasStatic.mapData[i].newsData[j].newsName + mapToNewsToSceneList[i][j][k][0] + ".csv", out tempCsvSceneFile);
-                    }
-                    
+                    Debug.Log(newsToSceneList[j][k][0]);
+                    ReadCsv(path + GameContN.playerDatasStatic.mapData[i].newsData[j].newsName + (k + 1) + ".csv", out tempCsvSceneFile);
                     mapToNewsList2.Add(tempCsvSceneFile);
                     mapToNewsToSceneList2.Add(mapToNewsList2);
-                    mapToNewsToSceneToClueList.Add(mapToNewsToSceneList2);
-                }
+                    mapToNewsToSceneToClueList.Add(mapToNewsToSceneList2);        
+                }   
             }
-        }
+        } 
+
         sensibleClueData newClue;
-        for (int i = 0; i < mapToNewsToSceneToClueList.Count; i++)
+        for (int i = 0; i < mapToNewsList.Count; i++)
         {
-            for (int j = 0; j < mapToNewsToSceneToClueList[i].Count; j++)
+            for (int j = 0; j < mapToNewsList[i].Count; j++)
             {
-                for (int k = 0; k < mapToNewsToSceneToClueList[i][j].Count; k++)
+                for (int k = 0; k < GameContN.playerDatasStatic.mapData[i].newsData[j].sceneCounter; k++)
                 {
                     for (int h = 0; h < mapToNewsToSceneToClueList[i][j][k].Count; h++)
                     {
                         newClue = new sensibleClueData();
 
+                        Debug.Log(i.ToString()+ j.ToString() + k.ToString() + h.ToString());
+                        Debug.Log(mapToNewsToSceneToClueList[i][j][k][h][0]);
+                        Debug.Log(mapToNewsToSceneToClueList[i][j][k][h][1]);
+                        Debug.Log(mapToNewsToSceneToClueList[i][j][k][h][2]);
+                        Debug.Log(mapToNewsToSceneToClueList[i][j][k][h].Length);
                         newClue.clueName = mapToNewsToSceneToClueList[i][j][k][h][0];
                         newClue.clueInfoText = mapToNewsToSceneToClueList[i][j][k][h][1];
-                        newClue.hasBeenFound = bool.Parse(mapToNewsToSceneToClueList[i][j][k][h][2]);
+                        if (mapToNewsToSceneToClueList[i][j][k][h][2] == "true")
+                        {
+                            newClue.hasBeenFound = true;
+                        }
+                        else
+                        {
+                            newClue.hasBeenFound = false;
 
+                        }
                         GameContN.playerDatasStatic.mapData[i].newsData[j].scenesData[k].cluesData.Add(newClue);
                     }
                 }
@@ -143,7 +153,7 @@ public class SaveLoadManager : MonoBehaviour
     {
         Debug.Log(_fileName);
         readOutPut = new List<string[]>();
-        char[] separator = { ',' };
+        char[] separator = { '*' };
 
         int counter = 0;
         StreamReader sr = File.OpenText(_fileName);
@@ -162,7 +172,7 @@ public class SaveLoadManager : MonoBehaviour
 
     private void WriteCsv(string _fileName, List<string[]> writeInPut)
     {
-        char[] separator = { ',' };
+        char[] separator = { '*' };
         writeInPut = new List<string[]>();
         int counter = 0;
         StreamWriter sw = File.AppendText(_fileName);
@@ -180,7 +190,7 @@ public class SaveLoadManager : MonoBehaviour
                 {
                     if (j < writeInPut[i].Length - 1)
                     {
-                        s += writeInPut[i][j] + ',';
+                        s += writeInPut[i][j] + '*';
                     }
                     else
                     {

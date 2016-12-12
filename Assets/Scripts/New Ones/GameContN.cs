@@ -50,6 +50,7 @@ public class sensibleNewsData
     public string newsName;
     public string newsInfoText;
     public int playerCurrentScore;
+    public int sceneCounter;
     public List<sensibleSceneData> scenesData;
 }
 
@@ -57,6 +58,7 @@ public class sensibleNewsData
 public class sensibleSceneData
 {
     public int sceneIndex;
+    public int clueCounter;
     public List<sensibleClueData> cluesData;
 }
 
