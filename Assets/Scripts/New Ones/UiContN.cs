@@ -29,7 +29,7 @@ public class UiContN : MonoBehaviour
     private bool movingInventory = false;
     private bool inventoryInside;
     private float inventoryMovingSpeed = 300;
-    Coroutine disableInfoPanelCO;
+    Coroutine disableInfoPanelCO, timedInfoTextCO;
     bool isShowingInventory = false;
     bool isShowingLastClue = false;
     bool isInventoryOpen = false;
@@ -324,11 +324,14 @@ public class UiContN : MonoBehaviour
     }
     private void ButtonInventoryOpener()
     {
-
-        StartCoroutine(InventoryPanelActivator());
-        clueInfoPanel.SetActive(false);
-        blockButton.SetActive(true);
-        bigInventoryButton.SetActive(false);
+        if (!isInventoryOpen)
+        {
+            StartCoroutine(InventoryPanelActivator());
+            clueInfoPanel.SetActive(false);
+            blockButton.SetActive(true);
+            bigInventoryButton.SetActive(false);
+        }
+        
     }
 
     private void InventoryInitializer()
@@ -361,7 +364,11 @@ public class UiContN : MonoBehaviour
         if (infoToVisualize != "" && !isShowingLastClue)
         {
             isShowingLastClue = true;
-            StopAllCoroutines();
+            
+            if (disableInfoPanelCO != null)
+            {
+                StopCoroutine(disableInfoPanelCO);
+            }
             ClueInfoPanelVisualizer(infoToVisualize);
             disableInfoPanelCO = StartCoroutine(DisableInfoPanelCLue());     
         }
@@ -381,9 +388,12 @@ public class UiContN : MonoBehaviour
  
         if (infoToVisualize != "")
         {
+            
+
             if (disableInfoPanelCO != null)
-            {
-                StopAllCoroutines();
+            {                
+                StopCoroutine(disableInfoPanelCO);
+                StopCoroutine(timedInfoTextCO);
             }
             if (isInventoryOpen)
             {
@@ -419,7 +429,7 @@ public class UiContN : MonoBehaviour
         //clueInfoPanel.GetComponent<Text>().preferredHeight = heightTemp;
         clueInfoPanel.GetComponentInChildren<Text>().fontSize = fontSizeTemp;
         clueInfoPanel.GetComponentInChildren<Text>().color = Color.white;
-        StartCoroutine(TimedClue(infoToVisualize));
+        timedInfoTextCO = StartCoroutine(TimedClue(infoToVisualize));
     }
 
     public IEnumerator TimedClue(string text)
