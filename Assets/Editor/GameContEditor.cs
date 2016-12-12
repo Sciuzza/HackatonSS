@@ -1,5 +1,4 @@
-﻿/* ciao
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -20,9 +19,9 @@ public class GameContEditor : Editor
     // Prendiamo la propietà principale nella classe GameContN ovvero playerDatas
     void OnEnable()
     {
-        
+
     }
-    /*
+
     public override void OnInspectorGUI()
     {
         playerData_Prop = serializedObject.FindProperty("playerDatas");
@@ -33,7 +32,7 @@ public class GameContEditor : Editor
         // Visualiziamo la propietà in inspector di playerData
         EditorGUILayout.PropertyField(playerData_Prop);
         if (playerData_Prop.isExpanded)
-        {   
+        {
             EditorGUI.indentLevel += 1;
 
             // Prendiamo ogni singola propietà presente all'interno di sensibleGeneralData
@@ -46,17 +45,17 @@ public class GameContEditor : Editor
             EditorGUILayout.PropertyField(lastSceneVisited_Prop);
             EditorGUILayout.PropertyField(lastNewsVisited_Prop);
             EditorGUILayout.PropertyField(lastCityVisited_Prop);
-            
+
             // Array size di fianco a Map Data
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(mapData_Prop);
-            EditorGUILayout.PropertyField(mapData_Prop.FindPropertyRelative("Array.size"));            
+            EditorGUILayout.PropertyField(mapData_Prop.FindPropertyRelative("Array.size"));
             EditorGUILayout.EndHorizontal();
 
             #region MapData_Visualizator
             if (mapData_Prop.isExpanded)
             {
-                EditorGUI.indentLevel += 1;
+                //EditorGUI.indentLevel += 1;
                 // Per ogni elemento dell'array all'interno di mapData
                 for (int i = 0; i < mapData_Prop.arraySize; i++)
                 {
@@ -69,13 +68,16 @@ public class GameContEditor : Editor
 
                     // Creo una variabile cities per estrapolare il valore contenente a mapName
                     // in modo tale da dare all'elemento dell'array il valore contenente la variabile (fa figo)
-                    //cities citiesEnum = (cities)mapName_Prop.enumValueIndex;                    
-                    //EditorGUILayout.PropertyField(arrayMapNameRef,new GUIContent (citiesEnum.ToString()));
-                   
+
+                    // Dato che fede e cri sono dei bastardi e non mi dicono niente ora estrapolo il valore
+                    // dalla variabile mapName che è una stringa e la metto al nome dell'elemeno dell'array
+                                   
+                    EditorGUILayout.PropertyField(arrayMapNameRef,new GUIContent (mapName_Prop.stringValue));
+
 
                     if (arrayMapNameRef.isExpanded)
                     {
-                        EditorGUI.indentLevel += 1;
+                        //EditorGUI.indentLevel += 1;
                         // Ed ora visualizziamo le propietà di sensibleMapData
                         EditorGUILayout.PropertyField(mapName_Prop);
 
@@ -92,13 +94,13 @@ public class GameContEditor : Editor
                                 SerializedProperty arrayNewsDataRef = newsData.GetArrayElementAtIndex(j);
 
                                 // Prendiamo le propietà di sensibleNewsData
-                                SerializedProperty newsIndex_Prop = arrayNewsDataRef.FindPropertyRelative("newsIndex");
+                                SerializedProperty newsIndex_Prop = arrayNewsDataRef.FindPropertyRelative("newsName");
                                 SerializedProperty newsInfoText_Prop = arrayNewsDataRef.FindPropertyRelative("newsInfoText");
                                 SerializedProperty playerCurrentScore_Prop = arrayNewsDataRef.FindPropertyRelative("playerCurrentScore");
                                 SerializedProperty scenesData_Prop = arrayNewsDataRef.FindPropertyRelative("scenesData");
 
                                 // E le visualizziamo
-                                EditorGUI.indentLevel += 1;
+                                //EditorGUI.indentLevel += 1;
                                 EditorGUILayout.PropertyField(newsIndex_Prop);
                                 EditorGUILayout.PropertyField(newsInfoText_Prop);
                                 EditorGUILayout.PropertyField(playerCurrentScore_Prop);
@@ -120,7 +122,7 @@ public class GameContEditor : Editor
                                         SerializedProperty cluesData_Prop = arrayScenesDataRef.FindPropertyRelative("cluesData");
 
                                         // E le visualizziamo
-                                        EditorGUI.indentLevel += 1;
+                                        //EditorGUI.indentLevel += 1;
                                         EditorGUILayout.PropertyField(sceneIndex_Prop);
 
                                         EditorGUILayout.BeginHorizontal();
@@ -144,54 +146,61 @@ public class GameContEditor : Editor
                                                 string nameClue = clueName_Prop.stringValue;
                                                 if (nameClue == "")
                                                 {
-                                                    EditorGUILayout.PropertyField(arraycluesData, new GUIContent("Clue "+h));
+                                                    EditorGUILayout.PropertyField(arraycluesData, new GUIContent("Clue " + h));
                                                 }
                                                 else
                                                 {
                                                     EditorGUILayout.PropertyField(arraycluesData, new GUIContent(nameClue));
                                                 }
-                                                
 
-                                                EditorGUI.indentLevel += 1;
+
+                                                //EditorGUI.indentLevel += 1;
                                                 if (arraycluesData.isExpanded)
                                                 {
                                                     // E le visualizziamo
-                                                    
+
                                                     EditorGUILayout.PropertyField(clueName_Prop);
                                                     EditorGUILayout.PropertyField(clueInfoText_Prop);
                                                     EditorGUILayout.PropertyField(hasBeenFound_Prop);
                                                 }
-                                                    
-                                                EditorGUI.indentLevel -= 1;
+
+                                                //EditorGUI.indentLevel -= 1;
                                             }
                                             EditorGUI.indentLevel -= 1;
                                         }
                                         EditorGUILayout.Separator();
-                                        EditorGUI.indentLevel -= 1;
+                                        //EditorGUI.indentLevel -= 1;
                                         #endregion                                        
                                     }
-                                    EditorGUI.indentLevel -= 1;
+                                    //EditorGUI.indentLevel -= 1;
                                 }
                                 #endregion                                
                             }
                         }
-                        EditorGUI.indentLevel -= 1;
-                        #endregion                        
+                        //EditorGUI.indentLevel -= 1;
+                        #endregion
+                        // Metto un pò di spazi tra una città e l'altra
+                        EditorGUILayout.Space();
+                        EditorGUILayout.Space();
+                        EditorGUILayout.Space();
+                        EditorGUILayout.Space();
+                        EditorGUILayout.Space();
+                        EditorGUILayout.Space();
                     }
-                    
+
 
                 }
+
             }
             #endregion
 
         }
         #endregion
         serializedObject.ApplyModifiedProperties();
-        
+
     }
 
 
 
+}
 
-
-*/
