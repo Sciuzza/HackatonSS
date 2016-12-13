@@ -12,8 +12,11 @@ public class CustomClickEvent : MonoBehaviour, IPointerClickHandler
 
     public event_int customClick;
 
+    public bool customInteractable = true;
+
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(customInteractable)
         customClick.Invoke(buttonIndex);
     }
 

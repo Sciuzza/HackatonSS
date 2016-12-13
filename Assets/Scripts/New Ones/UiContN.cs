@@ -152,8 +152,15 @@ public class UiContN : MonoBehaviour
 
                 //smButton.interactable = false;
                 //srButton.interactable = true;
-                mapButtons[0].gameObject.SetActive(false);
-                mapButtons[1].gameObject.SetActive(true);
+               // mapButtons[0].gameObject.SetActive(false);
+               // mapButtons[1].gameObject.SetActive(true);
+
+                mapButtons[0].gameObject.GetComponent<CustomClickEvent>().customInteractable = false;
+                mapButtons[0].interactable = false;
+
+                mapButtons[1].gameObject.GetComponent<CustomClickEvent>().customInteractable = true;
+                mapButtons[1].interactable = true;
+
                 playNews.interactable = false;
 
                 map.GetComponent<Image>().sprite = mapMil;
@@ -184,8 +191,16 @@ public class UiContN : MonoBehaviour
 
                 // srButton.interactable = false;
                 // smButton.interactable = true;
-                mapButtons[0].gameObject.SetActive(true);
-                mapButtons[1].gameObject.SetActive(false);
+                //mapButtons[0].gameObject.SetActive(true);
+                //mapButtons[1].gameObject.SetActive(false);
+
+
+                mapButtons[0].gameObject.GetComponent<CustomClickEvent>().customInteractable = true;
+                mapButtons[0].interactable = true;
+
+                mapButtons[1].gameObject.GetComponent<CustomClickEvent>().customInteractable = false;
+                mapButtons[1].interactable = false;
+
                 playNews.interactable = false;
 
                 map.GetComponent<Image>().sprite = mapRom;
@@ -283,7 +298,7 @@ public class UiContN : MonoBehaviour
 
         invOpenButton = GameObject.FindGameObjectWithTag("InventoryButton").GetComponent<Button>();
         invOpenButton.onClick.AddListener(InventoryHandler);
-
+        
 
     }
     
@@ -401,6 +416,11 @@ public class UiContN : MonoBehaviour
             }
             inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().clueInfoText = infoToVisualize;
             inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().customClick.AddListener(LastClueVisualizer);
+
+            inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().customInteractable = true;
+            inventorySlots[slotToOccupied].interactable = true;
+            inventorySlots[slotToOccupied].GetComponent<Image>().sprite = clueInScene.Find(x => x.GetComponent<ClueContainer>().clueText == infoToVisualize).GetComponent<ClueContainer>().inventorySprite;
+
             slotToOccupied++;
             ClueInfoPanelVisualizer(infoToVisualize);
 
@@ -498,6 +518,16 @@ public class UiContN : MonoBehaviour
     #region Reading News Methods
     private void ReadingNewsInitializer()
     {
+        switchSceneButtons = new CustomClickEvent[2];
+
+        switchSceneButtons[0] = GameObject.Find("Menu").GetComponent<CustomClickEvent>();
+        switchSceneButtons[1] = GameObject.Find("ScoreSwitch").GetComponent<CustomClickEvent>();
+
+        switchSceneButtons[0].buttonIndex = 1;
+        switchSceneButtons[0].customClick.AddListener(loadingSceneRequestMethod);
+        // bisogna impostare l'index al numero della scena dello score attualmente non so quale sia
+        switchSceneButtons[1].buttonIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        switchSceneButtons[1].customClick.AddListener(loadingSceneRequestMethod);
 
     }
     #endregion
