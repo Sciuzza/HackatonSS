@@ -298,7 +298,7 @@ public class UiContN : MonoBehaviour
 
         invOpenButton = GameObject.FindGameObjectWithTag("InventoryButton").GetComponent<Button>();
         invOpenButton.onClick.AddListener(InventoryHandler);
-
+        
 
     }
     
@@ -518,6 +518,16 @@ public class UiContN : MonoBehaviour
     #region Reading News Methods
     private void ReadingNewsInitializer()
     {
+        switchSceneButtons = new CustomClickEvent[2];
+
+        switchSceneButtons[0] = GameObject.Find("Menu").GetComponent<CustomClickEvent>();
+        switchSceneButtons[1] = GameObject.Find("ScoreSwitch").GetComponent<CustomClickEvent>();
+
+        switchSceneButtons[0].buttonIndex = 1;
+        switchSceneButtons[0].customClick.AddListener(loadingSceneRequestMethod);
+        // bisogna impostare l'index al numero della scena dello score attualmente non so quale sia
+        switchSceneButtons[1].buttonIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        switchSceneButtons[1].customClick.AddListener(loadingSceneRequestMethod);
 
     }
     #endregion
