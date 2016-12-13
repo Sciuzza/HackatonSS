@@ -339,7 +339,7 @@ public class UiContN : MonoBehaviour
         slotToOccupied = 0;
         inventorySlots = new Button[7];
         inventory = GameObject.FindGameObjectWithTag("Inventory");
-        for (int i = 1; i <= 7; i++)
+        for (int i = 1; i <= 5; i++)
         {
             inventorySlots[i - 1] = GameObject.Find("Slot" + i).GetComponent<Button>();
         }
@@ -462,14 +462,14 @@ public class UiContN : MonoBehaviour
     {
         isShowingInventory = true;
         movingInventory = true;
-        while (inventory.GetComponent<RectTransform>().anchoredPosition.x > 0)
+        while (inventory.GetComponent<RectTransform>().anchoredPosition.x > -177)
         {
             inventory.GetComponent<RectTransform>().anchoredPosition += new Vector2(-inventoryMovingSpeed, 0) * Time.deltaTime;
             yield return null;
         }
         inventoryInside = true;
         movingInventory = false;
-        inventory.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+        inventory.GetComponent<RectTransform>().anchoredPosition = new Vector2(-177, 7);
         isShowingInventory = false;
         isInventoryOpen = true;
     }
@@ -477,7 +477,7 @@ public class UiContN : MonoBehaviour
     public IEnumerator InventoryPanelDeactivator()
     {
         movingInventory = true;
-        while (inventory.GetComponent<RectTransform>().anchoredPosition.x < 250)
+        while (inventory.GetComponent<RectTransform>().anchoredPosition.x < 177)
         {
             inventory.GetComponent<RectTransform>().anchoredPosition += new Vector2(inventoryMovingSpeed, 0) * Time.deltaTime;
             yield return null;
@@ -485,7 +485,7 @@ public class UiContN : MonoBehaviour
         inventoryInside = false;
         movingInventory = false;       
         blockButton.SetActive(false);
-        inventory.GetComponent<RectTransform>().anchoredPosition = new Vector2(250, 0);
+        inventory.GetComponent<RectTransform>().anchoredPosition = new Vector2(177, 7);
         isInventoryOpen = false;
     }
 
