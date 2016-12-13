@@ -241,11 +241,13 @@ public class UiContN : MonoBehaviour
             //mapButtons[i].gameObject.GetComponent<CustomClickEvent>().customClick.AddListener(SwitchingCity);
         }
         */
-
-
+        
+        
         InventoryInitializer();
         CluesInitializer();
         StatiButtonInitializer();
+
+
     }
 
     private void StatiButtonInitializer()
