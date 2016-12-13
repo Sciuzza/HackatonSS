@@ -15,9 +15,11 @@ public class SaveLoadManager : MonoBehaviour
         path = Application.persistentDataPath + "/";
         GameContN gcTempLink = this.gameObject.GetComponent<GameContN>();
 
-        gcTempLink.loadDataRequest.AddListener(LoadingDataFromCsv);
-        gcTempLink.saveDataRequest.AddListener(SavingDataOnCsv);
-
+        if (gcTempLink.playerDatas.runtimeSceneCreationMode)
+        {
+            gcTempLink.loadDataRequest.AddListener(LoadingDataFromCsv);
+            gcTempLink.saveDataRequest.AddListener(SavingDataOnCsv);
+        }
     }
     #endregion
 

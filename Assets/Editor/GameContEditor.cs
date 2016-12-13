@@ -39,12 +39,14 @@ public class GameContEditor : Editor
             SerializedProperty lastSceneVisited_Prop = playerData_Prop.FindPropertyRelative("lastSceneVisited");
             SerializedProperty lastNewsVisited_Prop = playerData_Prop.FindPropertyRelative("lastNewsVisited");
             SerializedProperty lastCityVisited_Prop = playerData_Prop.FindPropertyRelative("lastCityVisited");
+            SerializedProperty sceneCreation_Prop = playerData_Prop.FindPropertyRelative("runtimeSceneCreationMode");
             SerializedProperty mapData_Prop = playerData_Prop.FindPropertyRelative("mapData");
 
             // E le visualizziamo
             EditorGUILayout.PropertyField(lastSceneVisited_Prop);
             EditorGUILayout.PropertyField(lastNewsVisited_Prop);
             EditorGUILayout.PropertyField(lastCityVisited_Prop);
+            EditorGUILayout.PropertyField(sceneCreation_Prop);
 
             // Array size di fianco a Map Data
             EditorGUILayout.BeginHorizontal();

@@ -34,6 +34,7 @@ public class sensibleGeneralData
     public int lastSceneVisited;
     public string lastNewsVisited;
     public string lastCityVisited;
+    public bool runtimeSceneCreationMode;
     public List<sensibleMapData> mapData;
 }
 
@@ -118,7 +119,6 @@ public class GameContN : MonoBehaviour {
     #region Initilization
     public void Initialization()
     {
-
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 0:
@@ -145,7 +145,6 @@ public class GameContN : MonoBehaviour {
                 scoreRequest.Invoke();
                 break;
         }
-
     }
 
     private void QuittinGame()
