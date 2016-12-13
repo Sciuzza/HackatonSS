@@ -152,8 +152,15 @@ public class UiContN : MonoBehaviour
 
                 //smButton.interactable = false;
                 //srButton.interactable = true;
-                mapButtons[0].gameObject.SetActive(false);
-                mapButtons[1].gameObject.SetActive(true);
+               // mapButtons[0].gameObject.SetActive(false);
+               // mapButtons[1].gameObject.SetActive(true);
+
+                mapButtons[0].gameObject.GetComponent<CustomClickEvent>().customInteractable = false;
+                mapButtons[0].interactable = false;
+
+                mapButtons[1].gameObject.GetComponent<CustomClickEvent>().customInteractable = true;
+                mapButtons[1].interactable = true;
+
                 playNews.interactable = false;
 
                 map.GetComponent<Image>().sprite = mapMil;
@@ -184,8 +191,16 @@ public class UiContN : MonoBehaviour
 
                 // srButton.interactable = false;
                 // smButton.interactable = true;
-                mapButtons[0].gameObject.SetActive(true);
-                mapButtons[1].gameObject.SetActive(false);
+                //mapButtons[0].gameObject.SetActive(true);
+                //mapButtons[1].gameObject.SetActive(false);
+
+
+                mapButtons[0].gameObject.GetComponent<CustomClickEvent>().customInteractable = true;
+                mapButtons[0].interactable = true;
+
+                mapButtons[1].gameObject.GetComponent<CustomClickEvent>().customInteractable = false;
+                mapButtons[1].interactable = false;
+
                 playNews.interactable = false;
 
                 map.GetComponent<Image>().sprite = mapRom;
