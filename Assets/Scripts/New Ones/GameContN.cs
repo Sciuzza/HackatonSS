@@ -122,7 +122,7 @@ public class GameContN : MonoBehaviour {
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 0:
-                loadDataRequest.Invoke();
+                //loadDataRequest.Invoke();
                 loadingMenuRequest.Invoke(1);
                 break;
             case 1:

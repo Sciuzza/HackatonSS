@@ -11,6 +11,7 @@ public class ClueContainer : MonoBehaviour
 	public sensibleClueData clueData;
 	public string clueText;
 	private GameObject clueInfoPanel;
+    public Sprite inventorySprite;
 
 
 	public void Inizialization()
