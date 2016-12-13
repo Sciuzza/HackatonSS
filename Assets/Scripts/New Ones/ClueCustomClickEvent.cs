@@ -9,7 +9,7 @@ public class ClueCustomClickEvent : MonoBehaviour, IPointerClickHandler
 {
     public string clueInfoText = null;
 
-    public event_string customClick = new event_string();
+    public event_string customClick;
 
     public bool customInteractable = true;
 
