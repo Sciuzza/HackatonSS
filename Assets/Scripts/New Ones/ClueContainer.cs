@@ -13,7 +13,7 @@ public class ClueContainer : MonoBehaviour
 	private GameObject clueInfoPanel;
 
 
-	public void Initialization()
+	public void Inizialization()
 	{
 		ClueCustomClickEvent refEvent = GetComponent<ClueCustomClickEvent>();
 

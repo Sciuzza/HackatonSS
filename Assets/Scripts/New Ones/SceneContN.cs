@@ -26,34 +26,28 @@ public class SceneContN : MonoBehaviour {
     #region Switch Scene Methods
     private void LoadSceneByIndex(int buildIndex)
     {
-        if (!GameContN.playerDatasStatic.runtimeSceneCreationMode)
+        if (!GameContN.playerDatasStatic.runtimeSceneCreationMode || buildIndex <= 2)
         {
             SceneManager.LoadScene(buildIndex);
         }
-        else if(GameContN.playerDatasStatic.runtimeSceneCreationMode && (buildIndex > 2 || SceneManager.GetActiveScene().buildIndex == -1 ))
+        else
         {
             Scene oldScene = SceneManager.GetActiveScene();
             Scene newScene = SceneManager.CreateScene(GameContN.playerDatasStatic.lastNewsVisited + GameContN.playerDatasStatic.lastSceneVisited);
             SceneManager.SetActiveScene(newScene);
             SceneManager.UnloadSceneAsync(oldScene);
             Instantiate(scenePrefab);
-            Debug.Log(GameContN.playerDatasStatic.lastNewsVisited + GameContN.playerDatasStatic.lastSceneVisited);
-            GameObject psdToInstantiate = (GameObject)Instantiate(Resources.Load(GameContN.playerDatasStatic.lastNewsVisited+GameContN.playerDatasStatic.lastSceneVisited));
+            GameObject psdToInstantiate = (GameObject)Instantiate(Resources.Load("viaosoppioxtool"));
             psdToInstantiate.transform.SetParent(GameObject.Find("GamePlay").transform);
             psdToInstantiate.transform.SetSiblingIndex(0);
-            psdToInstantiate.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1024, 768);
+            psdToInstantiate.GetComponent<RectTransform>().anchoredPosition = new Vector2(-800, 600);
             psdToInstantiate.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
             foreach (var clue in psdToInstantiate.GetComponentsInChildren<Image>())
             {
                 if (clue.transform.name != "bg")
                 {
                     ClueCustomClickEvent newClue = clue.gameObject.AddComponent<ClueCustomClickEvent>();
-                    //newClue.customClick.AddListener();
                     clue.gameObject.AddComponent<Button>();
-                    ClueContainer ccTemp = clue.gameObject.AddComponent<ClueContainer>();
-                    
-                    //newClue.clueInfoText = GameContN.playerDatasStatic.mapData.Find(x=>x.mapName == GameContN.playerDatasStatic.lastCityVisited).newsData.Find(x=>x.newsName == GameContN.playerDatasStatic.lastNewsVisited).scenesData.Find(x=>x.sceneIndex == GameContN.playerDatasStatic.lastSceneVisited).cluesData.Find(x=>x.clueName == newClue.transform.name).clueInfoText;
-               
                 }
                 else
                 {
@@ -61,11 +55,6 @@ public class SceneContN : MonoBehaviour {
                     //Destroy(clue);
                 }
             }
-            FindObjectOfType<GameContN>().gameplayInitRequest.Invoke();
-        }
-        else
-        {
-            SceneManager.LoadScene(buildIndex);
         }
     }
 

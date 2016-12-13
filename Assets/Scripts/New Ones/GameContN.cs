@@ -136,7 +136,7 @@ public class GameContN : MonoBehaviour {
             case 5:
             case 6:
                 Debugging("GG");
-                //gameplayInitRequest.Invoke();
+                gameplayInitRequest.Invoke();
                 break;
             case 7:
                 readingNewsRequest.Invoke();
