@@ -34,7 +34,7 @@ public class ClueContainer : MonoBehaviour
         clueData = tempSceneData.cluesData.Find(x => x.clueName == tempClueName);
         
         clueText = clueData.clueInfoText;
-        refEvent.clueInfoText = clueText;
+        //refEvent.clueInfoText = clueText;
 		//GetComponent<ClueCustomClickEvent>().customClick.AddListener(ClueInfoVisualizer);
 	}
 
@@ -50,6 +50,4 @@ public class ClueContainer : MonoBehaviour
 	{
 		clueInfoPanel.SetActive(true);
 	}
-
-
 }
