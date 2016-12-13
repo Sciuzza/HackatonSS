@@ -346,14 +346,11 @@ public class UiContN : MonoBehaviour
 
     private void CluesInitializer()
     {
-        GameObject[] clueTemp = GameObject.FindGameObjectsWithTag("Clue");
-        clueInScene = new List<GameObject>();
-        clueInScene.AddRange(clueTemp);  
          
-        foreach (var clue in clueInScene)
+        foreach (var clue in GameObject.FindObjectsOfType<ClueContainer>())
         {            
-            clue.GetComponent<ClueContainer>().Inizialization();
-            clue.GetComponent<ClueCustomClickEvent>().customClick.AddListener(ClueInfoVisualizer);
+            clue.Initialization();
+            clue.gameObject.GetComponent<ClueCustomClickEvent>().customClick.AddListener(ClueInfoVisualizer);
         }
     }
 
@@ -475,7 +472,7 @@ public class UiContN : MonoBehaviour
     public IEnumerator InventoryPanelDeactivator()
     {
         movingInventory = true;
-        while (inventory.GetComponent<RectTransform>().anchoredPosition.x < 250)
+        while (inventory.GetComponent<RectTransform>().anchoredPosition.x < 320)
         {
             inventory.GetComponent<RectTransform>().anchoredPosition += new Vector2(inventoryMovingSpeed, 0) * Time.deltaTime;
             yield return null;
@@ -483,7 +480,7 @@ public class UiContN : MonoBehaviour
         inventoryInside = false;
         movingInventory = false;       
         blockButton.SetActive(false);
-        inventory.GetComponent<RectTransform>().anchoredPosition = new Vector2(250, 0);
+        inventory.GetComponent<RectTransform>().anchoredPosition = new Vector2(320, 0);
         isInventoryOpen = false;
     }
 
@@ -510,6 +507,10 @@ public class UiContN : MonoBehaviour
     #region General Methods
     private void loadingSceneRequestMethod(int buildIndex)
     {
+        if (SceneManager.GetActiveScene().buildIndex>2 || SceneManager.GetActiveScene().buildIndex == -1)
+        {
+            GameContN.playerDatasStatic.lastSceneVisited++;
+        }
         loadingSceneRequest.Invoke(buildIndex);
     }
     #endregion
