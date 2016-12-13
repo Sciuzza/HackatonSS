@@ -21,6 +21,13 @@ public class SceneContN : MonoBehaviour {
         uiTempLink.loadingSceneRequest.AddListener(LoadSceneByIndex);
 
     }
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+       
+        }
+    }
     #endregion
 
     #region Switch Scene Methods
