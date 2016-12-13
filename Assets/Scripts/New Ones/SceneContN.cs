@@ -48,11 +48,18 @@ public class SceneContN : MonoBehaviour {
                 if (clue.transform.name != "bg")
                 {
                     ClueCustomClickEvent newClue = clue.gameObject.AddComponent<ClueCustomClickEvent>();
-                    newClue.clueInfoText = GameContN.playerDatasStatic.mapData.Find(x => x.mapName == GameContN.playerDatasStatic.lastCityVisited).newsData.Find(x => x.newsName == GameContN.playerDatasStatic.lastNewsVisited).scenesData.Find(x => x.sceneIndex == GameContN.playerDatasStatic.lastSceneVisited).cluesData.Find(x => x.clueName == newClue.transform.name).clueInfoText;
-                    //newClue.customClick.AddListener(Clue);
+                    //newClue.customClick.AddListener();
                     clue.gameObject.AddComponent<Button>();
                     ClueContainer ccTemp = clue.gameObject.AddComponent<ClueContainer>();
-                }                 
+                    
+                    //newClue.clueInfoText = GameContN.playerDatasStatic.mapData.Find(x=>x.mapName == GameContN.playerDatasStatic.lastCityVisited).newsData.Find(x=>x.newsName == GameContN.playerDatasStatic.lastNewsVisited).scenesData.Find(x=>x.sceneIndex == GameContN.playerDatasStatic.lastSceneVisited).cluesData.Find(x=>x.clueName == newClue.transform.name).clueInfoText;
+               
+                }
+                else
+                {
+                    //GameObject.Find("GamePlay").GetComponent<Image>().sprite = clue.sprite;
+                    //Destroy(clue);
+                }
             }
             FindObjectOfType<GameContN>().gameplayInitRequest.Invoke();
         }
