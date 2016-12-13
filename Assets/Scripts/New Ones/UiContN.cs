@@ -416,6 +416,11 @@ public class UiContN : MonoBehaviour
             }
             inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().clueInfoText = infoToVisualize;
             inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().customClick.AddListener(LastClueVisualizer);
+
+            inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().customInteractable = true;
+            inventorySlots[slotToOccupied].interactable = true;
+            inventorySlots[slotToOccupied].GetComponent<Image>().sprite = clueInScene.Find(x => x.GetComponent<ClueContainer>().clueText == infoToVisualize).GetComponent<ClueContainer>().inventorySprite;
+
             slotToOccupied++;
             ClueInfoPanelVisualizer(infoToVisualize);
 
