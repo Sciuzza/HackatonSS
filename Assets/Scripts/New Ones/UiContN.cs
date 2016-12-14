@@ -504,6 +504,7 @@ public class UiContN : MonoBehaviour
     {
         lastClueButton.clueInfoText = infoToVisualize;
         isShowingClue = true;
+        isShowingLastClue = false;
         if (infoToVisualize != "")
         {
 
