@@ -534,10 +534,6 @@ public class UiContN : MonoBehaviour
                 StopCoroutine(disableInfoPanelCO);
                 StopCoroutine(timedInfoTextCO);
             }
-            if (timedInfoTextCO != null)
-            {
-                StopCoroutine(timedInfoTextCO);
-            }
             if (isInventoryOpen)
             {                
                 InventoryHandler();
