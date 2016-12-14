@@ -603,13 +603,33 @@ public class UiContN : MonoBehaviour
         switchSceneButtons = new CustomClickEvent[2];
 
         switchSceneButtons[0] = GameObject.Find("Menu").GetComponent<CustomClickEvent>();
-        switchSceneButtons[1] = GameObject.Find("ScoreSwitch").GetComponent<CustomClickEvent>();
+        switchSceneButtons[1] = GameObject.Find("NextScene").GetComponent<CustomClickEvent>();
+        
 
-        switchSceneButtons[0].buttonIndex = 1;
-        switchSceneButtons[0].customClick.AddListener(loadingSceneRequestMethod);
-        // bisogna impostare l'index al numero della scena dello score attualmente non so quale sia
+        switchSceneButtons[0].GetComponent<Button>().onClick.AddListener(AbleMenuPanel);
+
         switchSceneButtons[1].buttonIndex = SceneManager.GetActiveScene().buildIndex + 1;
         switchSceneButtons[1].customClick.AddListener(loadingSceneRequestMethod);
+
+        switchSceneButtons[2].buttonIndex = SceneManager.GetActiveScene().buildIndex - 1;
+        switchSceneButtons[2].customClick.AddListener(loadingSceneRequestMethod);
+
+        menuButtons = new GameObject[5];
+
+        menuButtons[0] = GameObject.FindGameObjectWithTag("MenuBlockButton");
+        menuButtons[1] = GameObject.FindGameObjectWithTag("ContinueButton");
+        //non so cosa faccia
+        menuButtons[2] = GameObject.FindGameObjectWithTag("CreditsButton");
+        menuButtons[3] = GameObject.FindGameObjectWithTag("QuitButton");
+
+        menuButtons[3].GetComponent<CustomClickEvent>().buttonIndex = 1;
+        menuButtons[3].GetComponent<CustomClickEvent>().customClick.AddListener(loadingSceneRequestMethod);
+        menuButtons[3].GetComponent<Button>().onClick.AddListener(MenuCLick);
+        menuButtons[4] = GameObject.Find("MenuContainer");
+
+        menuButtons[0].GetComponent<Button>().onClick.AddListener(DisableMenuPanel);
+        menuButtons[1].GetComponent<Button>().onClick.AddListener(DisableMenuPanel);
+        DisableMenuPanel();
 
     }
     #endregion
@@ -617,7 +637,33 @@ public class UiContN : MonoBehaviour
     #region Score Methods
     private void ScoreInitializer()
     {
+        switchSceneButtons = new CustomClickEvent[3];
 
+        switchSceneButtons[0] = GameObject.Find("Menu").GetComponent<CustomClickEvent>();
+        switchSceneButtons[1] = GameObject.Find("NextScene").GetComponent<CustomClickEvent>();
+        switchSceneButtons[2] = GameObject.Find("PrevScene").GetComponent<CustomClickEvent>();
+
+        switchSceneButtons[0].GetComponent<Button>().onClick.AddListener(AbleMenuPanel);
+
+        switchSceneButtons[1].buttonIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        switchSceneButtons[1].customClick.AddListener(loadingSceneRequestMethod);
+
+        menuButtons = new GameObject[5];
+
+        menuButtons[0] = GameObject.FindGameObjectWithTag("MenuBlockButton");
+        menuButtons[1] = GameObject.FindGameObjectWithTag("ContinueButton");
+        //non so cosa faccia
+        menuButtons[2] = GameObject.FindGameObjectWithTag("CreditsButton");
+        menuButtons[3] = GameObject.FindGameObjectWithTag("QuitButton");
+
+        menuButtons[3].GetComponent<CustomClickEvent>().buttonIndex = 1;
+        menuButtons[3].GetComponent<CustomClickEvent>().customClick.AddListener(loadingSceneRequestMethod);
+        menuButtons[3].GetComponent<Button>().onClick.AddListener(MenuCLick);
+        menuButtons[4] = GameObject.Find("MenuContainer");
+
+        menuButtons[0].GetComponent<Button>().onClick.AddListener(DisableMenuPanel);
+        menuButtons[1].GetComponent<Button>().onClick.AddListener(DisableMenuPanel);
+        DisableMenuPanel();
     }
     #endregion
 
