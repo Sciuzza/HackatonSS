@@ -212,7 +212,7 @@ public class UiContN : MonoBehaviour
                 mapButtons[1].interactable = false;
 
 
-                newsButtons = newsMilTemp.GetComponentsInChildren<Button>();
+                newsButtons = newsRomTemp.GetComponentsInChildren<Button>();
 
                 for (int i = 0; i < newsButtons.Length; i++)
                 {
