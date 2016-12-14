@@ -569,6 +569,7 @@ public class UiContN : MonoBehaviour
     #region General Methods
     private void loadingSceneRequestMethod(int buildIndex)
     {
+        GameContN.Self.playerDatas.lastSceneVisited = buildIndex-2;
         loadingSceneRequest.Invoke(buildIndex);
     }
     #endregion
