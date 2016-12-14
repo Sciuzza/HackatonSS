@@ -21,6 +21,7 @@ public class UiContN : MonoBehaviour
     #region GamePlay Variables
     List<GameObject> clueInScene;
     private CustomClickEvent[] switchSceneButtons;
+    private GameObject[] menuButtons;
     private GameObject clueInfoPanel, bigInventoryButton, blockButton;
     private ClueCustomClickEvent lastClueButton;
     private Button invOpenButton;
@@ -36,6 +37,7 @@ public class UiContN : MonoBehaviour
     Button[] inventorySlots;
     int slotToOccupied;
     GameObject lastClueClicked;
+    bool isClicked = false;
 
     #endregion
 
@@ -309,8 +311,8 @@ public class UiContN : MonoBehaviour
         blockButton.GetComponent<Button>().onClick.AddListener(ButtonBlockerMethods);
         blockButton.SetActive(false);
 
-        switchSceneButtons[0].buttonIndex = 1;
-        switchSceneButtons[0].customClick.AddListener(loadingSceneRequestMethod);
+        
+        switchSceneButtons[0].GetComponent<Button>().onClick.AddListener(AbleMenuPanel);
         switchSceneButtons[1].buttonIndex = SceneManager.GetActiveScene().buildIndex + 1;
         switchSceneButtons[1].customClick.AddListener(loadingSceneRequestMethod);
         switchSceneButtons[2].buttonIndex = SceneManager.GetActiveScene().buildIndex - 1;
@@ -325,10 +327,44 @@ public class UiContN : MonoBehaviour
 
         invOpenButton = GameObject.FindGameObjectWithTag("InventoryButton").GetComponent<Button>();
         invOpenButton.onClick.AddListener(InventoryHandler);
-        
 
+        // Menu Panel initializer
+        menuButtons = new GameObject[5];
+
+        menuButtons[0] = GameObject.FindGameObjectWithTag("MenuBlockButton");
+        menuButtons[1] = GameObject.FindGameObjectWithTag("ContinueButton");
+        //non so cosa faccia
+        menuButtons[2] = GameObject.FindGameObjectWithTag("CreditsButton");
+        menuButtons[3] = GameObject.FindGameObjectWithTag("QuitButton");
+
+        menuButtons[3].GetComponent<CustomClickEvent>().buttonIndex = 1;
+        menuButtons[3].GetComponent<CustomClickEvent>().customClick.AddListener(loadingSceneRequestMethod);
+        menuButtons[3].GetComponent<Button>().onClick.AddListener(MenuCLick);
+        menuButtons[4] = GameObject.Find("MenuContainer");
+
+        menuButtons[0].GetComponent<Button>().onClick.AddListener(DisableMenuPanel);
+        menuButtons[1].GetComponent<Button>().onClick.AddListener(DisableMenuPanel);
+        DisableMenuPanel();
+    }
+
+    void DisableMenuPanel()
+    {
+        GameObject menuPanel = menuButtons[4];
+        menuPanel.SetActive(false);
+    }
+    void AbleMenuPanel()
+    {
+        GameObject menuPanel = menuButtons[4];
+        menuPanel.SetActive(true);
     }
     
+    void MenuCLick()
+    {
+        isInventoryOpen = false;
+        movingInventory = false;
+        StopAllCoroutines();
+    }
+
     void InventoryHandler()
     {
         if (!isInventoryOpen)
@@ -353,9 +389,10 @@ public class UiContN : MonoBehaviour
     private void ButtonBlockerMethods()
     {
         
-        if (!isShowingInventory)
+        if (!isShowingInventory && isClicked)
         {
-            StartCoroutine(InventoryPanelDeactivator());            
+            StartCoroutine(InventoryPanelDeactivator());
+            isClicked = false;          
         }
         
     }
@@ -366,7 +403,7 @@ public class UiContN : MonoBehaviour
     }
     private void ButtonInventoryOpener()
     {
-        if (!isInventoryOpen)
+        if (!isInventoryOpen && !isShowingClue)
         {
             StartCoroutine(InventoryPanelActivator());
             clueInfoPanel.SetActive(false);
@@ -395,9 +432,24 @@ public class UiContN : MonoBehaviour
         clueInScene.AddRange(clueTemp);  
          
         foreach (var clue in clueInScene)
-        {            
+        {
             clue.GetComponent<ClueContainer>().Inizialization();
-            clue.GetComponent<ClueCustomClickEvent>().customClick.AddListener(ClueInfoVisualizer);
+            if (!clue.GetComponent<ClueContainer>().clueData.hasBeenFound)
+            {
+                clue.GetComponent<ClueCustomClickEvent>().customClick.AddListener(ClueInfoVisualizer);
+            }
+            else
+            {
+                inventorySlots[slotToOccupied].GetComponent<Image>().sprite = clueInScene.Find(x => x.GetComponent<ClueContainer>().clueText == clue.GetComponent<ClueContainer>().clueText).GetComponent<ClueContainer>().inventorySprite;
+                inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().clueInfoText = clue.GetComponent<ClueContainer>().clueText;
+                inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().customClick.AddListener(LastClueVisualizer);
+                slotToOccupied++;
+                clue.GetComponent<ClueCustomClickEvent>().customInteractable = false;
+                clue.GetComponent<Button>().transition = Selectable.Transition.None;
+                //clue.GetComponent<Button>().interactable = false;
+            }
+            
+            
         }
     }
 
@@ -427,7 +479,7 @@ public class UiContN : MonoBehaviour
     private void ClueInfoVisualizer(string infoToVisualize)
     {
         lastClueButton.clueInfoText = infoToVisualize;
- 
+        isShowingClue = true;
         if (infoToVisualize != "")
         {
             
@@ -481,7 +533,7 @@ public class UiContN : MonoBehaviour
 
     public IEnumerator TimedClue(string text)
     {
-        isShowingClue = false;
+        
         isToClosePanel = false;
         //isShowingInventory = true;
         clueInfoPanel.GetComponentInChildren<Text>().text = "";
@@ -492,13 +544,14 @@ public class UiContN : MonoBehaviour
             isShowingClue = true;
             charArray[i] = text[i];
             clueInfoPanel.GetComponentInChildren<Text>().text += charArray[i];
-            yield return new WaitForSeconds(Random.Range(0.02f, 0.10f));
+            yield return new WaitForSeconds(Random.Range(0.001f, 0.01f));
         }
+        isShowingClue = false;
         while (!isToClosePanel)
         {
             yield return null;
         }
-        isShowingClue = false;
+        
         isToClosePanel = false;
         clueInfoPanel.GetComponentInChildren<Text>().text = "";
         CluePanelDeactivator();
@@ -519,10 +572,12 @@ public class UiContN : MonoBehaviour
         inventory.GetComponent<RectTransform>().anchoredPosition = new Vector2(-177, 7);
         isShowingInventory = false;
         isInventoryOpen = true;
+        isClicked = true;
     }
 
     public IEnumerator InventoryPanelDeactivator()
     {
+        
         movingInventory = true;
         while (inventory.GetComponent<RectTransform>().anchoredPosition.x < 177)
         {
