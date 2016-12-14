@@ -600,6 +600,7 @@ public class UiContN : MonoBehaviour
     #region Reading News Methods
     private void ReadingNewsInitializer()
     {
+        Debug.Log("asdasdasd");
         switchSceneButtons = new CustomClickEvent[2];
 
         switchSceneButtons[0] = GameObject.Find("Menu").GetComponent<CustomClickEvent>();
@@ -630,6 +631,11 @@ public class UiContN : MonoBehaviour
         menuButtons[0].GetComponent<Button>().onClick.AddListener(DisableMenuPanel);
         menuButtons[1].GetComponent<Button>().onClick.AddListener(DisableMenuPanel);
         DisableMenuPanel();
+
+        blockButton = GameObject.FindGameObjectWithTag("BlockButton");
+        blockButton.SetActive(false);
+        bigInventoryButton = GameObject.FindGameObjectWithTag("BigInventoryButton");
+        bigInventoryButton.SetActive(false);
 
     }
     #endregion
@@ -664,6 +670,10 @@ public class UiContN : MonoBehaviour
         menuButtons[0].GetComponent<Button>().onClick.AddListener(DisableMenuPanel);
         menuButtons[1].GetComponent<Button>().onClick.AddListener(DisableMenuPanel);
         DisableMenuPanel();
+        blockButton = GameObject.FindGameObjectWithTag("BlockButton");
+        blockButton.SetActive(false);
+        bigInventoryButton = GameObject.FindGameObjectWithTag("BigInventoryButton");
+        bigInventoryButton.SetActive(false);
     }
     #endregion
 
