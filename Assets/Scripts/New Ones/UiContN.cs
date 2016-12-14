@@ -468,14 +468,14 @@ public class UiContN : MonoBehaviour
     {
         
         clueInfoPanel.SetActive(true);
-        clueInfoPanel.GetComponentInChildren<Text>().color = Color.clear;
+        //clueInfoPanel.GetComponentInChildren<Text>().color = Color.clear;
         clueInfoPanel.GetComponentInChildren<Text>().text = infoToVisualize;
         int fontSizeTemp = clueInfoPanel.GetComponentInChildren<Text>().fontSize;
         //float heightTemp = clueInfoPanel.GetComponent<LayoutElement>().preferredHeight;
         // clueInfoPanel.GetComponentInChildren<Text>().resizeTextForBestFit = false;
         //clueInfoPanel.GetComponent<Text>().preferredHeight = heightTemp;
         clueInfoPanel.GetComponentInChildren<Text>().fontSize = fontSizeTemp;
-        clueInfoPanel.GetComponentInChildren<Text>().color = Color.white;
+        //clueInfoPanel.GetComponentInChildren<Text>().color = Color.white;
         timedInfoTextCO = StartCoroutine(TimedClue(infoToVisualize));
     }
 
