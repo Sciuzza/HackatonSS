@@ -634,14 +634,6 @@ public class UiContN : MonoBehaviour
 
         //switchSceneButtons[2].buttonIndex = SceneManager.GetActiveScene().buildIndex - 1;
         //switchSceneButtons[2].customClick.AddListener(loadingSceneRequestMethod);
-
-        
-
-        blockButton = GameObject.FindGameObjectWithTag("BlockButton");
-        blockButton.SetActive(false);
-        bigInventoryButton = GameObject.FindGameObjectWithTag("BigInventoryButton");
-        bigInventoryButton.SetActive(false);
-
     }
     #endregion
 

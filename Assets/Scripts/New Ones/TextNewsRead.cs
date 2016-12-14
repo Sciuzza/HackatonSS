@@ -8,8 +8,6 @@ public class TextNewsRead : MonoBehaviour {
     public Image[] newsPieces = new Image[4];
     public Sprite[] failedSprites = new Sprite[4];
 
-    public bool[] allFound = { true, true, true, true };
-
     void Awake()
     {
         for (int j = 0; j < GameContN.playerDatasStatic.mapData[0].newsData[0].sceneCounter; j++)
@@ -18,9 +16,9 @@ public class TextNewsRead : MonoBehaviour {
             {
                 if (!GameContN.playerDatasStatic.mapData[0].newsData[0].scenesData[j].cluesData[i].hasBeenFound)
                 {
-                    allFound[j] = false;
                     newsPieces[j].sprite = failedSprites[j];
-                }
+                    break;                 
+                }        
             }
         }
     }
