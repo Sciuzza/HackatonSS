@@ -9,6 +9,12 @@ public class Score : MonoBehaviour
     public Text[] textBoxArray = new Text[4];
     public Text textTotScore;
     public CustomClickEvent[] specificScenes = new CustomClickEvent[4];
+    Image[] imageToFlash = new Image[4];
+    RectTransform[] rectToScale = new RectTransform[4];
+
+    float timer = 0;
+
+    public bool[] hasToFlash = new bool[4];
 
     public event_int loadingSceneRequest;
 
@@ -19,6 +25,8 @@ public class Score : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
+            imageToFlash[i] = specificScenes[i].GetComponent<Image>();
+            rectToScale[i] = specificScenes[i].GetComponent<RectTransform>();
             int foundCluesInScene = 0;
             foreach (var clue in GameContN.playerDatasStatic.mapData[0].newsData[0].scenesData[i].cluesData)
             {
@@ -33,14 +41,27 @@ public class Score : MonoBehaviour
 
             if (foundCluesInScene < GameContN.playerDatasStatic.mapData[0].newsData[0].scenesData[i].clueCounter)
             {
-                specificScenes[i].gameObject.GetComponent<Image>().color = Color.red;
+                hasToFlash[i] = true;
                 specificScenes[i].customClick.AddListener(loadingSceneRequestMethod);
             }
-
         }
         textTotScore.text = totCluesFound + "/" + totCluesInNews;
 	}
 
+
+    void Update()
+    {
+        timer += Time.deltaTime;
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (hasToFlash[i])
+            {
+                //imageToFlash[i].color = Color.Lerp(Color.white, Color.red, Mathf.Clamp01(timer));
+                rectToScale[i].localScale = Vector2.Lerp(new Vector3(0.8f, 0.8f), new Vector3(1.1f, 1.1f), Mathf.Abs(Mathf.Sin(timer * 3)));
+            }
+        }
+    }
 
     private void loadingSceneRequestMethod(int buildIndex)
     {
