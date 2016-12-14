@@ -272,17 +272,37 @@ public class UiContN : MonoBehaviour
 
     #region MyRegion
 
+    Image[] imageArray = new Image[6];
+
     void TutorialInitializer()
-    {
+    {    
+        imageArray[0] = GameObject.Find("1").GetComponent<Image>();
+        imageArray[1] = GameObject.Find("2").GetComponent<Image>();
+        imageArray[2] = GameObject.Find("3").GetComponent<Image>();
+        imageArray[3] = GameObject.Find("4").GetComponent<Image>();
+        imageArray[4] = GameObject.Find("5").GetComponent<Image>();
+        imageArray[5] = GameObject.Find("6").GetComponent<Image>();
+
         Button tutorialButton = GameObject.FindGameObjectWithTag("Tutorial").GetComponent<Button>();
         StartCoroutine(TutorialInitializerCO(tutorialButton));
     }
 
     IEnumerator TutorialInitializerCO(Button _button)
     {
-        yield return new WaitForSeconds(3f);
-        _button.interactable = true;
-        _button.GetComponent<CustomClickEvent>().customClick.AddListener(loadingSceneRequestMethod);
+        yield return new WaitForSeconds(1);
+        for (int i = 0; i < 6; i++)
+        {
+            imageArray[i].color = Color.white;
+            if (i == 5)
+            {
+                _button.interactable = true;
+                _button.GetComponent<CustomClickEvent>().customClick.AddListener(loadingSceneRequestMethod);
+            }
+            else
+            {
+                yield return new WaitForSeconds(2f);
+            }
+        }
     }
 
 
