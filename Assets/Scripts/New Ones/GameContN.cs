@@ -178,4 +178,18 @@ public class GameContN : MonoBehaviour {
     }
     #endregion
 
+    #region ScreenShot Input
+    private void takingScreenshot()
+    {
+        Application.CaptureScreenshot("/Ciccio.png", 4);
+        Debug.Log("Screenshot Done");
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F12))
+            takingScreenshot();
+    }
+    #endregion
+
 }
