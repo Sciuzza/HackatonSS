@@ -181,7 +181,7 @@ public class GameContN : MonoBehaviour {
     #region ScreenShot Input
     private void takingScreenshot()
     {
-        Application.CaptureScreenshot("/Ciccio.png", 4);
+        Application.CaptureScreenshot(Application.dataPath + "/Ciccio.png", 4);
         Debug.Log("Screenshot Done");
     }
 
