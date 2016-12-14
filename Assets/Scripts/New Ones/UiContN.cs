@@ -29,7 +29,7 @@ public class UiContN : MonoBehaviour
     private bool isShowingClue = false, isToClosePanel = false;
     private bool movingInventory = false;
     private bool inventoryInside;
-    private float inventoryMovingSpeed = 300;
+    private float inventoryMovingSpeed = 900;
     Coroutine disableInfoPanelCO, timedInfoTextCO, inventoryOpenerCO;
     bool isShowingInventory = false;
     bool isShowingLastClue = false;
@@ -651,7 +651,7 @@ public class UiContN : MonoBehaviour
     #region Reading News Methods
     private void ReadingNewsInitializer()
     {
-        Debug.Log("asdasdasd");
+
         switchSceneButtons = new CustomClickEvent[1];
 
         //switchSceneButtons[0] = GameObject.Find("Menu").GetComponent<CustomClickEvent>();
