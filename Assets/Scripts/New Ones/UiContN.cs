@@ -74,6 +74,7 @@ public class UiContN : MonoBehaviour
         gcTempLink.gameplayInitRequest.AddListener(GamePlayInitializer);
         gcTempLink.readingNewsRequest.AddListener(ReadingNewsInitializer);
         gcTempLink.scoreRequest.AddListener(ScoreInitializer);
+        gcTempLink.tutorialRequest.AddListener(TutorialInitializer);
     }
     #endregion
 
@@ -266,6 +267,25 @@ public class UiContN : MonoBehaviour
             playNews.onClick.RemoveAllListeners();
         }
     }
+
+    #endregion
+
+    #region MyRegion
+
+    void TutorialInitializer()
+    {
+        Button tutorialButton = GameObject.FindGameObjectWithTag("Tutorial").GetComponent<Button>();
+        StartCoroutine(TutorialInitializerCO(tutorialButton));
+    }
+
+    IEnumerator TutorialInitializerCO(Button _button)
+    {
+        yield return new WaitForSeconds(3f);
+        _button.interactable = true;
+        _button.GetComponent<CustomClickEvent>().customClick.AddListener(loadingSceneRequestMethod);
+    }
+
+    
 
     #endregion
 
@@ -670,7 +690,7 @@ public class UiContN : MonoBehaviour
     #region General Methods
     private void loadingSceneRequestMethod(int buildIndex)
     {
-        GameContN.Self.playerDatas.lastSceneVisited = buildIndex-2;
+        GameContN.Self.playerDatas.lastSceneVisited = buildIndex-3;
         loadingSceneRequest.Invoke(buildIndex);
     }
     #endregion

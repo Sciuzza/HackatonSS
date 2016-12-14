@@ -98,7 +98,7 @@ public class GameContN : MonoBehaviour {
 
     #region Events
     public event_int loadingMenuRequest;
-    public UnityEvent mmInitRequest, mapInitRequest, gameplayInitRequest, readingNewsRequest, scoreRequest, loadDataRequest, saveDataRequest;
+    public UnityEvent mmInitRequest, mapInitRequest, gameplayInitRequest, readingNewsRequest, scoreRequest, loadDataRequest, saveDataRequest, tutorialRequest;
     #endregion
 
     #region Do not Destroy Logic, Player Data Static Trick, Taking References and Linking Events
@@ -132,16 +132,19 @@ public class GameContN : MonoBehaviour {
                 mapInitRequest.Invoke();
                 break;
             case 3:
+                tutorialRequest.Invoke();
+                break;
             case 4:
             case 5:
             case 6:
+            case 7:
                 Debugging("GG");
                 gameplayInitRequest.Invoke();
                 break;
-            case 7:
+            case 8:
                 readingNewsRequest.Invoke();
                 break;
-            case 8:
+            case 9:
                 scoreRequest.Invoke();
                 break;
         }
