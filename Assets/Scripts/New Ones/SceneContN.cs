@@ -10,6 +10,7 @@ public class SceneContN : MonoBehaviour {
         GameContN gcTempLink = this.gameObject.GetComponent<GameContN>();
 
         gcTempLink.loadingMenuRequest.AddListener(LoadSceneByIndex);
+        gcTempLink.scoreRequest.AddListener(LinkingScoreEvent);
 
         UiContN uiTempLink = this.gameObject.GetComponent<UiContN>();
 
@@ -19,6 +20,11 @@ public class SceneContN : MonoBehaviour {
 
     }
     #endregion
+
+    private void LinkingScoreEvent()
+    {
+        GameObject.Find("CanvasPianoB").GetComponent<Score>().loadingSceneRequest.AddListener(LoadSceneByIndex);
+    }
 
     #region Switch Scene Methods
     private void LoadSceneByIndex(int buildIndex)

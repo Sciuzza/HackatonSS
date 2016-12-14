@@ -675,12 +675,14 @@ public class UiContN : MonoBehaviour
         blockButton.SetActive(false);
         bigInventoryButton = GameObject.FindGameObjectWithTag("BigInventoryButton");
         bigInventoryButton.SetActive(false);
+        
     }
     #endregion
 
     #region General Methods
     private void loadingSceneRequestMethod(int buildIndex)
     {
+        Debug.Log("Ciao");
         GameContN.Self.playerDatas.lastSceneVisited = buildIndex-3;
         loadingSceneRequest.Invoke(buildIndex);
     }
