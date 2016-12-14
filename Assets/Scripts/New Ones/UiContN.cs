@@ -628,7 +628,7 @@ public class UiContN : MonoBehaviour
 
     public IEnumerator InventoryPanelDeactivator()
     {
-
+        isInventoryOpen = true;
         movingInventory = true;
         while (inventory.GetComponent<RectTransform>().anchoredPosition.x < 177)
         {
