@@ -14,7 +14,7 @@ public class UiContN : MonoBehaviour
     private GameObject map, newsInfo, cityTextI, newsMilTemp, newsRomTemp;
     private Button srButton, smButton, playNews;
     private Button[] mapButtons;
-    private Button delittoCatB;
+    private Button[] newsButtons;
     private readonly float[] newsPanelPos = { 0.125f, -0.125f, 1.0165f, -0.1155005f };
     #endregion
 
@@ -112,7 +112,7 @@ public class UiContN : MonoBehaviour
 
         playNews = GameObject.FindGameObjectWithTag("PlayNews").GetComponent<Button>();
 
-        newsInfo.SetActive(false);
+        //newsInfo.SetActive(false);
         // srButton.onClick.AddListener(SwitchToRome);
         // smButton.onClick.AddListener(SwitchToMilan);
 
@@ -140,9 +140,13 @@ public class UiContN : MonoBehaviour
 
                 if (newsRomTemp != null)
                     Destroy(newsRomTemp);
+                /*
+                                if (newsInfo.activeInHierarchy)
+                                    newsInfo.SetActive(false);
 
-                if (newsInfo.activeInHierarchy)
-                    newsInfo.SetActive(false);
+                                */
+
+                newsInfo.GetComponentInChildren<Text>().text = "Seleziona una Notizia";
 
                 newsMilTemp = Instantiate(newsMil);
                 newsMilTemp.transform.SetParent(map.transform);
@@ -167,9 +171,12 @@ public class UiContN : MonoBehaviour
 
 
 
-                delittoCatB = newsMilTemp.GetComponentInChildren<Button>();
+                newsButtons = newsMilTemp.GetComponentsInChildren<Button>();
 
-                delittoCatB.onClick.AddListener(EnablingNewsInfo);
+                for (int i = 0; i < newsButtons.Length; i++)
+                {
+                    newsButtons[i].gameObject.GetComponent<ClueCustomClickEvent>().customClick.AddListener(EnablingNewsInfo);
+                }
 
 
 
@@ -179,9 +186,12 @@ public class UiContN : MonoBehaviour
 
                 if (newsMilTemp != null)
                     Destroy(newsMilTemp);
-
+                /*
                 if (newsInfo.activeInHierarchy)
                     newsInfo.SetActive(false);
+                    */
+
+                newsInfo.GetComponentInChildren<Text>().text = "Seleziona una Notizia";
 
                 newsRomTemp = Instantiate(newsRom);
                 newsRomTemp.transform.SetParent(map.transform);
@@ -200,6 +210,14 @@ public class UiContN : MonoBehaviour
 
                 mapButtons[1].gameObject.GetComponent<CustomClickEvent>().customInteractable = false;
                 mapButtons[1].interactable = false;
+
+
+                newsButtons = newsMilTemp.GetComponentsInChildren<Button>();
+
+                for (int i = 0; i < newsButtons.Length; i++)
+                {
+                    newsButtons[i].gameObject.GetComponent<ClueCustomClickEvent>().customClick.AddListener(EnablingNewsInfo);
+                }
 
                 playNews.interactable = false;
 
@@ -227,15 +245,24 @@ public class UiContN : MonoBehaviour
         SettingCurrentCity();
     }
 
-    private void EnablingNewsInfo()
+    private void EnablingNewsInfo(string infoToVisualize)
     {
-        newsInfo.SetActive(true);
-        newsInfo.GetComponentInChildren<Text>().text = GameContN.playerDatasStatic.mapData[0].newsData[0].newsInfoText;
-        playNews.interactable = true;
-        GameContN.playerDatasStatic.lastNewsVisited = GameContN.playerDatasStatic.mapData[0].newsData[0].newsName;
-        playNews.onClick.RemoveAllListeners();
-        playNews.GetComponent<CustomClickEvent>().buttonIndex = 3;
-        playNews.GetComponent<CustomClickEvent>().customClick.AddListener(loadingSceneRequestMethod);
+        newsInfo.GetComponentInChildren<Text>().text = infoToVisualize;
+        
+
+        if (infoToVisualize != "Coming Soon")
+        {
+            GameContN.playerDatasStatic.lastNewsVisited = GameContN.playerDatasStatic.mapData[0].newsData[0].newsName;
+            playNews.interactable = true;
+            playNews.onClick.RemoveAllListeners();
+            playNews.GetComponent<CustomClickEvent>().buttonIndex = 3;
+            playNews.GetComponent<CustomClickEvent>().customClick.AddListener(loadingSceneRequestMethod);
+        }
+        else
+        {
+            playNews.interactable = false;
+            playNews.onClick.RemoveAllListeners();
+        }
     }
 
     #endregion
