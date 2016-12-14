@@ -30,7 +30,7 @@ public class UiContN : MonoBehaviour
     private bool movingInventory = false;
     private bool inventoryInside;
     private float inventoryMovingSpeed = 300;
-    Coroutine disableInfoPanelCO, timedInfoTextCO;
+    Coroutine disableInfoPanelCO, timedInfoTextCO, inventoryOpenerCO;
     bool isShowingInventory = false;
     bool isShowingLastClue = false;
     bool isInventoryOpen = false;
@@ -108,8 +108,8 @@ public class UiContN : MonoBehaviour
         newsInfo = GameObject.FindGameObjectWithTag("NewsInfo");
         cityTextI = GameObject.FindGameObjectWithTag("CityTextI");
 
-       // srButton = GameObject.FindGameObjectWithTag("SR Button").GetComponent<Button>();
-      //  smButton = GameObject.FindGameObjectWithTag("SM Button").GetComponent<Button>();
+        // srButton = GameObject.FindGameObjectWithTag("SR Button").GetComponent<Button>();
+        //  smButton = GameObject.FindGameObjectWithTag("SM Button").GetComponent<Button>();
 
         mapButtons = GameObject.FindGameObjectWithTag("MapButtons").GetComponentsInChildren<Button>();
 
@@ -125,8 +125,8 @@ public class UiContN : MonoBehaviour
             mapButtons[i].gameObject.GetComponent<CustomClickEvent>().customClick.AddListener(SwitchingCity);
         }
 
-       
-      
+
+
 
         playNews.interactable = false;
 
@@ -159,8 +159,8 @@ public class UiContN : MonoBehaviour
 
                 //smButton.interactable = false;
                 //srButton.interactable = true;
-               // mapButtons[0].gameObject.SetActive(false);
-               // mapButtons[1].gameObject.SetActive(true);
+                // mapButtons[0].gameObject.SetActive(false);
+                // mapButtons[1].gameObject.SetActive(true);
 
                 mapButtons[0].gameObject.GetComponent<CustomClickEvent>().customInteractable = false;
                 mapButtons[0].interactable = false;
@@ -251,7 +251,7 @@ public class UiContN : MonoBehaviour
     private void EnablingNewsInfo(string infoToVisualize)
     {
         newsInfo.GetComponentInChildren<Text>().text = infoToVisualize;
-        
+
 
         if (infoToVisualize != "Coming Soon")
         {
@@ -285,7 +285,7 @@ public class UiContN : MonoBehaviour
         _button.GetComponent<CustomClickEvent>().customClick.AddListener(loadingSceneRequestMethod);
     }
 
-    
+
 
     #endregion
 
@@ -305,8 +305,8 @@ public class UiContN : MonoBehaviour
             //mapButtons[i].gameObject.GetComponent<CustomClickEvent>().customClick.AddListener(SwitchingCity);
         }
         */
-        
-        
+
+
         InventoryInitializer();
         CluesInitializer();
         StatiButtonInitializer();
@@ -324,17 +324,20 @@ public class UiContN : MonoBehaviour
 
         bigInventoryButton = GameObject.FindGameObjectWithTag("BigInventoryButton");
         bigInventoryButton.GetComponent<Button>().onClick.AddListener(DisablingTransition);
-        bigInventoryButton.GetComponent<Button>().onClick.AddListener(ButtonInventoryOpener);        
+        bigInventoryButton.GetComponent<Button>().onClick.AddListener(ButtonInventoryOpener);
         bigInventoryButton.SetActive(false);
 
         blockButton = GameObject.FindGameObjectWithTag("BlockButton");
         blockButton.GetComponent<Button>().onClick.AddListener(ButtonBlockerMethods);
         blockButton.SetActive(false);
 
-        
+
         switchSceneButtons[0].GetComponent<Button>().onClick.AddListener(AbleMenuPanel);
         switchSceneButtons[1].buttonIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        switchSceneButtons[1].GetComponent<Button>().onClick.AddListener(MenuCLick);
         switchSceneButtons[1].customClick.AddListener(loadingSceneRequestMethod);
+
+        switchSceneButtons[2].GetComponent<Button>().onClick.AddListener(MenuCLick);
         switchSceneButtons[2].buttonIndex = SceneManager.GetActiveScene().buildIndex - 1;
         switchSceneButtons[2].customClick.AddListener(loadingSceneRequestMethod);
 
@@ -377,7 +380,7 @@ public class UiContN : MonoBehaviour
         GameObject menuPanel = menuButtons[4];
         menuPanel.SetActive(true);
     }
-    
+
     void MenuCLick()
     {
         isInventoryOpen = false;
@@ -388,33 +391,34 @@ public class UiContN : MonoBehaviour
     void InventoryHandler()
     {
         if (!isInventoryOpen)
-        {            
+        {
             if (!movingInventory)
             {
-                StartCoroutine(InventoryPanelActivator());
+                inventoryOpenerCO = StartCoroutine(InventoryPanelActivator());
             }
         }
-        else if(isInventoryOpen)
+        else if (isInventoryOpen)
         {
             if (!movingInventory)
             {
                 StartCoroutine(InventoryPanelDeactivator());
             }
         }
+        
 
-        
-        
+
+
 
     }
     private void ButtonBlockerMethods()
     {
-        
+
         if (!isShowingInventory && isClicked)
         {
             StartCoroutine(InventoryPanelDeactivator());
-            isClicked = false;          
+            isClicked = false;
         }
-        
+
     }
 
     private void DisablingTransition()
@@ -430,7 +434,7 @@ public class UiContN : MonoBehaviour
             blockButton.SetActive(true);
             bigInventoryButton.SetActive(false);
         }
-        
+
     }
 
     private void InventoryInitializer()
@@ -449,8 +453,8 @@ public class UiContN : MonoBehaviour
     {
         GameObject[] clueTemp = GameObject.FindGameObjectsWithTag("Clue");
         clueInScene = new List<GameObject>();
-        clueInScene.AddRange(clueTemp);  
-         
+        clueInScene.AddRange(clueTemp);
+
         foreach (var clue in clueInScene)
         {
             clue.GetComponent<ClueContainer>().Inizialization();
@@ -468,8 +472,8 @@ public class UiContN : MonoBehaviour
                 clue.GetComponent<Button>().transition = Selectable.Transition.None;
                 //clue.GetComponent<Button>().interactable = false;
             }
-            
-            
+
+
         }
     }
 
@@ -478,16 +482,16 @@ public class UiContN : MonoBehaviour
         if (infoToVisualize != "" && !isShowingLastClue)
         {
             isShowingLastClue = true;
-            
+
             if (disableInfoPanelCO != null)
             {
                 StopCoroutine(disableInfoPanelCO);
             }
             ClueInfoPanelVisualizer(infoToVisualize);
-            disableInfoPanelCO = StartCoroutine(DisableInfoPanelCLue());     
+            disableInfoPanelCO = StartCoroutine(DisableInfoPanelCLue());
         }
-        
-        
+
+
     }
     IEnumerator DisableInfoPanelCLue()
     {
@@ -500,19 +504,26 @@ public class UiContN : MonoBehaviour
     {
         lastClueButton.clueInfoText = infoToVisualize;
         isShowingClue = true;
+        isShowingLastClue = false;
         if (infoToVisualize != "")
         {
-            
+
 
             if (disableInfoPanelCO != null)
-            {                
+            {
                 StopCoroutine(disableInfoPanelCO);
                 StopCoroutine(timedInfoTextCO);
             }
             if (isInventoryOpen)
-            {
-               InventoryHandler();
+            {                
+                InventoryHandler();
             }
+            else if (movingInventory)
+            {
+                StopCoroutine(inventoryOpenerCO);
+                StartCoroutine(InventoryPanelDeactivator());
+            }
+
             inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().clueInfoText = infoToVisualize;
             inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().customClick.AddListener(LastClueVisualizer);
 
@@ -528,17 +539,17 @@ public class UiContN : MonoBehaviour
             lastClueClicked.GetComponent<ClueCustomClickEvent>().customInteractable = false;
 
             bigInventoryButton.SetActive(true);
-            
+
 
         }
-        
-        
+
+
         //StartCoroutine(InventoryPanelActivator());
     }
 
     void ClueInfoPanelVisualizer(string infoToVisualize)
     {
-        
+
         clueInfoPanel.SetActive(true);
         //clueInfoPanel.GetComponentInChildren<Text>().color = Color.clear;
         clueInfoPanel.GetComponentInChildren<Text>().text = infoToVisualize;
@@ -553,11 +564,11 @@ public class UiContN : MonoBehaviour
 
     public IEnumerator TimedClue(string text)
     {
-        
+
         isToClosePanel = false;
         //isShowingInventory = true;
         clueInfoPanel.GetComponentInChildren<Text>().text = "";
-        
+
         char[] charArray = new char[text.Length];
         for (int i = 0; i < text.Length; i++)
         {
@@ -571,11 +582,11 @@ public class UiContN : MonoBehaviour
         {
             yield return null;
         }
-        
+
         isToClosePanel = false;
         clueInfoPanel.GetComponentInChildren<Text>().text = "";
         CluePanelDeactivator();
-        
+
     }
 
     public IEnumerator InventoryPanelActivator()
@@ -597,7 +608,7 @@ public class UiContN : MonoBehaviour
 
     public IEnumerator InventoryPanelDeactivator()
     {
-        
+
         movingInventory = true;
         while (inventory.GetComponent<RectTransform>().anchoredPosition.x < 177)
         {
@@ -605,7 +616,7 @@ public class UiContN : MonoBehaviour
             yield return null;
         }
         inventoryInside = false;
-        movingInventory = false;       
+        movingInventory = false;
         blockButton.SetActive(false);
         inventory.GetComponent<RectTransform>().anchoredPosition = new Vector2(177, 7);
         isInventoryOpen = false;
@@ -625,7 +636,7 @@ public class UiContN : MonoBehaviour
 
         //switchSceneButtons[0] = GameObject.Find("Menu").GetComponent<CustomClickEvent>();
         switchSceneButtons[0] = GameObject.Find("NextScene").GetComponent<CustomClickEvent>();
-        
+
 
         //switchSceneButtons[0].GetComponent<Button>().onClick.AddListener(AbleMenuPanel);
 
@@ -675,15 +686,13 @@ public class UiContN : MonoBehaviour
         blockButton.SetActive(false);
         bigInventoryButton = GameObject.FindGameObjectWithTag("BigInventoryButton");
         bigInventoryButton.SetActive(false);
-        
     }
     #endregion
 
     #region General Methods
     private void loadingSceneRequestMethod(int buildIndex)
     {
-        Debug.Log("Ciao");
-        GameContN.Self.playerDatas.lastSceneVisited = buildIndex-3;
+        GameContN.Self.playerDatas.lastSceneVisited = buildIndex - 3;
         loadingSceneRequest.Invoke(buildIndex);
     }
     #endregion
