@@ -178,4 +178,12 @@ public class GameContN : MonoBehaviour {
     }
     #endregion
 
+    #region ScreenShot Input
+    private void takingScreenshot()
+    {
+        Application.CaptureScreenshot("/Ciccio", 4);
+        Debug.Log("Ciao");
+    }
+    #endregion
+
 }
