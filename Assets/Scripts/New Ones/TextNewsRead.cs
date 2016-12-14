@@ -22,4 +22,8 @@ public class TextNewsRead : MonoBehaviour {
             }
         }
     }
+    public void OpenArchive()
+    {
+        Application.OpenURL("http://archivio.corriere.it/Archivio/interface/slider.html#!delitto-della-cattolica/NobwRAdghgtgpmAXGA1nAngdwPYCcAmYANGAC5wAepSY+cANgJamnYAEd99UbAxlC2xN+YAL4BdIA");
+    }
 }
