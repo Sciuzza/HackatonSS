@@ -1,44 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TextNewsRead : MonoBehaviour {
 
-    public string[] newsParagraphs;
-    public TextAsset ciccio;
+    public Image[] newsPieces = new Image[4];
+    public Sprite[] failedSprites = new Sprite[4];
 
-    public string temp;
+    public bool[] allFound = { true, true, true, true };
 
     void Awake()
     {
-        ciccio = Resources.Load("DelittoCat") as TextAsset;
-
-        temp = ciccio.text;
-
-        for (int i = 0; i < temp.Length; i++)
+        for (int j = 0; j < GameContN.playerDatasStatic.mapData[0].newsData[0].sceneCounter; j++)
         {
-            if (i % 134 == 0)
-                AppendingPageSeparator(i);
-                
+            for (int i = 0; i < GameContN.playerDatasStatic.mapData[0].newsData[0].scenesData[0].clueCounter; i++)
+            {
+                if (!GameContN.playerDatasStatic.mapData[0].newsData[0].scenesData[j].cluesData[i].hasBeenFound)
+                {
+                    allFound[j] = false;
+                    newsPieces[j].sprite = failedSprites[j];
+                }
+            }
         }
-
-        newsParagraphs = ciccio.text.Split('*');
-    }
-
-    private void AppendingPageSeparator(int i)
-    {
-        int j;
-
-        for (j = i; j < temp.Length; j++)
-        {
-            if (temp[j] != ' ')
-                continue;
-            else
-                break;
-        }
-
-        if (j < temp.Length)
-            temp.Insert(j, "*");
-
     }
 }
