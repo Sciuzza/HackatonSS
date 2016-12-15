@@ -43,6 +43,7 @@ public class Score : MonoBehaviour
             {
                 hasToFlash[i] = true;
                 specificScenes[i].customClick.AddListener(loadingSceneRequestMethod);
+                imageToFlash[i].color = Color.red;
             }
         }
         textTotScore.text = totCluesFound + "/" + totCluesInNews;
@@ -57,7 +58,6 @@ public class Score : MonoBehaviour
         {
             if (hasToFlash[i])
             {
-                //imageToFlash[i].color = Color.Lerp(Color.white, Color.red, Mathf.Clamp01(timer));
                 rectToScale[i].localScale = Vector2.Lerp(new Vector3(0.8f, 0.8f), new Vector3(1.1f, 1.1f), Mathf.Abs(Mathf.Sin(timer * 3)));
             }
         }
