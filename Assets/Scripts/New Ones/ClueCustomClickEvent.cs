@@ -10,12 +10,16 @@ public class ClueCustomClickEvent : MonoBehaviour, IPointerClickHandler
     public string clueInfoText = null;
     public int soundIndex;
     public event_string customClick = new event_string();
+    public event_int customClickSound = new event_int();
 
     public bool customInteractable = true;
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (customInteractable)
+        {
             customClick.Invoke(clueInfoText);
+            customClickSound.Invoke(soundIndex);
+        }
     }
 }
