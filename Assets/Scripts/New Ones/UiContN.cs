@@ -346,6 +346,18 @@ public class UiContN : MonoBehaviour
         soundEvent.Invoke(index);
     }
 
+    void CallSoundTypeWriter(int index)
+    {
+        index = 20;
+        soundEvent.Invoke(index);
+    }
+
+    void CallSoundButtonGame(int index)
+    {
+        index = 21;
+        soundEvent.Invoke(index);
+    }
+
     private void StatiButtonInitializer()
     {
         switchSceneButtons = new CustomClickEvent[3];
@@ -382,6 +394,7 @@ public class UiContN : MonoBehaviour
 
         lastClueButton = GameObject.Find("LastClue").GetComponent<ClueCustomClickEvent>();
         lastClueButton.customClick.AddListener(LastClueVisualizer);
+        lastClueButton.customClickSound.AddListener(CallSoundTypeWriter);
 
         invOpenButton = GameObject.FindGameObjectWithTag("InventoryButton").GetComponent<Button>();
         invOpenButton.onClick.AddListener(InventoryHandler);
@@ -496,12 +509,14 @@ public class UiContN : MonoBehaviour
             if (!clue.GetComponent<ClueContainer>().clueData.hasBeenFound)
             {
                 clue.GetComponent<ClueCustomClickEvent>().customClick.AddListener(ClueInfoVisualizer);
+                clue.GetComponent<ClueCustomClickEvent>().customClickSound.AddListener(CallSoundTypeWriter);
             }
             else
             {
                 inventorySlots[slotToOccupied].GetComponent<Image>().sprite = clueInScene.Find(x => x.GetComponent<ClueContainer>().clueText == clue.GetComponent<ClueContainer>().clueText).GetComponent<ClueContainer>().inventorySprite;
                 inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().clueInfoText = clue.GetComponent<ClueContainer>().clueText;
                 inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().customClick.AddListener(LastClueVisualizer);
+                inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().customClickSound.AddListener(CallSoundTypeWriter);
                 slotToOccupied++;
                 clue.GetComponent<ClueCustomClickEvent>().customInteractable = false;
                 clue.GetComponent<Button>().transition = Selectable.Transition.None;
@@ -561,6 +576,7 @@ public class UiContN : MonoBehaviour
 
             inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().clueInfoText = infoToVisualize;
             inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().customClick.AddListener(LastClueVisualizer);
+            inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().customClickSound.AddListener(CallSoundTypeWriter);
 
             inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().customInteractable = true;
             inventorySlots[slotToOccupied].interactable = true;
@@ -603,15 +619,17 @@ public class UiContN : MonoBehaviour
         isToClosePanel = false;
         //isShowingInventory = true;
         clueInfoPanel.GetComponentInChildren<Text>().text = "";
-
+        FindObjectOfType<AudioManager>().infoPanelActive = true;
         char[] charArray = new char[text.Length];
         for (int i = 0; i < text.Length; i++)
         {
             isShowingClue = true;
             charArray[i] = text[i];
             clueInfoPanel.GetComponentInChildren<Text>().text += charArray[i];
+            
             yield return new WaitForSeconds(Random.Range(0.001f, 0.01f));
         }
+        FindObjectOfType<AudioManager>().infoPanelActive = false;
         isShowingClue = false;
         while (!isToClosePanel)
         {
