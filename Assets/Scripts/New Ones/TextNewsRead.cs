@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class TextNewsRead : MonoBehaviour {
 
-    public Image[] newsPieces = new Image[4];
-    public Sprite[] failedSprites = new Sprite[4];
+    public Image[] newsCorrectPieces = new Image[4];
+    public Image[] newsWrongPieces = new Image[4];
 
     void Awake()
     {
@@ -16,9 +16,15 @@ public class TextNewsRead : MonoBehaviour {
             {
                 if (!GameContN.playerDatasStatic.mapData[0].newsData[0].scenesData[j].cluesData[i].hasBeenFound)
                 {
-                    newsPieces[j].sprite = failedSprites[j];
+                    newsCorrectPieces[j].color = Color.clear;
+                    newsWrongPieces[j].color = Color.white;
                     break;                 
-                }        
+                }
+                else
+                {
+                    newsWrongPieces[j].color = Color.clear;
+                    newsCorrectPieces[j].color = Color.white;
+                }   
             }
         }
     }
