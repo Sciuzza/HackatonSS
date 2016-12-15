@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class ClueCustomClickEvent : MonoBehaviour, IPointerClickHandler
 {
     public string clueInfoText = null;
-
+    public int soundIndex;
     public event_string customClick = new event_string();
 
     public bool customInteractable = true;
