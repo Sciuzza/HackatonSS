@@ -30,7 +30,7 @@ public class UiContN : MonoBehaviour
     private bool movingInventory = false;
     private bool inventoryInside;
     private float inventoryMovingSpeed = 900;
-    Coroutine disableInfoPanelCO, timedInfoTextCO, inventoryOpenerCO;
+    Coroutine disableInfoPanelCO, timedInfoTextCO, inventoryOpenerCO, lastClueStartCO;
     bool isShowingInventory = false;
     bool isShowingLastClue = false;
     bool isInventoryOpen = false;
@@ -275,7 +275,7 @@ public class UiContN : MonoBehaviour
     Image[] imageArray = new Image[6];
 
     void TutorialInitializer()
-    {    
+    {
         imageArray[0] = GameObject.Find("1").GetComponent<Image>();
         imageArray[1] = GameObject.Find("2").GetComponent<Image>();
         imageArray[2] = GameObject.Find("3").GetComponent<Image>();
@@ -381,7 +381,7 @@ public class UiContN : MonoBehaviour
         switchSceneButtons[1].GetComponent<Button>().onClick.AddListener(MenuCLick);
         switchSceneButtons[1].customClickSound.AddListener(CallSoundPage);
         switchSceneButtons[1].customClick.AddListener(loadingSceneRequestMethod);
-        
+
 
         switchSceneButtons[2].GetComponent<Button>().onClick.AddListener(MenuCLick);
         switchSceneButtons[2].buttonIndex = SceneManager.GetActiveScene().buildIndex - 1;
@@ -452,7 +452,7 @@ public class UiContN : MonoBehaviour
                 StartCoroutine(InventoryPanelDeactivator());
             }
         }
-        
+
 
 
 
@@ -538,14 +538,28 @@ public class UiContN : MonoBehaviour
                 StopCoroutine(disableInfoPanelCO);
             }
             ClueInfoPanelVisualizer(infoToVisualize);
-            disableInfoPanelCO = StartCoroutine(DisableInfoPanelCLue());
+
+            lastClueStartCO = StartCoroutine(LastClueStarter());
+            
+
+
         }
 
 
     }
+
+    IEnumerator LastClueStarter()
+    {
+        while (isShowingClue)
+        {
+            yield return null;
+        }
+        disableInfoPanelCO = StartCoroutine(DisableInfoPanelCLue());
+    }
+    
     IEnumerator DisableInfoPanelCLue()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
         isShowingLastClue = false;
         clueInfoPanel.SetActive(false);
     }
@@ -565,7 +579,7 @@ public class UiContN : MonoBehaviour
                 StopCoroutine(timedInfoTextCO);
             }
             if (isInventoryOpen)
-            {                
+            {
                 InventoryHandler();
             }
             else if (movingInventory)
@@ -573,7 +587,11 @@ public class UiContN : MonoBehaviour
                 StopCoroutine(inventoryOpenerCO);
                 StartCoroutine(InventoryPanelDeactivator());
             }
-
+            if (lastClueStartCO != null)
+            {
+                StopCoroutine(lastClueStartCO);
+            }
+            
             inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().clueInfoText = infoToVisualize;
             inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().customClick.AddListener(LastClueVisualizer);
             inventorySlots[slotToOccupied].GetComponent<ClueCustomClickEvent>().customClickSound.AddListener(CallSoundTypeWriter);
@@ -626,7 +644,7 @@ public class UiContN : MonoBehaviour
             isShowingClue = true;
             charArray[i] = text[i];
             clueInfoPanel.GetComponentInChildren<Text>().text += charArray[i];
-            
+
             yield return new WaitForSeconds(Random.Range(0.001f, 0.01f));
         }
         FindObjectOfType<AudioManager>().infoPanelActive = false;
@@ -749,5 +767,5 @@ public class UiContN : MonoBehaviour
         loadingSceneRequest.Invoke(buildIndex);
     }
     #endregion
-    
+
 }
