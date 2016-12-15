@@ -86,7 +86,7 @@ public class UiContN : MonoBehaviour
         Button[] buttons = mmPanelTempLink.GetComponentsInChildren<Button>();
 
         buttons[0].onClick.AddListener(MapRequest);
-        buttons[1].onClick.AddListener(QuitGameRequest);
+        buttons[2].onClick.AddListener(QuitGameRequest);
 
     }
 
