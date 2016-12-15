@@ -270,7 +270,7 @@ public class UiContN : MonoBehaviour
 
     #endregion
 
-    #region MyRegion
+    #region Tutorial Initializer
 
     Image[] imageArray = new Image[6];
 
@@ -334,6 +334,18 @@ public class UiContN : MonoBehaviour
 
     }
 
+    public event_int soundEvent;
+    void CallSoundPage(int index)
+    {
+        soundEvent.Invoke(index);
+    }
+
+    void CallSoundMenu(int index)
+    {
+        index = 19;
+        soundEvent.Invoke(index);
+    }
+
     private void StatiButtonInitializer()
     {
         switchSceneButtons = new CustomClickEvent[3];
@@ -351,14 +363,17 @@ public class UiContN : MonoBehaviour
         blockButton.GetComponent<Button>().onClick.AddListener(ButtonBlockerMethods);
         blockButton.SetActive(false);
 
-
+        switchSceneButtons[0].customClickSound.AddListener(CallSoundMenu);
         switchSceneButtons[0].GetComponent<Button>().onClick.AddListener(AbleMenuPanel);
         switchSceneButtons[1].buttonIndex = SceneManager.GetActiveScene().buildIndex + 1;
         switchSceneButtons[1].GetComponent<Button>().onClick.AddListener(MenuCLick);
+        switchSceneButtons[1].customClickSound.AddListener(CallSoundPage);
         switchSceneButtons[1].customClick.AddListener(loadingSceneRequestMethod);
+        
 
         switchSceneButtons[2].GetComponent<Button>().onClick.AddListener(MenuCLick);
         switchSceneButtons[2].buttonIndex = SceneManager.GetActiveScene().buildIndex - 1;
+        switchSceneButtons[2].customClickSound.AddListener(CallSoundPage);
         switchSceneButtons[2].customClick.AddListener(loadingSceneRequestMethod);
 
         clueInfoPanel = GameObject.Find("ClueInfo");
@@ -716,4 +731,5 @@ public class UiContN : MonoBehaviour
         loadingSceneRequest.Invoke(buildIndex);
     }
     #endregion
+    
 }
