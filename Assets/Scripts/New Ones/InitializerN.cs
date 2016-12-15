@@ -15,6 +15,15 @@ public class InitializerN : MonoBehaviour {
         gcTempLink.GetComponent<GameContN>().Initialization();
 
     }
-	
-	
+
+    public GameObject creditGo;
+
+    public void CutCredits()
+    {
+        creditGo.SetActive(false);
+    }
+    public void ShowCredits()
+    {
+        creditGo.SetActive(true);
+    }
 }
